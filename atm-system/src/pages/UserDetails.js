@@ -30,16 +30,17 @@ const UserDetails = () => {
 
     const handleSubmit = (event) => {
         const payload = {
-            firstName : firstName, 
-            lastName: lastName,
-            address: address,
-            email: email,
-            contact: contact,
-            date: date,
+            FirstName : firstName, 
+            LastName: lastName,
+            Address: address,
+            EmailId: email,
+            PhoneNumber: contact,
+            DateOfBirth: date,
         }
-        console.log({firstName,lastName,address,email,contact,date})
-        //axios.post("",payload).then((response)=>{console.log(response)}) ;
         event.preventDefault();
+        console.log({firstName,lastName,address,email,contact,date})
+        axios.post('https://localhost:7182/api/Customers',payload).then((response)=>{console.log(response)}).catch(err => console.log(err)) ;
+        
     }
 
     return (
