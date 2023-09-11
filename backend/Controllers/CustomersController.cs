@@ -139,7 +139,7 @@ namespace backend.Controllers
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+            return Ok();
         }
 
         // DELETE: api/Customers/5

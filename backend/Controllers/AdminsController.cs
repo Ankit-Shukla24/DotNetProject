@@ -6,6 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using NuGet.Protocol.Plugins;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using backend.Data;
 
 namespace backend.Controllers
 {
@@ -13,139 +20,56 @@ namespace backend.Controllers
     [ApiController]
     public class AdminsController : ControllerBase
     {
-        private readonly PrjContext _context;
+            private readonly IConfiguration _config;
+            private readonly AdminDataProvider _AdminDataProvider;
 
-        public AdminsController(PrjContext context)
-        {
-            _context = context;
-        }
 
-        // GET: api/Admins
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
-        {
-          if (_context.Admins == null)
-          {
-              return NotFound();
-          }
-            return await _context.Admins.ToListAsync();
-        }
-
-        // GET: api/Admins/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Admin>> GetAdmin(string id)
-        {
-          if (_context.Admins == null)
-          {
-              return NotFound();
-          }
-            var admin = await _context.Admins.FindAsync(id);
-
-            if (admin == null)
+            public AdminsController(IConfiguration config, AdminDataProvider AdminDataProvider)
             {
-                return NotFound();
+                _config = config;
+                _AdminDataProvider = AdminDataProvider;
             }
-
-            return admin;
-        }
-
-        // PUT: api/Admins/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAdmin(string id, Admin admin)
-        {
-            if (id != admin.UserName)
+            [AllowAnonymous]
+            [HttpPost]
+            public IActionResult Login(AdminViewModel login)
             {
-                return BadRequest();
-            }
+                IActionResult response = Unauthorized();
+                var admin = Authenticateadmin(login);
 
-            _context.Entry(admin).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdminExists(id))
+                if (admin != null)
                 {
-                    return NotFound();
+                    var tokenString = GenerateJSONWebToken(admin);
+
+                    response = Ok(new LoginResponse { token = tokenString, Admin_Id = login.UserName });
                 }
-                else
+
+                return response;
+            }
+
+            private string GenerateJSONWebToken(Admin adminInfo)
+            {
+
+                if (adminInfo is null)
                 {
-                    throw;
+                    throw new ArgumentNullException(nameof(adminInfo));
                 }
+                List<Claim> claims = new List<Claim>();
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                claims.Add(new Claim("Username", adminInfo.UserName));
+                var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                  _config["Jwt:Issuer"],
+                  claims,
+                  expires: DateTime.Now.AddMinutes(2),
+                  signingCredentials: credentials);
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
             }
 
-            return NoContent();
-        }
-
-        // POST: api/Admins
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
-        {
-          if (_context.Admins == null)
-          {
-              return Problem("Entity set 'PrjContext.Admins'  is null.");
-          }
-            _context.Admins.Add(admin);
-            try
+            private Admin Authenticateadmin(AdminViewModel login)
             {
-                await _context.SaveChangesAsync();
+                Admin admin = _AdminDataProvider.GetAdminDetail(login);
+                return admin;
             }
-            catch (DbUpdateException)
-            {
-                if (AdminExists(admin.UserName))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetAdmin", new { id = admin.UserName }, admin);
-        }
-
-        [HttpPost]
-        [Route("AdminLogin")]
-        public async Task<ActionResult<Admin>> AdminLogin(Admin admin)
-        {
-            if (_context.Admins == null)
-            {
-                return Problem("Entity set 'PrjContext.Admins'  is null.");
-            }
-            var x = await _context.Admins.FindAsync(admin.UserName);
-
-            var result = _context.Admins.FirstOrDefaultAsync(x=>x.UserName== admin.UserName && x.Password==admin.Password);
-            return Ok(result);
-        }
-            
-        // DELETE: api/Admins/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdmin(string id)
-        {
-            if (_context.Admins == null)
-            {
-                return NotFound();
-            }
-            var admin = await _context.Admins.FindAsync(id);
-            if (admin == null)
-            {
-                return NotFound();
-            }
-
-            _context.Admins.Remove(admin);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool AdminExists(string id)
-        {
-            return (_context.Admins?.Any(e => e.UserName == id)).GetValueOrDefault();
-        }
     }
 }
