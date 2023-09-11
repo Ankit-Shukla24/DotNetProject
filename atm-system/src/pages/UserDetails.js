@@ -8,6 +8,11 @@ const UserDetails = () => {
     const [email,setEmail] = useState('');
     const [contact,setContact] = useState('');
     const [date,setDate] = useState();
+    const [cardNumber,setCardNumber] = useState();
+    const [pin,setPin] = useState();
+    const [city,setCity] = useState();
+    const [accountType,setAccountType] = useState();
+    const [balance,setBalance] = useState();
 
     const handleFirstNameChange = (event) => {
         setFirstName(event.target.value);
@@ -27,8 +32,32 @@ const UserDetails = () => {
     const handleDateChange = (event) => {
         setDate(event.target.value);
     }
+    const handleCardNumberChange = (event) =>{
+        setCardNumber(event.target.value);
+    }
+    const handlePinChange = (event) =>{
+        setPin(event.target.value);
+    }
+    const handleAccountTypeChange = (event) =>{
+        setAccountType(event.target.value);
+    }
+    const handleCityChange= (event) =>{
+        setCity(event.target.value);
+    }
+    const handleBalanceChange=(event)=>{
+        setBalance(event.target.value);
+    }
 
     const handleSubmit = (event) => {
+
+        const account ={
+            AccountType:accountType,
+            Pin:pin,
+            CardNo:cardNumber,
+            City:city,
+            Balance:balance
+        }
+
         const payload = {
             FirstName : firstName, 
             LastName: lastName,
@@ -36,7 +65,9 @@ const UserDetails = () => {
             EmailId: email,
             PhoneNumber: contact,
             DateOfBirth: date,
+            Accounts : [account]
         }
+      
         event.preventDefault();
         console.log({firstName,lastName,address,email,contact,date})
         axios.post('https://localhost:7182/api/Customers',payload).then((response)=>{console.log(response)}).catch(err => console.log(err)) ;
@@ -76,6 +107,31 @@ const UserDetails = () => {
                     Date of Birth:
                     <br/>
                     <input type="date" onChange={handleDateChange}/>
+                </div>
+                <div>
+                    Card Number:
+                    <br/>
+                    <input type="text" onChange={handleCardNumberChange}/>
+                </div>
+                <div>
+                    Pin:
+                    <br/>
+                    <input type="number" onChange={handlePinChange}/>
+                </div>
+                <div>
+                    Account type:
+                    <br/>
+                    <input type="text" onChange={handleAccountTypeChange}/>
+                </div>
+                <div>
+                    City:
+                    <br/>
+                    <input type="text" onChange={handleCityChange}/>
+                </div>
+                <div>
+                    Balance:
+                    <br/>
+                    <input type="number" onChange={handleBalanceChange}/>
                 </div>
                 <button type='submit'>Submit</button>
             </form>
