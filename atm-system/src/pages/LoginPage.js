@@ -1,10 +1,12 @@
 import axios from "axios";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
 
-
+    const [user,setUser] = useContext(AuthContext);
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [pwd, setpwd] = useState('');
 
@@ -17,7 +19,8 @@ const LoginPage = () => {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        setUser({username:username,password:pwd})
+        navigate("/")
         try {
             axios.post('https://localhost:7282/api/Login', {
                 email: username,
@@ -31,7 +34,7 @@ const LoginPage = () => {
                     alert("Auth failed");
                 }
 
-            })
+            }).catch((err)=>console.log(err))
         }
         catch (error) {
             alert(error);
