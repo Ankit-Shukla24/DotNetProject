@@ -34,7 +34,7 @@ const LoginPage = () => {
                     alert("Auth failed");
                 }
 
-            }).catch((err)=>console.log(err))
+            })
         }
         catch (error) {
             alert(error);
