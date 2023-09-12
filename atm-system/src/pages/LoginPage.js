@@ -19,16 +19,16 @@ const LoginPage = () => {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setUser({username:username,password:pwd})
-        navigate("/")
         try {
             axios.post('https://localhost:7182/api/Admins', {
              userName:username,
                 password: pwd
             }).then((response) => {
                 if (response.status == 200) {
-                    console.log(response);
+                    setUser(response.data);
+                    localStorage.setItem("userCredentials",JSON.stringify(response.data));
                     alert(`Welcome ${response.data.admin_Id}`);
+                    navigate("/user");
                 }
                 else {
                     alert("Auth failed");
