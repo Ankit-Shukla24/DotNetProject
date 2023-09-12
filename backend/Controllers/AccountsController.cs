@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
-using backend.Validation;
+
 
 namespace backend.Controllers
 {
@@ -72,7 +72,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAccount(int id, Account account)
         {
-            if (id != account.AccountId||validator.CheckAccount(account)==false)
+            if (id != account.AccountId)
             {
                 return BadRequest();
             }
@@ -107,10 +107,6 @@ namespace backend.Controllers
           {
               return Problem("Entity set 'PrjContext.Accounts'  is null.");
           }
-          else if (validator.CheckAccount(account)==false)
-            {
-                return BadRequest();
-            }
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
 

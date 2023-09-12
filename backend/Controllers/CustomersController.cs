@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
-using backend.Validation;
+
 
 namespace backend.Controllers
 {
@@ -97,7 +97,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != customer.CustomerId||validator.CheckCustomer(customer)==false)
+            if (id != customer.CustomerId)
             {
                 return BadRequest();
             }
@@ -132,10 +132,7 @@ namespace backend.Controllers
           {
               return Problem("Entity set 'PrjContext.Customers'  is null.");
           }
-          else if(validator.CheckCustomer(customer)==false)
-            {
-                return BadRequest();
-            }
+
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
