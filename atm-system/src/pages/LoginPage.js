@@ -22,13 +22,13 @@ const LoginPage = () => {
         setUser({username:username,password:pwd})
         navigate("/")
         try {
-            axios.post('https://localhost:7282/api/Login', {
-                email: username,
-                pwd: pwd
+            axios.post('https://localhost:7182/api/Admins', {
+             userName:username,
+                password: pwd
             }).then((response) => {
                 if (response.status == 200) {
                     console.log(response);
-                    alert(`Welcome ${response.data.cname}`);
+                    alert(`Welcome ${response.data.admin_Id}`);
                 }
                 else {
                     alert("Auth failed");
