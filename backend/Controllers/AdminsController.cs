@@ -40,8 +40,12 @@ namespace backend.Controllers
                 {
                     var tokenString = GenerateJSONWebToken(admin);
 
-                    response = Ok(new LoginResponse { token = tokenString, Admin_Id = login.UserName });
+                    response = Ok(new LoginResponse { token = tokenString, Admin_Id = login.UserName, UserType=admin.UserType});
                 }
+                else
+            {
+                return StatusCode(201, "Wrong credentials");
+            }
 
                 return response;
             }
@@ -57,6 +61,7 @@ namespace backend.Controllers
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                 claims.Add(new Claim("Username", adminInfo.UserName));
+            claims.Add(new Claim("Usertype", adminInfo.UserType));
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                   _config["Jwt:Issuer"],
                   claims,
