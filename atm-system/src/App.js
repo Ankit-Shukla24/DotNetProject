@@ -4,6 +4,7 @@ import UserDetails from './pages/UserDetails';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
+import AccountDetails from './pages/AccountDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <ProtectedRoute><UserDetails/></ProtectedRoute>
+  },
+  {
+    path: "/account",
+    element: <ProtectedRoute><AccountDetails/></ProtectedRoute>
   }
 ])
 function App() {

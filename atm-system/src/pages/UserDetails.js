@@ -9,31 +9,22 @@ const UserDetails = () => {
     EmailId: "",
     PhoneNumber: "",
     DateOfBirth: "",
-    Accounts: []
   });
 
-  const [account, setAccount] = useState({
-    AccountType: "Saving",
-    Pin: "",
-    CardNo: "",
-    City: "",
-    Balance: ""
-  });
+ 
 
   const handleChangeCustomer = (event) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
 
-  const handleChangeAccount = (event) => {
-    setAccount({ ...account, [event.target.name]: event.target.value });
-  };
+
 
   const handleSubmit = (event) => {
-    customer.Accounts = [account];
+    
 
     event.preventDefault();
     console.log(customer);
-    console.log(account);
+    
     axios
       .post("https://localhost:7182/api/Customers", customer)
       .then((response) => {
@@ -84,35 +75,7 @@ const UserDetails = () => {
             onChange={handleChangeCustomer}
           />
         </div>
-        <div>
-          Card Number:
-          <br />
-          <input type="text" name="CardNo" onChange={handleChangeAccount} />
-        </div>
-        <div>
-          Pin:
-          <br />
-          <input type="number" name="Pin" onChange={handleChangeAccount} />
-        </div>
-        <div>
-          Account type:
-          <br />
-          <select type="text" name="AccountType" onChange={handleChangeAccount} >
-            <option> Saving</option>
-            <option>Current</option>
-            <option>Salary</option>
-          </select>
-        </div>
-        <div>
-          City:
-          <br />
-          <input type="text" name="City" onChange={handleChangeAccount} />
-        </div>
-        <div>
-          Balance:
-          <br />
-          <input type="number" name="Balance" onChange={handleChangeAccount} />
-        </div>
+        
         <button type="submit">Submit</button>
       </form>
     </>
