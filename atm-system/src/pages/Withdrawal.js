@@ -10,7 +10,7 @@ const Withdrawal = () => {
   });
 
   const handleChangeWithdrawal = (event) => {
-    setWithdrawal({ ...wthdrawal, [event.target.name]: event.target.value });
+    setWithdrawal({ ...withdrawal, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = (event) => {
@@ -33,36 +33,17 @@ const Withdrawal = () => {
       <div>
           FromAccountId:
           <br />
-          <input type="text" name="FromAccountId" onChange={handleChangeWithdrawal} />
+          <input type="number" name="FromAccountId" onChange={handleChangeWithdrawal} />
         </div>
         <div>
           Pin :
           <br />
-          <input type="text" name="Pin" onChange={handleChangeWithdrawal} />
+          <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
         </div>
         <div>
           AmountWithdrawn:
           <br />
           <input type="number" name="AmountWithdrawn" onChange={handleChangeWithdrawal} />
-        </div>
-        <div>
-          Withdrawal type:
-          <br />
-          <select type="text" name="WithdrawalType" onChange={handleChangeWithdrawal} >
-            <option> Saving</option>
-            <option>Current</option>
-            <option>Salary</option>
-          </select>
-        </div>
-        <div>
-          City:
-          <br />
-          <input type="text" name="City" onChange={handleChangeWithdrawal} />
-        </div>
-        <div>
-          Balance:
-          <br />
-          <input type="number" name="Balance" onChange={handleChangeWithdrawal} />
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -70,4 +51,4 @@ const Withdrawal = () => {
   );
 };
 
-export default WithdrawalDetails;
+export default Withdrawal;

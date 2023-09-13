@@ -9,11 +9,16 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import Withdrawal from './pages/Withdrawal';
 import FundTransfer from './pages/FundTransfer';
+import UserHomePage from './pages/UserHomePage';
 
 const router = createBrowserRouter([
   {
     path:"/",
     element:<ProtectedRoute><HomePage/></ProtectedRoute>
+  },
+  {
+    path:"/userhome",
+    element:<ProtectedRoute><userHomePage/></ProtectedRoute>
   },
   {
     path:"/login",
