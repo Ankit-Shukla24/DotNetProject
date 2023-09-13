@@ -17,10 +17,6 @@ const router = createBrowserRouter([
     element:<ProtectedRoute><HomePage/></ProtectedRoute>
   },
   {
-    path:"/userhome",
-    element:<ProtectedRoute><UserHomePage/></ProtectedRoute>
-  },
-  {
     path:"/login",
     element:<LoginPage/>
   },
