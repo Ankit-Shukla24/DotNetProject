@@ -19,7 +19,7 @@ const Withdrawal = () => {
     
     console.log(withdrawal);
     axios
-      .post("https://localhost:7182/api/Withdrawals", withdrawal)
+      .post("https://localhost:7182/api/Transactionhistories", withdrawal)
       .then((response) => {
         console.log(response);
       })
