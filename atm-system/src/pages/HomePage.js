@@ -7,7 +7,8 @@ const HomePage = () => {
         <>
             <h1>Home Page</h1>
             <button onClick={()=>navigate("/user")}>Add User</button>
-            <button onClick={()=>navigate("/accout")}>Add Account</button>
+            <br/>
+            <button onClick={()=>navigate("/account")}>Add Account</button>
         </>
 
     )

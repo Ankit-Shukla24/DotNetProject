@@ -28,7 +28,7 @@ const LoginPage = () => {
                     setUser(response.data);
                     localStorage.setItem("userCredentials",JSON.stringify(response.data));
                     alert(`Welcome ${response.data.admin_Id}`);
-                    navigate("/user");
+                    navigate("/");
                 }
                 else {
                     alert("Auth failed");
