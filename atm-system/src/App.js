@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage';
 import AccountDetails from './pages/AccountDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
+import Withdrawal from './pages/Withdrawal';
+import FundTransfer from './pages/FundTransfer';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/account",
     element: <ProtectedRoute><AccountDetails/></ProtectedRoute>
+  },
+  {
+    path: "/withdraw",
+    element: <ProtectedRoute><Withdrawal/></ProtectedRoute>
+  },
+  {
+    path: "/transfer",
+    element: <ProtectedRoute><FundTransfer/></ProtectedRoute>
   }
 ])
 function App() {
