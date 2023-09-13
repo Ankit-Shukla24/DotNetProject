@@ -49,6 +49,14 @@ namespace backend.Controllers
 
             return account;
         }
+        [HttpGet("acc/{customerId}")]
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByCustomerID(int customerId)
+        {
+            
+            var accounts =  await _context.Accounts.Where(a => a.CustomerId==customerId).ToListAsync();
+
+            return Ok(accounts);
+        }
         [HttpGet]
         [Route("getBalancebyId")]
         public async Task<ActionResult<Account>> GetBalance(int id)
