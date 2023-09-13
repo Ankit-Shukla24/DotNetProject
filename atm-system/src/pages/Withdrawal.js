@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const Withdrawal = () => {
-
+  const[user,setUser] = useContext(AuthContext);
   const [withdrawal, setWithdrawal] = useState({
     Pin:"",
     FromAccountId:"",
     AmountWithdrawn:""
   });
-
+  let token = eval(user);
+    token=token.token;
+    const headers = {"Authorization":`Bearer `+token};
   const handleChangeWithdrawal = (event) => {
     setWithdrawal({ ...withdrawal, [event.target.name]: event.target.value });
   };
@@ -18,12 +21,23 @@ const Withdrawal = () => {
     event.preventDefault();
     
     console.log(withdrawal);
+
+    axios.get(`https://localhost:7182/api/Accounts/${withdrawal.FromAccountId}`,{headers}).then((response)=>{
+        
+      if(response.data.pin!=withdrawal.Pin)
+        {
+            alert("Incorrect Pin")
+        }
+else
+{
     axios
       .post("https://localhost:7182/api/Transactionhistories", withdrawal)
       .then((response) => {
         console.log(response);
-      })
-      .catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
+  })
+      
   };
 
   return (
