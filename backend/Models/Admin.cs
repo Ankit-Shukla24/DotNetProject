@@ -10,4 +10,6 @@ public partial class Admin
     public string? Password { get; set; }
 
     public string? Email { get; set; }
+
+    public string? UserType { get; set; }
 }

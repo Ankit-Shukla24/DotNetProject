@@ -67,6 +67,9 @@ public partial class PrjContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.UserType)
+             .HasMaxLength(10)
+             .IsUnicode(false);
         });
 
         modelBuilder.Entity<Customer>(entity =>
