@@ -57,6 +57,10 @@ UPDATE ACCOUNT SET Balance = (Balance - (SELECT top 1 AmountWithdrawn from TRANS
 select * FROM TRANSACTIONHISTORY 
 
 
-CREATE TABLE ADMIN ( UserName VARCHAR(20),
-Password VARCHAR(20),
-Email VARCHAR(50),UserType VARCHAR(10))
+CREATE TABLE CREDENTIALS ( 
+UserID VARCHAR(10),
+Password VARCHAR(10),
+CustomerId INT REFERENCES CUSTOMER(CustomerId),
+)
+
+insert into CREDENTIALS values('admin','admin',NULL);
