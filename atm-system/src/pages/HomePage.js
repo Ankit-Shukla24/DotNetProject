@@ -23,7 +23,7 @@ const HomePage = () => {
     }
     //Need to change it 
 
-        if(userDetail.UserType=='Admin')
+        if(userDetail.userType=='Admin')
         {      
             return(
         <div>
