@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace backend.Models;
 
@@ -19,8 +18,10 @@ public partial class Account
     public int? Pin { get; set; }
 
     public string? City { get; set; }
-    [JsonIgnore]
+
     public virtual Customer? Customer { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Transactionhistory> Transactionhistories { get; set; } = new List<Transactionhistory>();
+
+    public virtual ICollection<Transactionhistory> TransactionhistoryCreditors { get; set; } = new List<Transactionhistory>();
+
+    public virtual ICollection<Transactionhistory> TransactionhistoryDebitors { get; set; } = new List<Transactionhistory>();
 }

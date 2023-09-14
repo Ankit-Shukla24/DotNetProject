@@ -22,11 +22,11 @@ const Transfer = () => {
       let token = eval(user);
       token=token.token;
       const headers = {"Authorization":`Bearer `+token};
-      axios.get(`https://localhost:7182/api/Accounts/${transfer.FromAccountId}`,{headers}).then((response)=>{
+      axios.post(`https://localhost:7182/api/Accounts/${transfer.FromAccountId}`,{headers}).then((response)=>{
         
-      if(response.data.pin!=transfer.Pin)
+      if(response.status==201)
         {
-            alert("Incorrect Pin")
+            alert(response.data.message);
         }
     else
     {

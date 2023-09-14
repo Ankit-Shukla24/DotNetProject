@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace backend.Models;
+
+public partial class Credential
+{
+    public string? UserId { get; set; }
+
+    public string? Password { get; set; }
+
+    public int? CustomerId { get; set; }
+
+    public virtual Customer? Customer { get; set; }
+}

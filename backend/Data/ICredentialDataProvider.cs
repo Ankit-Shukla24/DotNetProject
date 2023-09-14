@@ -1,8 +1,8 @@
 ﻿using backend.Models;
 
-namespace backend.Service
+namespace backend.Data
 {
-    public interface IAuthService
+    public interface ICredentialDataProvider
     {
         public Credential GetAdminDetail(CredentialViewModel login);
     }

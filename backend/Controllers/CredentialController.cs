@@ -21,28 +21,31 @@ namespace backend.Controllers
     public class AdminsController : ControllerBase
     {
             private readonly IConfiguration _config;
-            private readonly AdminDataProvider _AdminDataProvider;
+            private readonly CredentialDataProvider _AdminDataProvider;
 
 
-            public AdminsController(IConfiguration config, AdminDataProvider AdminDataProvider)
+            public AdminsController(IConfiguration config, CredentialDataProvider AdminDataProvider)
             {
                 _config = config;
                 _AdminDataProvider = AdminDataProvider;
             }
             [AllowAnonymous]
             [HttpPost]
-            public IActionResult Login(AdminViewModel login)
+            public IActionResult Login(CredentialViewModel login)
             {
                 IActionResult response = Unauthorized();
                 var admin = Authenticateadmin(login);
 
-                if (admin != null)
-                {
-                    var tokenString = GenerateJSONWebToken(admin);
+            if (admin != null)
+            {
+                var tokenString = GenerateJSONWebToken(admin);
 
-                    response = Ok(new LoginResponse { token = tokenString, Admin_Id = login.UserName, UserType=admin.UserType});
-                }
+                if (admin.CustomerId==null)
+                    response = Ok(new LoginResponse { Token = tokenString, UserId= login.UserName, UserType="Admin", CustomerId=admin.CustomerId.ToString() });
                 else
+                    response = Ok(new LoginResponse { Token = tokenString, UserId= login.UserName, UserType="Customer", CustomerId=admin.CustomerId.ToString() });
+            }
+            else
             {
                 return StatusCode(201, "Wrong credentials");
             }
@@ -50,7 +53,7 @@ namespace backend.Controllers
                 return response;
             }
 
-            private string GenerateJSONWebToken(Admin adminInfo)
+            private string GenerateJSONWebToken(Credential adminInfo)
             {
 
                 if (adminInfo is null)
@@ -60,8 +63,14 @@ namespace backend.Controllers
                 List<Claim> claims = new List<Claim>();
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                claims.Add(new Claim("Username", adminInfo.UserName));
-            claims.Add(new Claim("Usertype", adminInfo.UserType));
+                claims.Add(new Claim("Username", adminInfo.UserId));
+            if(adminInfo.CustomerId==null)
+            claims.Add(new Claim("UserType", "Admin"));
+            else
+            {
+                claims.Add(new Claim("UserType", "Customer"));
+                claims.Add(new Claim("CustomerId",adminInfo.CustomerId.ToString()));
+            }
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                   _config["Jwt:Issuer"],
                   claims,
@@ -71,9 +80,9 @@ namespace backend.Controllers
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
 
-            private Admin Authenticateadmin(AdminViewModel login)
+            private Credential Authenticateadmin(CredentialViewModel login)
             {
-                Admin admin = _AdminDataProvider.GetAdminDetail(login);
+                Credential admin = _AdminDataProvider.GetAdminDetail(login);
                 return admin;
             }
     }

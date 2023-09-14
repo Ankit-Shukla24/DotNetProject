@@ -22,11 +22,11 @@ const Withdrawal = () => {
     
     console.log(withdrawal);
 
-    axios.get(`https://localhost:7182/api/Accounts/${withdrawal.FromAccountId}`,{headers}).then((response)=>{
+    axios.post(`https://localhost:7182/api/Accounts/${withdrawal.FromAccountId}`,{headers}).then((response)=>{
         
-      if(response.data.pin!=withdrawal.Pin)
+      if(response.status==201)
         {
-            alert("Incorrect Pin")
+            alert(response.data.message);
         }
 else
 {

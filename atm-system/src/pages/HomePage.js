@@ -15,7 +15,7 @@ const HomePage = () => {
     const handleBalanceShow = (event) =>{
         console.log(balanceShow);
         setBalanceShow(!balanceShow);
-        axios.get(`https://localhost:7182/api/Accounts/acc/414`).then((response)=>{
+        axios.get(`https://localhost:7182/api/Accounts/acc/${user.customerId}`).then((response)=>{
     console.log(response.data[0]);
         balance = response.data[0].balance;
         alert("Account:"+response.data[0].accountId+"\n"+"Balance:"+balance);
@@ -23,7 +23,7 @@ const HomePage = () => {
     }
     //Need to change it 
 
-        if(userDetail.userType=='Admin')
+        if(userDetail.UserType=='Admin')
         {      
             return(
         <div>
