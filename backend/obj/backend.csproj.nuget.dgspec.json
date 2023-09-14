@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\Administrator\\Projects\\DotNetProject\\backend\\backend.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "C:\\Users\\Administrator\\Projects\\DotNetProject\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Administrator\\Projects\\DotNetProject\\backend\\obj\\",
+=======
+    "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\backend.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\backend.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\backend.csproj",
+        "projectName": "backend",
+        "projectPath": "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\obj\\",
+>>>>>>> 8aac8018b044a85c13001021c81305bb7d5705aa
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

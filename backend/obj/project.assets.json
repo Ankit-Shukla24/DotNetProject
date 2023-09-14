@@ -11777,11 +11777,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Administrator\\Projects\\DotNetProject\\backend\\backend.csproj",
       "projectName": "backend",
       "projectPath": "C:\\Users\\Administrator\\Projects\\DotNetProject\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Administrator\\Projects\\DotNetProject\\backend\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Administrator\\Source\\Repos\\DotNetProject\\backend\\obj\\",
+>>>>>>> 8aac8018b044a85c13001021c81305bb7d5705aa
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

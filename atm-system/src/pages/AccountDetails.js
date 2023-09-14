@@ -1,8 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 
 const AccountDetails = () => {
-
+  const [user,setUser] = useContext(AuthContext);
+ 
+  
   const [account, setAccount] = useState({
     Customerid: "",
     AccountType: "Saving",
@@ -17,12 +22,14 @@ const AccountDetails = () => {
   };
 
   const handleSubmit = (event) => {
-
+    let token = eval(user);
+    token=token.token;
+    const headers = {"Authorization":`Bearer `+token};
     event.preventDefault();
     
     console.log(account);
     axios
-      .post("https://localhost:7182/api/Accounts", account)
+      .post("https://localhost:7182/api/Accounts", account,{headers})
       .then((response) => {
         console.log(response);
       })

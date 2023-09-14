@@ -24,11 +24,17 @@ const LoginPage = () => {
              userName:username,
                 password: pwd
             }).then((response) => {
-                if (response.status == 200) {
+                if (response.status == 200 && !response.data.UserType) {
                     setUser(response.data);
                     localStorage.setItem("userCredentials",JSON.stringify(response.data));
                     alert(`Welcome ${response.data.admin_Id}`);
                     navigate("/");
+                }
+                else if (response.status == 200 && response.data.UserType) {
+                    setUser(response.data);
+                    localStorage.setItem("userCredentials",JSON.stringify(response.data));
+                    alert(`Welcome ${response.data.admin_Id}`);
+                    navigate("/userhome");
                 }
                 else {
                     alert("Auth failed");

@@ -1,7 +1,10 @@
-import { useState } from "react";
 import axios from "axios";
+import { useContext,useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const UserDetails = () => {
+
+    const[user,setUser] = useContext(AuthContext)
   const [customer, setCustomer] = useState({
     FirstName: "",
     LastName: "",
@@ -24,9 +27,13 @@ const UserDetails = () => {
 
     event.preventDefault();
     console.log(customer);
-    
+    let token = eval(user);
+    token=token.token;
+    const headers = {"Authorization":`Bearer `+token};
+    console.log(headers);
+    console.log(user);
     axios
-      .post("https://localhost:7182/api/Customers", customer)
+      .post("https://localhost:7182/api/Customers", customer,{headers})
       .then((response) => {
         console.log(response);
       })
