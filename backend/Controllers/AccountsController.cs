@@ -25,10 +25,10 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-          if (_context.Accounts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
             return await _context.Accounts.ToListAsync();
         }
 
@@ -36,10 +36,10 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
-          if (_context.Accounts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
             var account = await _context.Accounts.FindAsync(id);
 
             if (account == null)
@@ -52,8 +52,8 @@ namespace backend.Controllers
         [HttpGet("acc/{customerId}")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByCustomerID(int customerId)
         {
-            
-            var accounts =  await _context.Accounts.Where(a => a.CustomerId==customerId).ToListAsync();
+
+            var accounts = await _context.Accounts.Where(a => a.CustomerId==customerId).ToListAsync();
 
             return Ok(accounts);
         }
@@ -111,10 +111,10 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
-          if (_context.Accounts == null)
-          {
-              return Problem("Entity set 'PrjContext.Accounts'  is null.");
-          }
+            if (_context.Accounts == null)
+            {
+                return Problem("Entity set 'PrjContext.Accounts'  is null.");
+            }
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
 
@@ -149,19 +149,19 @@ namespace backend.Controllers
 
 
         [HttpPost("withdraw")]
-        
+
         public async Task<IActionResult> WithdrawFromAccount(int accountNumber, int amount)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
                 var account = await _context.Accounts.FindAsync(accountNumber);
-                if(account==null) return BadRequest(accountNumber+" not found");
+                if (account==null) return BadRequest(accountNumber+" not found");
                 if (account.Balance >= amount)
                 {
                     account.Balance -= amount;
                     _context.Accounts.Update(account);
-                    _context.Transactionhistories.Add(new Transactionhistory(accountNumber, null , amount, DateTime.Now));
+                    _context.Transactionhistories.Add(new Transactionhistory(accountNumber, null, amount, DateTime.Now));
                     await _context.SaveChangesAsync();
                     transaction.Commit();
                     return Ok(account.Balance);
@@ -179,7 +179,6 @@ namespace backend.Controllers
         }
 
         [HttpPost("deposit")]
-
         public async Task<IActionResult> DepositIntoAccount(int accountNumber, int amount)
         {
             var transaction = _context.Database.BeginTransaction();
@@ -189,10 +188,42 @@ namespace backend.Controllers
                 if (account==null) return BadRequest(accountNumber+" not found");
                 account.Balance += amount;
                 _context.Accounts.Update(account);
-                _context.Transactionhistories.Add(new Transactionhistory(null,accountNumber, amount, DateTime.Now));
+                _context.Transactionhistories.Add(new Transactionhistory(null, accountNumber, amount, DateTime.Now));
                 await _context.SaveChangesAsync();
                 transaction.Commit();
                 return Ok(account.Balance);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return BadRequest(ex.ToString());
+            }
+
+        }
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> FundTransfer(int debitorId, int creditorId, int amount)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var creditor = await _context.Accounts.FindAsync(creditorId);
+                var debitor = await _context.Accounts.FindAsync(debitorId);
+                if (creditor==null) return BadRequest(creditorId+" not found");
+                if (debitor==null) return BadRequest(debitorId+" not found");
+                if (debitor.Balance < amount)
+
+                    return BadRequest("Cannot withdraw amount greater than balance");
+
+                creditor.Balance += amount;
+                debitor.Balance -= amount;
+                _context.Accounts.Update(creditor);
+                _context.Accounts.Update(debitor);
+
+                _context.Transactionhistories.Add(new Transactionhistory(debitorId, creditorId, amount, DateTime.Now));
+                await _context.SaveChangesAsync();
+                transaction.Commit();
+                return Ok("Funds transferred");
             }
             catch (Exception ex)
             {
