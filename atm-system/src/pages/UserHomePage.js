@@ -9,6 +9,8 @@ const UserHomePage = () => {
             <button onClick={()=>navigate("/withdraw")}> Withdraw Money</button>
             <br/>
             <button onClick={()=>navigate("/transfer")}>Fund Transfer</button>
+            <br/>
+            <button onClick={()=>navigate("/deposit")}>Check Deposit</button>
         </>
 
     )
