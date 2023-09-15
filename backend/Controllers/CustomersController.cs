@@ -12,7 +12,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+  //  [Authorize]
     public class CustomersController : ControllerBase
     {
         private readonly PrjContext _context;
@@ -116,7 +116,7 @@ namespace backend.Controllers
                     return NotFound();
                 }
                 else
-                {
+                {   
                     throw;
                 }
             }
@@ -133,11 +133,37 @@ namespace backend.Controllers
           {
               return Problem("Entity set 'PrjContext.Customers'  is null.");
           }
+           
+            
+           var transaction=_context.Database.BeginTransaction();
+              try
+              {
+                 _context.Customers.Add(customer);
+                  _context.SaveChanges();
+                      Console.WriteLine("id:   "+customer.CustomerId);
+                  var cred = new Credential();
+                  cred.CustomerId = customer.CustomerId;
+                  cred.UserId=customer.CustomerId.ToString();
+                  cred.Password="1234";
+                  _context.Credentials.Add(cred);
+                  await _context.SaveChangesAsync();
+                  transaction.Commit();
 
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+
+              }
+              catch (Exception e)
+              {
+                  Console.WriteLine("Error:   "+e.ToString());
+                  transaction.Rollback();
+                  return Ok(e.ToString());
+              }
+              
+
 
             return Ok();
+
+
+
         }
 
         // DELETE: api/Customers/5

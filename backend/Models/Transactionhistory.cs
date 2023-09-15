@@ -7,15 +7,11 @@ public partial class Transactionhistory
 {
     public int TransactionId { get; set; }
 
-    public int? DebitorId { get; set; }
-
-    public int? CreditorId { get; set; }
-
-    public decimal? Amount { get; set; }
+    public int? AccountId { get; set; }
 
     public DateTime? TransactionDate { get; set; }
 
-    public virtual Account? Creditor { get; set; }
+    public decimal? AmountWithdrawn { get; set; }
 
-    public virtual Account? Debitor { get; set; }
+    public virtual Account? Account { get; set; }
 }

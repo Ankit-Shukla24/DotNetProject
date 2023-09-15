@@ -5,7 +5,7 @@ namespace backend.Models;
 
 public partial class Credential
 {
-    public string? UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
     public string? Password { get; set; }
 

@@ -20,4 +20,6 @@ public partial class Customer
     public DateTime? DateOfbirth { get; set; }
 
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+
+    public virtual ICollection<Credential> Credentials { get; set; } = new List<Credential>();
 }
