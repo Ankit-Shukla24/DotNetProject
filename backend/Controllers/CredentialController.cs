@@ -18,13 +18,13 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminsController : ControllerBase
+    public class CredentialsController : ControllerBase
     {
             private readonly IConfiguration _config;
             private readonly CredentialDataProvider _AdminDataProvider;
 
 
-            public AdminsController(IConfiguration config, CredentialDataProvider AdminDataProvider)
+            public CredentialsController(IConfiguration config, CredentialDataProvider AdminDataProvider)
             {
                 _config = config;
                 _AdminDataProvider = AdminDataProvider;

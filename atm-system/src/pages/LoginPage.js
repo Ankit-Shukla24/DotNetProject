@@ -20,7 +20,7 @@ const LoginPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            axios.post('https://localhost:7182/api/Admins', {
+            axios.post('https://localhost:7182/api/Credentials', {
              userName:username,
                 password: pwd
             }).then((response) => {
