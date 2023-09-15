@@ -5,9 +5,10 @@ import { AuthContext } from "../context/AuthContext";
 const Withdrawal = () => {
   const[user,setUser] = useContext(AuthContext);
   const [withdrawal, setWithdrawal] = useState({
-    Pin:"",
-    FromAccountId:"",
-    AmountWithdrawn:""
+   
+    accountNumber:0,
+    amount:0,
+    
   });
   let token = eval(user);
     token=token.token;
@@ -22,21 +23,15 @@ const Withdrawal = () => {
     
     console.log(withdrawal);
 
-    axios.post(`https://localhost:7182/api/Accounts/${withdrawal.FromAccountId}`,{headers}).then((response)=>{
+    axios.post(`https://localhost:7182/api/Accounts/withdraw?accountNumber=${withdrawal.accountNumber}&amount=${withdrawal.amount}`,{headers}).then((response)=>{
         
+    console.log(response);
       if(response.status==201)
         {
             alert(response.data.message);
         }
-else
-{
-    axios
-      .post("https://localhost:7182/api/Transactionhistories", withdrawal)
-      .then((response) => {
-        console.log(response);
-      }).catch((err) => console.log(err));
-    }
-  })
+
+  }).catch((err)=>{console.log(err)})
       
   };
 
@@ -47,17 +42,17 @@ else
       <div>
           FromAccountId:
           <br />
-          <input type="number" name="FromAccountId" onChange={handleChangeWithdrawal} />
+          <input type="number" name="accountNumber" onChange={handleChangeWithdrawal} />
         </div>
-        <div>
+        {/* <div>
           Pin :
           <br />
           <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
-        </div>
+        </div> */}
         <div>
           AmountWithdrawn:
           <br />
-          <input type="number" name="AmountWithdrawn" onChange={handleChangeWithdrawal} />
+          <input type="number" name="amount" onChange={handleChangeWithdrawal} />
         </div>
         <button type="submit">Submit</button>
       </form>

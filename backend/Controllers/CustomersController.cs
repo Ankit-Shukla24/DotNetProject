@@ -148,7 +148,7 @@ namespace backend.Controllers
                   _context.Credentials.Add(cred);
                   await _context.SaveChangesAsync();
                   transaction.Commit();
-
+                return Ok(cred.CustomerId);
 
               }
               catch (Exception e)
@@ -160,7 +160,7 @@ namespace backend.Controllers
               
 
 
-            return Ok();
+            
 
 
 

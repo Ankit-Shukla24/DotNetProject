@@ -145,5 +145,37 @@ namespace backend.Controllers
         {
             return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
         }
+
+
+
+        [HttpPost("withdraw")]
+        
+        public async Task<IActionResult> WithdrawFromAccount(int accountNumber, int amount)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var account = await _context.Accounts.FindAsync(accountNumber);
+                if(account==null) return BadRequest(accountNumber+" not found");
+                if (account.Balance >= amount)
+                {
+                    account.Balance -= amount;
+                    _context.Accounts.Update(account);
+                    _context.Transactionhistories.Add(new Transactionhistory(accountNumber, null , amount, DateTime.Now));
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                    return Ok(account.Balance);
+                }
+                else
+                {
+                    return BadRequest("Cannot withdraw amount greater than balance");
+                }
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return BadRequest(ex.ToString());
+            }
+        }
     }
 }

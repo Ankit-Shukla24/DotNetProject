@@ -31,7 +31,7 @@ public partial class PrjContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A64013B5AB");
+            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A604E43441");
 
             entity.ToTable("ACCOUNT");
 
@@ -54,7 +54,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Credential>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCAC4C67DCCE");
+            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCACB5F7E3F9");
 
             entity.ToTable("CREDENTIALS");
 
@@ -68,12 +68,12 @@ public partial class PrjContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Credentials)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__CREDENTIA__Custo__2C3393D0");
+                .HasConstraintName("FK__CREDENTIA__Custo__2D27B809");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D81F29D88A");
+            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D8E514AEA5");
 
             entity.ToTable("CUSTOMER");
 
@@ -99,16 +99,20 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Transactionhistory>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6BC6AF4230");
+            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B55897EB0");
 
             entity.ToTable("TRANSACTIONHISTORY");
 
-            entity.Property(e => e.AmountWithdrawn).HasColumnType("decimal(20, 2)");
+            entity.Property(e => e.Amount).HasColumnType("decimal(20, 2)");
             entity.Property(e => e.TransactionDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Transactionhistories)
-                .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__TRANSACTI__Accou__29572725");
+            entity.HasOne(d => d.Creditor).WithMany(p => p.TransactionhistoryCreditors)
+                .HasForeignKey(d => d.CreditorId)
+                .HasConstraintName("FK__TRANSACTI__Credi__2A4B4B5E");
+
+            entity.HasOne(d => d.Debitor).WithMany(p => p.TransactionhistoryDebitors)
+                .HasForeignKey(d => d.DebitorId)
+                .HasConstraintName("FK__TRANSACTI__Debit__29572725");
         });
 
         OnModelCreatingPartial(modelBuilder);

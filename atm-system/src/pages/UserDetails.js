@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useContext,useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UserDetails = () => {
 
+  const navigate = useNavigate();
     const[user,setUser] = useContext(AuthContext)
   const [customer, setCustomer] = useState({
     FirstName: "",
@@ -36,6 +38,9 @@ const UserDetails = () => {
       .post("https://localhost:7182/api/Customers", customer,{headers})
       .then((response) => {
         console.log(response);
+        alert('User added successfully');
+        navigate("/");
+
       })
       .catch((err) => console.log(err));
   };
