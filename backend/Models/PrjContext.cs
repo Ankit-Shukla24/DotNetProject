@@ -17,7 +17,7 @@ public partial class PrjContext : DbContext
 
     public virtual DbSet<Account> Accounts { get; set; }
 
-    public virtual DbSet<Admin> Admins { get; set; }
+    public virtual DbSet<Credential> Credentials { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
 
@@ -25,13 +25,13 @@ public partial class PrjContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=WINDOWS-BVQNF6J;Database=prj;Trusted_Connection=True;Encrypt=False;");
+        => optionsBuilder.UseSqlServer("Server=WINDOWS-BVQNF6J;Database=prj;Trusted_Connection=True;encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A67C2D7A0E");
+            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A604E43441");
 
             entity.ToTable("ACCOUNT");
 
@@ -52,29 +52,28 @@ public partial class PrjContext : DbContext
                 .HasConstraintName("FK__ACCOUNT__Custome__267ABA7A");
         });
 
-        modelBuilder.Entity<Admin>(entity =>
+        modelBuilder.Entity<Credential>(entity =>
         {
-            entity.HasKey(e => e.UserName).HasName("PK__ADMIN__C9F28457D045AE9D");
+            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCACB5F7E3F9");
 
-            entity.ToTable("ADMIN");
+            entity.ToTable("CREDENTIALS");
 
-            entity.Property(e => e.UserName)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.Email)
-                .HasMaxLength(20)
-                .IsUnicode(false);
+            entity.Property(e => e.UserId)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("UserID");
             entity.Property(e => e.Password)
-                .HasMaxLength(20)
+                .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.UserType)
-             .HasMaxLength(10)
-             .IsUnicode(false);
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.Credentials)
+                .HasForeignKey(d => d.CustomerId)
+                .HasConstraintName("FK__CREDENTIA__Custo__2D27B809");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D82A6AFCD7");
+            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D8E514AEA5");
 
             entity.ToTable("CUSTOMER");
 
@@ -100,16 +99,20 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Transactionhistory>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B4EAC9FFC");
+            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B55897EB0");
 
             entity.ToTable("TRANSACTIONHISTORY");
 
-            entity.Property(e => e.AmountWithdrawn).HasColumnType("decimal(20, 2)");
+            entity.Property(e => e.Amount).HasColumnType("decimal(20, 2)");
             entity.Property(e => e.TransactionDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Transactionhistories)
-                .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__TRANSACTI__Accou__29572725");
+            entity.HasOne(d => d.Creditor).WithMany(p => p.TransactionhistoryCreditors)
+                .HasForeignKey(d => d.CreditorId)
+                .HasConstraintName("FK__TRANSACTI__Credi__2A4B4B5E");
+
+            entity.HasOne(d => d.Debitor).WithMany(p => p.TransactionhistoryDebitors)
+                .HasForeignKey(d => d.DebitorId)
+                .HasConstraintName("FK__TRANSACTI__Debit__29572725");
         });
 
         OnModelCreatingPartial(modelBuilder);

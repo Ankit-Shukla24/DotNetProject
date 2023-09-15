@@ -10,7 +10,9 @@ import { AuthProvider } from './context/AuthContext';
 import Withdrawal from './pages/Withdrawal';
 import FundTransfer from './pages/FundTransfer';
 import UserHomePage from './pages/UserHomePage';
-import CheckDeposit from './pages/CheckDeposit';
+
+import ChequeDeposit from './pages/ChequeDeposit';
+
 
 const router = createBrowserRouter([
   {
@@ -34,13 +36,14 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><Withdrawal/></ProtectedRoute>
   },
   {
-    path: "/transfer",
-    element: <ProtectedRoute><FundTransfer/></ProtectedRoute>
+    path: "/deposit",
+    element: <ProtectedRoute><ChequeDeposit/></ProtectedRoute>
   },
   {
-    path: "/deposit",
-    element: <ProtectedRoute><CheckDeposit/></ProtectedRoute>
+    path: "/transfer",
+    element: <ProtectedRoute><FundTransfer/></ProtectedRoute>
   }
+
 ])
 function App() {
   return (

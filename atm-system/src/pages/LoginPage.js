@@ -20,21 +20,15 @@ const LoginPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            axios.post('https://localhost:7182/api/Admins', {
+            axios.post('https://localhost:7182/api/Credentials', {
              userName:username,
                 password: pwd
             }).then((response) => {
-                if (response.status == 200 && !response.data.UserType) {
+                if (response.status == 200) {
                     setUser(response.data);
                     localStorage.setItem("userCredentials",JSON.stringify(response.data));
-                    alert(`Welcome ${response.data.admin_Id}`);
+                    alert(`Welcome ${response.data.userId}`);
                     navigate("/");
-                }
-                else if (response.status == 200 && response.data.UserType) {
-                    setUser(response.data);
-                    localStorage.setItem("userCredentials",JSON.stringify(response.data));
-                    alert(`Welcome ${response.data.admin_Id}`);
-                    navigate("/userhome");
                 }
                 else {
                     alert("Auth failed");

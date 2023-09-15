@@ -2,9 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 
 const AccountDetails = () => {
+  const navigate = useNavigate();
+
   const [user,setUser] = useContext(AuthContext);
  
   
@@ -32,6 +36,8 @@ const AccountDetails = () => {
       .post("https://localhost:7182/api/Accounts", account,{headers})
       .then((response) => {
         console.log(response);
+        alert('Account added successfully');
+        navigate("/");
       })
       .catch((err) => console.log(err));
   };

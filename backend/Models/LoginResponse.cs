@@ -2,9 +2,10 @@
 {
     public class LoginResponse
     {
-        public string token { get; set; }
-        public string Admin_Id { get; set; }
-
+        public string Token { get; set; }
+        public string  CustomerId { get; set; }
+        
         public string UserType { get; set; }
+        public string UserId { get; set; }
     }
 }

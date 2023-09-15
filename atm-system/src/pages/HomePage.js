@@ -15,7 +15,7 @@ const HomePage = () => {
     const handleBalanceShow = (event) =>{
         console.log(balanceShow);
         setBalanceShow(!balanceShow);
-        axios.get(`https://localhost:7182/api/Accounts/acc/414`).then((response)=>{
+        axios.get(`https://localhost:7182/api/Accounts/acc/${user.customerId}`).then((response)=>{
     console.log(response.data[0]);
         balance = response.data[0].balance;
         alert("Account:"+response.data[0].accountId+"\n"+"Balance:"+balance);
@@ -39,6 +39,7 @@ const HomePage = () => {
             <div>
             <h1>User Home Page</h1>
             <button onClick={()=>navigate("/withdraw")}> Withdraw Money</button>
+            <button onClick={()=>navigate("/deposit")}> Deposit Cheque</button>
             <br/>
             <button onClick={()=>navigate("/transfer")}>Fund Transfer</button>
             <button onClick={handleBalanceShow}>Balance</button>

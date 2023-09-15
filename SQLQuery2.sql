@@ -1,4 +1,3 @@
-create database prj
 
 use prj
 
@@ -58,7 +57,7 @@ select * FROM TRANSACTIONHISTORY
 
 
 CREATE TABLE CREDENTIALS ( 
-UserID VARCHAR(10),
+UserID VARCHAR(10) Primary Key,
 Password VARCHAR(10),
 CustomerId INT REFERENCES CUSTOMER(CustomerId),
 )

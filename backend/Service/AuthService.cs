@@ -5,14 +5,14 @@ namespace backend.Service
 {
     public class AuthService : IAuthService
     {
-        private readonly AdminDataProvider _AdminDataProvider;
-        public AuthService(AdminDataProvider AdminDataProvider)
+        private readonly CredentialDataProvider _AdminDataProvider;
+        public AuthService(CredentialDataProvider AdminDataProvider)
         {
             _AdminDataProvider = AdminDataProvider;
         }
-        public Admin GetAdminDetail(AdminViewModel login)
+        public Credential GetAdminDetail(CredentialViewModel login)
         {
-            Admin user = null;
+            Credential user = null;
             user = _AdminDataProvider.GetAdminDetail(login);
             return user;
         }

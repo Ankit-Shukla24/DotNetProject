@@ -1,6 +1,6 @@
 ﻿namespace backend.Models
 {
-    public class AdminViewModel
+    public class CredentialViewModel
     {
         public string UserName { get; set; } 
 
