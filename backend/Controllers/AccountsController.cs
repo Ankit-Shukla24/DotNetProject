@@ -177,5 +177,28 @@ namespace backend.Controllers
                 return BadRequest(ex.ToString());
             }
         }
+
+        [HttpPost("deposit")]
+
+        public async Task<IActionResult> DepositIntoAccount(int accountNumber, int amount)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var account = await _context.Accounts.FindAsync(accountNumber);
+                if (account==null) return BadRequest(accountNumber+" not found");
+                account.Balance += amount;
+                _context.Accounts.Update(account);
+                _context.Transactionhistories.Add(new Transactionhistory(null,accountNumber, amount, DateTime.Now));
+                await _context.SaveChangesAsync();
+                transaction.Commit();
+                return Ok(account.Balance);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return BadRequest(ex.ToString());
+            }
+        }
     }
 }

@@ -39,6 +39,7 @@ const HomePage = () => {
             <div>
             <h1>User Home Page</h1>
             <button onClick={()=>navigate("/withdraw")}> Withdraw Money</button>
+            <button onClick={()=>navigate("/deposit")}> Deposit Cheque</button>
             <br/>
             <button onClick={()=>navigate("/transfer")}>Fund Transfer</button>
             <button onClick={handleBalanceShow}>Balance</button>
