@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace backend.Controllers
 {
@@ -225,15 +229,23 @@ namespace backend.Controllers
         }
 
         [HttpPost("transfer")]
-        public async Task<IActionResult> FundTransfer(int debitorId, int creditorId, int amount)
+        public async Task<IActionResult> FundTransfer( int creditorId, int amount, [FromHeader] string Authorization)
         {
+            var token=Authorization.Split(' ',2)[1];
+            Console.WriteLine("tokennnnnn "+token);
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var userType = tokenS.Claims.First(claim => claim.Type == "UserType").Value;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+            Console.WriteLine("user_typeee "+userType);
+
             var transaction = _context.Database.BeginTransaction();
             try
             {
                 var creditor = await _context.Accounts.FindAsync(creditorId);
-                var debitor = await _context.Accounts.FindAsync(debitorId);
+                var debitor = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (creditor==null) return BadRequest(creditorId+" not found");
-                if (debitor==null) return BadRequest(debitorId+" not found");
                 if (debitor.Balance < amount)
 
                     return BadRequest("Cannot withdraw amount greater than balance");
@@ -243,7 +255,7 @@ namespace backend.Controllers
                 _context.Accounts.Update(creditor);
                 _context.Accounts.Update(debitor);
 
-                _context.Transactionhistories.Add(new Transactionhistory(debitorId, creditorId, amount, DateTime.Now));
+                _context.Transactionhistories.Add(new Transactionhistory(debitor.AccountId, creditorId, amount, DateTime.Now));
                 await _context.SaveChangesAsync();
                 transaction.Commit();
                 return Ok("Funds transferred");

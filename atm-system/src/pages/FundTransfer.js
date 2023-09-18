@@ -7,7 +7,6 @@ const Transfer = () => {
 
   const [transfer, setTransfer] = useState({
     Pin: "",
-    FromAccountId: 0,
     ToAccountId: 0,
     AmountTransfer: 0
   });
@@ -15,6 +14,8 @@ const Transfer = () => {
   let token = eval(user);
   token = token.token;
   const headers = { "Authorization": `Bearer ` + token };
+  const config = { headers: headers }
+  const data = {}
   const handleChangeTransfer = (event) => {
     setTransfer({ ...transfer, [event.target.name]: event.target.value });
   };
@@ -24,27 +25,24 @@ const Transfer = () => {
 
     console.log(transfer);
 
-    axios.post(`https://localhost:7182/api/Accounts/transfer?debitorId=${transfer.FromAccountId}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`
-      , { headers }).then((response) => {
+    axios.post(` https://localhost:7182/api/Accounts/transfer?creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`
+      , data, config).then((response) => {
 
         console.log(response);
         if (response.status == 201) {
           alert(response.data.message);
         }
 
-      }).catch((err) => { console.log(err);
-      alert(err.message) })
+      }).catch((err) => {
+        console.log(err);
+        alert(err.message)
+      })
 
   };
   return (
     <>
       <h1>Enter Transfer Details</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          FromAccountId:
-          <br />
-          <input type="number" name="FromAccountId" onChange={handleChangeTransfer} />
-        </div>
         <div>
           ToAccountId:
           <br />
