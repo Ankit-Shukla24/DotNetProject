@@ -10,27 +10,27 @@ const ChequeDeposit = () => {
     amount:0
   });
   let token = eval(user);
-    token=token.token;
-    const headers = {"Authorization":`Bearer `+token};
+  token=token.token;
+  const headers = {"Authorization":`Bearer `+token};
   const handleChangedeposit = (event) => {
     setdeposit({ ...deposit, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit =(event) => {
 
     event.preventDefault();
     
     console.log(deposit);
 
-    axios.post(`https://localhost:7182/api/Accounts/deposit?accountNumber=${deposit.accountNumber}&amount=${deposit.amount}`,{headers}).then((response)=>{
-        
+     axios.post(`https://localhost:7182/api/Accounts/deposit?accountNumber=${deposit.accountNumber}&amount=${deposit.amount}`,{},{headers}).then((response)=>{
+    console.log(token);
     console.log(response);
       if(response.status==201)
         {
             alert(response.data.message);
         }
 
-  }).catch((err)=>{console.log(err)})
+  }).catch((err)=>{console.log(err);})
       
   };
 

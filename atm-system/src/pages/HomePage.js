@@ -10,12 +10,14 @@ const HomePage = () => {
     const [user,setUser] = useContext(AuthContext);
     var balance;
     const [balanceShow,setBalanceShow] = useState('false');
-   
+    let token = eval(user);
+    token=token.token;
+    const headers = {"Authorization":`Bearer `+token};
      const userDetail= eval(user);
     const handleBalanceShow = (event) =>{
         console.log(balanceShow);
         setBalanceShow(!balanceShow);
-        axios.get(`https://localhost:7182/api/Accounts/acc/${user.customerId}`).then((response)=>{
+        axios.get(`https://localhost:7182/api/Accounts/acc/${user.customerId}`,{headers}).then((response)=>{
     console.log(response.data[0]);
         balance = response.data[0].balance;
         alert("Account:"+response.data[0].accountId+"\n"+"Balance:"+balance);

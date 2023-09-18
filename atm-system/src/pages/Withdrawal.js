@@ -12,7 +12,7 @@ const Withdrawal = () => {
   });
   let token = eval(user);
     token=token.token;
-    const headers = {"Authorization":`Bearer `+token};
+    const headers = {'Authorization':`Bearer `+token};
   const handleChangeWithdrawal = (event) => {
     setWithdrawal({ ...withdrawal, [event.target.name]: event.target.value });
   };
@@ -23,7 +23,7 @@ const Withdrawal = () => {
     
     console.log(withdrawal);
 
-    axios.post(`https://localhost:7182/api/Accounts/withdraw?accountNumber=${withdrawal.accountNumber}&amount=${withdrawal.amount}`,{headers}).then((response)=>{
+    axios.post(`https://localhost:7182/api/Accounts/withdraw?accountNumber=${withdrawal.accountNumber}&amount=${withdrawal.amount}`,{},{headers}).then((response)=>{
         
     console.log(response);
       if(response.status==201)

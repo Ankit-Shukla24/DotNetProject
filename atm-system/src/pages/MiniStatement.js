@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useEffect,useState } from "react";
+import { useEffect,useState,useContext } from "react";
 import axios from "axios";
 
 const MiniStatement = () =>{
@@ -10,11 +10,17 @@ const MiniStatement = () =>{
         accountId:0,
         limit:Number.MAX_SAFE_INTEGER
     })
+
+    const[user,setUser] = useContext(AuthContext);
+  let token = eval(user);
+    token=token.token;
+    const headers = {"Authorization":`Bearer `+token};
+
     const [Loading,setLoading] = useState(false);
     const getStatement = async() => {
         try{
         const getData= await axios.get(`https://localhost:7182/api/Transactionhistories/AccountId
-?id=${miniStatemtent.accountId}&limit=${miniStatemtent.limit}`);
+?id=${miniStatemtent.accountId}&limit=${miniStatemtent.limit}`,{headers});
             setStatement(getData.data);
 }
 catch(err)

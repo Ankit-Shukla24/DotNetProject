@@ -24,7 +24,7 @@ const Transfer = () => {
     console.log(transfer);
 
     axios.post(`https://localhost:7182/api/Accounts/transfer?debitorId=${transfer.FromAccountId}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`
-      , { headers }).then((response) => {
+      , {},{ headers }).then((response) => {
 
         console.log(response);
         if (response.status == 201) {
