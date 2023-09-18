@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin,Customer")]
     public class TransactionhistoriesController : ControllerBase
     {
         private readonly PrjContext _context;
@@ -32,21 +34,21 @@ namespace backend.Controllers
         }
 
         // GET: api/Transactionhistories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Transactionhistory>> GetTransactionhistory(int id)
+        [HttpGet("AccountId")]
+        public async Task<ActionResult<Transactionhistory>> GetTransactionhistoryByAccountId(int id,int limit)
         {
           if (_context.Transactionhistories == null)
           {
               return NotFound();
           }
-            var transactionhistory = await _context.Transactionhistories.FindAsync(id);
+            var transactionhistory = await _context.Transactionhistories.Where(x => x.CreditorId==id||x.DebitorId==id).OrderByDescending(x=>x.TransactionDate).Take(limit).ToListAsync();
 
             if (transactionhistory == null)
             {
                 return NotFound();
             }
 
-            return transactionhistory;
+            return Ok(transactionhistory);
         }
 
         // PUT: api/Transactionhistories/5

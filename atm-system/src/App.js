@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import Withdrawal from './pages/Withdrawal';
 import FundTransfer from './pages/FundTransfer';
 import UserHomePage from './pages/UserHomePage';
+import MiniStatemtent from './pages/MiniStatement';
 
 import ChequeDeposit from './pages/ChequeDeposit';
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/transfer",
     element: <ProtectedRoute><FundTransfer/></ProtectedRoute>
+  },
+  {
+    path: "/statement",
+    element: <ProtectedRoute><MiniStatemtent/></ProtectedRoute>
   }
 
 ])

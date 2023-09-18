@@ -12,7 +12,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  //  [Authorize]
+    [Authorize(Roles ="Admin")]
     public class CustomersController : ControllerBase
     {
         private readonly PrjContext _context;
@@ -157,13 +157,6 @@ namespace backend.Controllers
                   transaction.Rollback();
                   return Ok(e.ToString());
               }
-              
-
-
-            
-
-
-
         }
 
         // DELETE: api/Customers/5

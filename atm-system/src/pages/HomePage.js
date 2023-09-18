@@ -42,6 +42,7 @@ const HomePage = () => {
             <button onClick={()=>navigate("/deposit")}> Deposit Cheque</button>
             <br/>
             <button onClick={()=>navigate("/transfer")}>Fund Transfer</button>
+            <button onClick={()=>navigate("/statement")}>Mini Statement</button>
             <button onClick={handleBalanceShow}>Balance</button>
             </div>
         )}

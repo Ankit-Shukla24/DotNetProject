@@ -64,12 +64,16 @@ namespace backend.Controllers
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                 claims.Add(new Claim("Username", adminInfo.UserId));
-            if(adminInfo.CustomerId==null)
-            claims.Add(new Claim("UserType", "Admin"));
+            if (adminInfo.CustomerId==null)
+            {
+                claims.Add(new Claim("UserType", "Admin"));
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
             else
             {
                 claims.Add(new Claim("UserType", "Customer"));
-                claims.Add(new Claim("CustomerId",adminInfo.CustomerId.ToString()));
+                claims.Add(new Claim("CustomerId", adminInfo.CustomerId.ToString()));
+                claims.Add(new Claim(ClaimTypes.Role, "Customer"));
             }
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                   _config["Jwt:Issuer"],
