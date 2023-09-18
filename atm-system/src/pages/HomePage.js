@@ -19,7 +19,10 @@ const HomePage = () => {
     console.log(response.data[0]);
         balance = response.data[0].balance;
         alert("Account:"+response.data[0].accountId+"\n"+"Balance:"+balance);
-    }).catch((err)=>console.log(err))
+    }).catch((err)=>{
+        console.log(err);
+        alert(err.message)
+    })
     }
     //Need to change it 
 
@@ -39,10 +42,16 @@ const HomePage = () => {
             <div>
             <h1>User Home Page</h1>
             <button onClick={()=>navigate("/withdraw")}> Withdraw Money</button>
+            <br/>
             <button onClick={()=>navigate("/deposit")}> Deposit Cheque</button>
             <br/>
             <button onClick={()=>navigate("/transfer")}>Fund Transfer</button>
+            <br/>
             <button onClick={handleBalanceShow}>Balance</button>
+            <br/>
+            <button onClick={()=>navigate("/deposit")}>Cheque Deposit</button>
+            <br/>
+            <button onClick={()=>navigate("/pinchange")}>Pin Change</button>
             </div>
         )}
             }

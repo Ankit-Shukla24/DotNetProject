@@ -1,6 +1,7 @@
 import { useState,useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import logout from "../components/LogOut";
 
 const Withdrawal = () => {
   const[user,setUser] = useContext(AuthContext);
@@ -10,6 +11,7 @@ const Withdrawal = () => {
     amount:0,
     
   });
+  
   let token = eval(user);
     token=token.token;
     const headers = {"Authorization":`Bearer `+token};
@@ -31,7 +33,9 @@ const Withdrawal = () => {
             alert(response.data.message);
         }
 
-  }).catch((err)=>{console.log(err)})
+  }).catch((err)=>{console.log(err);
+    alert(err.message);
+  })
       
   };
 
@@ -56,6 +60,7 @@ const Withdrawal = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+      <button onClick={logout}>LogOut</button>
     </>
   );
 };

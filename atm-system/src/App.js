@@ -12,6 +12,7 @@ import FundTransfer from './pages/FundTransfer';
 import UserHomePage from './pages/UserHomePage';
 
 import ChequeDeposit from './pages/ChequeDeposit';
+import PinChange from './pages/PinChange';
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/transfer",
     element: <ProtectedRoute><FundTransfer/></ProtectedRoute>
+  },
+  {
+    path: "/pinchange",
+    element: <ProtectedRoute><PinChange/></ProtectedRoute>
   }
 
 ])

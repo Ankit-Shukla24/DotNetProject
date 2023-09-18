@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import logout from "../components/LogOut";
 
 const Transfer = () => {
 
@@ -31,7 +32,8 @@ const Transfer = () => {
           alert(response.data.message);
         }
 
-      }).catch((err) => { console.log(err) })
+      }).catch((err) => { console.log(err);
+      alert(err.message) })
 
   };
   return (
@@ -60,6 +62,7 @@ const Transfer = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+      <button onClick={logout}>LogOut</button>
     </>
   );
 };

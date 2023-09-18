@@ -1,6 +1,7 @@
 import { useState,useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import logout from "../components/LogOut";
 
 const ChequeDeposit = () => {
   const[user,setUser] = useContext(AuthContext);
@@ -30,7 +31,8 @@ const ChequeDeposit = () => {
             alert(response.data.message);
         }
 
-  }).catch((err)=>{console.log(err)})
+  }).catch((err)=>{console.log(err);
+  alert(err.message)})
       
   };
 
@@ -55,6 +57,7 @@ const ChequeDeposit = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+      <button onClick={logout}>LogOut</button>
     </>
   );
 };
