@@ -32,7 +32,7 @@ const PinChange = () => {
             console.log(response);
               if(response.status==200)
                 {
-                    alert("Pin Updated Successfully");
+                    alert(response.data);
                 }
         
           }).catch((err)=>{console.log(err);

@@ -28,7 +28,7 @@ const ChequeDeposit = () => {
     console.log(response);
       if(response.status==201)
         {
-            alert(response.data.message);
+            alert("Balance :"+response.data);
         }
 
   }).catch((err)=>{console.log(err);
