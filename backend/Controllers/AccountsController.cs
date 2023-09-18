@@ -178,6 +178,29 @@ namespace backend.Controllers
             }
         }
 
+        [HttpPost("pin")]
+
+        public async Task<IActionResult> PinChange(int accountNumber, int pin)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var account = await _context.Accounts.FindAsync(accountNumber);
+                if (account == null) return BadRequest(accountNumber + " not found");
+                
+                    account.Pin = pin;
+                    _context.Accounts.Update(account);
+                    
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                    return Ok();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return BadRequest(ex.ToString());
+            }
+        }
         [HttpPost("deposit")]
         public async Task<IActionResult> DepositIntoAccount(int accountNumber, int amount)
         {
