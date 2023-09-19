@@ -160,18 +160,24 @@ namespace backend.Controllers
 
         [HttpPost("withdraw")]
 
-        public async Task<IActionResult> WithdrawFromAccount(int accountNumber, int amount)
+        public async Task<IActionResult> WithdrawFromAccount(int amount)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
-                var account = await _context.Accounts.FindAsync(accountNumber);
-                if (account==null) return BadRequest(accountNumber+" not found");
+                string authHeader = Request.Headers["Authorization"];
+                var token = authHeader.Split(' ', 2)[1];
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token);
+                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (account==null) return BadRequest("No existing account found");
                 if (account.Balance >= amount)
                 {
                     account.Balance -= amount;
                     _context.Accounts.Update(account);
-                    _context.Transactionhistories.Add(new Transactionhistory(accountNumber, null, amount, DateTime.Now));
+                    _context.Transactionhistories.Add(new Transactionhistory(account.AccountId, null, amount, DateTime.Now));
                     await _context.SaveChangesAsync();
                     transaction.Commit();
                     return Ok(account.Balance);
@@ -212,16 +218,22 @@ namespace backend.Controllers
             }
         }
         [HttpPost("deposit")]
-        public async Task<IActionResult> DepositIntoAccount(int accountNumber, int amount)
+        public async Task<IActionResult> DepositIntoAccount( int amount)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
-                var account = await _context.Accounts.FindAsync(accountNumber);
-                if (account==null) return BadRequest(accountNumber+" not found");
+                string authHeader = Request.Headers["Authorization"];
+                var token = authHeader.Split(' ', 2)[1];
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token);
+                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (account==null) return BadRequest("No existing account found");
                 account.Balance += amount;
                 _context.Accounts.Update(account);
-                _context.Transactionhistories.Add(new Transactionhistory(null, accountNumber, amount, DateTime.Now));
+                _context.Transactionhistories.Add(new Transactionhistory(null, account.AccountId, amount, DateTime.Now));
                 await _context.SaveChangesAsync();
                 transaction.Commit();
                 return Ok(account.Balance);

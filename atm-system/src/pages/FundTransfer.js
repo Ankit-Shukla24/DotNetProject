@@ -43,7 +43,7 @@ const Transfer = () => {
       <h1>Enter Transfer Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          ToAccountId:
+          Recepient Account ID:
           <br />
           <input type="number" name="ToAccountId" onChange={handleChangeTransfer} />
         </div>
