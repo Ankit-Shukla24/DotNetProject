@@ -1,3 +1,4 @@
+create database prj
 
 use prj
 
@@ -26,9 +27,10 @@ City VARCHAR(20)
 CREATE TABLE TRANSACTIONHISTORY (
 
 TransactionId INT PRIMARY KEY IDENTITY(1,1),
-AccountId INT REFERENCES ACCOUNT(AccountId),
+DebitorId INT REFERENCES ACCOUNT(AccountId),
+CreditorId INT REFERENCES ACCOUNT(AccountId),
+Amount DECIMAL (20,2),
 TransactionDate DATETIME,
-AmountWithdrawn DECIMAL (20,2),
 
 )
 
@@ -47,17 +49,12 @@ SELECT * FROM ACCOUNT
 
 
 
-INSERT INTO TRANSACTIONHISTORY VALUES (5000,'2023-09-08 10:12:23',10000);
-UPDATE ACCOUNT SET Balance = (Balance - (SELECT top 1 AmountWithdrawn from TRANSACTIONHISTORY where AccountId =5000 order by TransactionId DESC)) where AccountId =5000
-
-INSERT INTO TRANSACTIONHISTORY VALUES (5002,'2023-09-08 10:12:23',100);
-UPDATE ACCOUNT SET Balance = (Balance - (SELECT top 1 AmountWithdrawn from TRANSACTIONHISTORY where AccountId =5002 order by TransactionId DESC)) where AccountId =5002
-
 select * FROM TRANSACTIONHISTORY 
 
 
+
 CREATE TABLE CREDENTIALS ( 
-UserID VARCHAR(10) Primary Key,
+UserID VARCHAR(10) Primary key,
 Password VARCHAR(10),
 CustomerId INT REFERENCES CUSTOMER(CustomerId),
 )
