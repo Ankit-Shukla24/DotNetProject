@@ -15,7 +15,6 @@ const Transfer = () => {
   token = token.token;
   const headers = { "Authorization": `Bearer ` + token };
   const config = { headers: headers }
-  const data = {}
   const handleChangeTransfer = (event) => {
     setTransfer({ ...transfer, [event.target.name]: event.target.value });
   };
@@ -25,8 +24,8 @@ const Transfer = () => {
 
     console.log(transfer);
 
-    axios.post(` https://localhost:7182/api/Accounts/transfer?creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`
-      , data, config).then((response) => {
+    axios.post(` https://localhost:7182/api/Accounts/transfer?creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`, {}
+      , config).then((response) => {
 
         console.log(response);
         if (response.status == 201) {

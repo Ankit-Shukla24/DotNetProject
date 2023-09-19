@@ -53,14 +53,20 @@ namespace backend.Controllers
 
             return account;
         }
-        [HttpGet("acc/{customerId}")]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByCustomerID(int customerId)
+        [HttpGet("balance")]
+        public async Task<ActionResult<IEnumerable<Account>>> GetUserBalance()
         {
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+            var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
 
-            var accounts = await _context.Accounts.Where(a => a.CustomerId==customerId).ToListAsync();
-
-            return Ok(accounts);
+            return Ok(account.Balance);
         }
+       
         [HttpGet]
         [Route("getBalancebyId")]
         public async Task<ActionResult<Account>> GetBalance(int id)
@@ -229,16 +235,14 @@ namespace backend.Controllers
         }
 
         [HttpPost("transfer")]
-        public async Task<IActionResult> FundTransfer( int creditorId, int amount, [FromHeader] string Authorization)
+        public async Task<IActionResult> FundTransfer( int creditorId, int amount)
         {
-            var token=Authorization.Split(' ',2)[1];
-            Console.WriteLine("tokennnnnn "+token);
+            string authHeader = Request.Headers["Authorization"];
+            var token= authHeader.Split(' ',2)[1];
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            var userType = tokenS.Claims.First(claim => claim.Type == "UserType").Value;
             var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-            Console.WriteLine("user_typeee "+userType);
 
             var transaction = _context.Database.BeginTransaction();
             try
