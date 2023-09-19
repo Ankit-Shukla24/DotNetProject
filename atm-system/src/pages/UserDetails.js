@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext,useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import logout from "../components/LogOut";
 
 const UserDetails = () => {
 
@@ -42,7 +43,9 @@ const UserDetails = () => {
         navigate("/");
 
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err);
+      alert(err.message)
+  });
   };
 
   return (
@@ -90,6 +93,7 @@ const UserDetails = () => {
         
         <button type="submit">Submit</button>
       </form>
+      <button onClick={logout}>LogOut</button>
     </>
   );
 };

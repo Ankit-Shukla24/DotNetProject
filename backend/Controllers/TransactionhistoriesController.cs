@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin,Customer")]
     public class TransactionhistoriesController : ControllerBase
     {
         private readonly PrjContext _context;
@@ -32,21 +35,28 @@ namespace backend.Controllers
         }
 
         // GET: api/Transactionhistories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Transactionhistory>> GetTransactionhistory(int id)
+        [HttpGet("statement")]
+        public async Task<ActionResult<Transactionhistory>> GetTransactionhistoryByAccountId(int limit)
         {
           if (_context.Transactionhistories == null)
           {
               return NotFound();
           }
-            var transactionhistory = await _context.Transactionhistories.FindAsync(id);
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+            var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+            var transactionhistory = await _context.Transactionhistories.Where(x => x.CreditorId==account.AccountId||x.DebitorId==account.AccountId).OrderByDescending(x=>x.TransactionDate).Take(limit).ToListAsync();
 
             if (transactionhistory == null)
             {
                 return NotFound();
             }
 
-            return transactionhistory;
+            return Ok(transactionhistory);
         }
 
         // PUT: api/Transactionhistories/5

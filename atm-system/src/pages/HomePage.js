@@ -7,44 +7,59 @@ import axios from 'axios';
 
 const HomePage = () => {
     const navigate = useNavigate();
-    const [user,setUser] = useContext(AuthContext);
+    const [user, setUser] = useContext(AuthContext);
     var balance;
-    const [balanceShow,setBalanceShow] = useState('false');
-   
-     const userDetail= eval(user);
-    const handleBalanceShow = (event) =>{
+    const [balanceShow, setBalanceShow] = useState('false');
+
+    const userDetail = eval(user);
+    let token = eval(user);
+    token = token.token;
+    const headers = { "Authorization": `Bearer ` + token };
+
+    const handleBalanceShow = (event) => {
         console.log(balanceShow);
         setBalanceShow(!balanceShow);
-        axios.get(`https://localhost:7182/api/Accounts/acc/${user.customerId}`).then((response)=>{
-    console.log(response.data[0]);
-        balance = response.data[0].balance;
-        alert("Account:"+response.data[0].accountId+"\n"+"Balance:"+balance);
-    }).catch((err)=>console.log(err))
+        axios.get(`https://localhost:7182/api/Accounts/balance`, { headers: headers }).then((response) => {
+            console.log(response.data);
+            balance = response.data;
+            alert(`Your account balance is ${balance}`);
+        }).catch((err) => {
+            console.log(err);
+            alert(err.message)
+        })
     }
     //Need to change it 
 
-        if(userDetail.userType=='Admin')
-        {      
-            return(
-        <div>
-            <h1>Home Page</h1>
-            <button onClick={()=>navigate("/user")}>Add User</button>
-            <br/>
-            <button onClick={()=>navigate("/account")}>Add Account</button>
-        </div>
-            )}
-        else
-        {
-            return(
+    if (userDetail.userType == 'Admin') {
+        return (
             <div>
-            <h1>User Home Page</h1>
-            <button onClick={()=>navigate("/withdraw")}> Withdraw Money</button>
-            <button onClick={()=>navigate("/deposit")}> Deposit Cheque</button>
-            <br/>
-            <button onClick={()=>navigate("/transfer")}>Fund Transfer</button>
-            <button onClick={handleBalanceShow}>Balance</button>
+                <h1>Home Page</h1>
+                <button onClick={() => navigate("/user")}>Add User</button>
+                <br />
+                <button onClick={() => navigate("/account")}>Add Account</button>
             </div>
-        )}
-            }
+        )
+    }
+    else {
+        return (
+            <div>
+                <h1>User Home Page</h1>
+                <button onClick={() => navigate("/withdraw")}> Withdraw Money</button>
+                <br />
+                <button onClick={() => navigate("/deposit")}> Deposit Cheque</button>
+                <br />
+                <button onClick={() => navigate("/transfer")}>Fund Transfer</button>
+                <br />
+                <button onClick={handleBalanceShow}>Balance</button>
+                <br />
+                <button onClick={() => navigate("/deposit")}>Cheque Deposit</button>
+                <br />
+                <button onClick={()=>navigate("/statement")}>Mini Statement</button>
+                <br />
+                <button onClick={() => navigate("/pinchange")}>Pin Change</button>
+            </div>
+        )
+    }
+}
 
 export default HomePage;
