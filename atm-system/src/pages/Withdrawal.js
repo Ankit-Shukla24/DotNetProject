@@ -27,8 +27,8 @@ const Withdrawal = () => {
     axios.post(`https://localhost:7182/api/Accounts/withdraw?amount=${withdrawal.amount}`, {}, { headers: headers }).then((response) => {
 
       console.log(response);
-      if (response.status == 201) {
-        alert(response.data.message);
+      if (response.status == 200) {
+        alert("Remaining balance :" + response.data);
       }
 
     }).catch((err) => {
@@ -42,7 +42,7 @@ const Withdrawal = () => {
     <>
       <h1>Enter Withdrawal Details</h1>
       <form onSubmit={handleSubmit}>
-       
+
         {/* <div>
           Pin :
           <br />

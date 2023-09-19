@@ -28,8 +28,8 @@ const Transfer = () => {
       , config).then((response) => {
 
         console.log(response);
-        if (response.status == 201) {
-          alert(response.data.message);
+        if (response.status == 200) {
+          alert(response.data);
         }
 
       }).catch((err) => {

@@ -196,22 +196,29 @@ namespace backend.Controllers
             }
         }
 
-        [HttpPost("pin")]
+        [HttpPost("changePin")]
 
-        public async Task<IActionResult> PinChange(int accountNumber, int pin)
+        public async Task<IActionResult> PinChange(int oldPin, int newPin)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
-                var account = await _context.Accounts.FindAsync(accountNumber);
-                if (account == null) return BadRequest(accountNumber + " not found");
-                
-                    account.Pin = pin;
+                string authHeader = Request.Headers["Authorization"];
+                var token = authHeader.Split(' ', 2)[1];
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token);
+                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (account==null) return BadRequest("No existing account found");
+                if(account.Pin!=oldPin) return BadRequest("Old PIN doesn't match with existing PIN");
+
+                account.Pin = newPin;
                     _context.Accounts.Update(account);
                     
                     await _context.SaveChangesAsync();
                     transaction.Commit();
-                    return Ok();
+                    return Ok("PIN changed successfully");
             }
             catch (Exception ex)
             {
@@ -263,6 +270,8 @@ namespace backend.Controllers
             {
                 var creditor = await _context.Accounts.FindAsync(creditorId);
                 var debitor = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (debitor==null) return BadRequest("No existing account found");
+
                 if (creditor==null) return BadRequest(creditorId+" not found");
                 if (debitor.Balance < amount)
 

@@ -25,8 +25,8 @@ const ChequeDeposit = () => {
     axios.post(`https://localhost:7182/api/Accounts/deposit?amount=${deposit.amount}`, {}, { headers: headers }).then((response) => {
 
       console.log(response);
-      if (response.status == 201) {
-        alert(response.data.message);
+      if (response.status == 200) {
+        alert("Balance :"+response.data);
       }
 
     }).catch((err) => {
