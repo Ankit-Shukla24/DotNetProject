@@ -16,7 +16,7 @@ const ChequeDeposit = () => {
     setdeposit({ ...deposit, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit =(event) => {
 
     event.preventDefault();
 

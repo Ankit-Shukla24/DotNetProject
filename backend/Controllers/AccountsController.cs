@@ -16,6 +16,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Customer")]
     public class AccountsController : ControllerBase
     {
         private readonly PrjContext _context;
@@ -27,6 +28,7 @@ namespace backend.Controllers
 
         // GET: api/Accounts
         [HttpGet]
+        [Authorize(Roles="Admin")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
             if (_context.Accounts == null)
