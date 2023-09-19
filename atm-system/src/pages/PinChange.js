@@ -45,11 +45,6 @@ const PinChange = () => {
       <h1>Enter Pin Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          AccountId:
-          <br />
-          <input type="number" name="accountNumber" onChange={handleChangepin} />
-        </div>
-        <div>
           OldPin :
           <br />
           <input type="number" name="OldPin" onChange={handleChangepin} />

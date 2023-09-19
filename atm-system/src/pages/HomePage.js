@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import logout from '../components/LogOut';
 import axios from 'axios';
 
 
@@ -37,6 +38,7 @@ const HomePage = () => {
                 <button onClick={() => navigate("/user")}>Add User</button>
                 <br />
                 <button onClick={() => navigate("/account")}>Add Account</button>
+                <button onClick={logout}>LogOut</button>
             </div>
         )
     }
@@ -57,6 +59,7 @@ const HomePage = () => {
                 <button onClick={()=>navigate("/statement")}>Mini Statement</button>
                 <br />
                 <button onClick={() => navigate("/pinchange")}>Pin Change</button>
+                <button onClick={logout}>LogOut</button>
             </div>
         )
     }
