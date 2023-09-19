@@ -37,7 +37,7 @@ const LoginPage = () => {
             })
         }
         catch (error) {
-            alert(error);
+            alert(error.message);
         }
     }
 

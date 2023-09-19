@@ -10,38 +10,47 @@ import { AuthProvider } from './context/AuthContext';
 import Withdrawal from './pages/Withdrawal';
 import FundTransfer from './pages/FundTransfer';
 import UserHomePage from './pages/UserHomePage';
+import MiniStatemtent from './pages/MiniStatement';
 
 import ChequeDeposit from './pages/ChequeDeposit';
+import PinChange from './pages/PinChange';
 
 
 const router = createBrowserRouter([
   {
-    path:"/",
-    element:<ProtectedRoute><HomePage/></ProtectedRoute>
+    path: "/",
+    element: <ProtectedRoute><HomePage /></ProtectedRoute>
   },
   {
-    path:"/login",
-    element:<LoginPage/>
+    path: "/login",
+    element: <LoginPage />
   },
   {
     path: "/user",
-    element: <ProtectedRoute><UserDetails/></ProtectedRoute>
+    element: <ProtectedRoute><UserDetails /></ProtectedRoute>
   },
   {
     path: "/account",
-    element: <ProtectedRoute><AccountDetails/></ProtectedRoute>
+    element: <ProtectedRoute><AccountDetails /></ProtectedRoute>
   },
   {
     path: "/withdraw",
-    element: <ProtectedRoute><Withdrawal/></ProtectedRoute>
+    element: <ProtectedRoute><Withdrawal /></ProtectedRoute>
   },
   {
     path: "/deposit",
-    element: <ProtectedRoute><ChequeDeposit/></ProtectedRoute>
+    element: <ProtectedRoute><ChequeDeposit /></ProtectedRoute>
   },
   {
     path: "/transfer",
-    element: <ProtectedRoute><FundTransfer/></ProtectedRoute>
+    element: <ProtectedRoute><FundTransfer /></ProtectedRoute>
+  },
+  {
+    path: "/pinchange",
+    element: <ProtectedRoute><PinChange /></ProtectedRoute>
+  }, {
+    path: "/statement",
+    element: <ProtectedRoute><MiniStatemtent /></ProtectedRoute>
   }
 
 ])
@@ -49,7 +58,7 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-      <RouterProvider router={router}/></AuthProvider>
+        <RouterProvider router={router} /></AuthProvider>
     </div>
   );
 }

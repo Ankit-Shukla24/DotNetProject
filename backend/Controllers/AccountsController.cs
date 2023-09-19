@@ -7,11 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Customer")]
     public class AccountsController : ControllerBase
     {
         private readonly PrjContext _context;
@@ -23,6 +28,7 @@ namespace backend.Controllers
 
         // GET: api/Accounts
         [HttpGet]
+        [Authorize(Roles="Admin")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
             if (_context.Accounts == null)
@@ -49,14 +55,20 @@ namespace backend.Controllers
 
             return account;
         }
-        [HttpGet("acc/{customerId}")]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByCustomerID(int customerId)
+        [HttpGet("balance")]
+        public async Task<ActionResult<IEnumerable<Account>>> GetUserBalance()
         {
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+            var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
 
-            var accounts = await _context.Accounts.Where(a => a.CustomerId==customerId).ToListAsync();
-
-            return Ok(accounts);
+            return Ok(account.Balance);
         }
+       
         [HttpGet]
         [Route("getBalancebyId")]
         public async Task<ActionResult<Account>> GetBalance(int id)
@@ -150,18 +162,24 @@ namespace backend.Controllers
 
         [HttpPost("withdraw")]
 
-        public async Task<IActionResult> WithdrawFromAccount(int accountNumber, int amount)
+        public async Task<IActionResult> WithdrawFromAccount(int amount)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
-                var account = await _context.Accounts.FindAsync(accountNumber);
-                if (account==null) return BadRequest(accountNumber+" not found");
+                string authHeader = Request.Headers["Authorization"];
+                var token = authHeader.Split(' ', 2)[1];
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token);
+                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (account==null) return BadRequest("No existing account found");
                 if (account.Balance >= amount)
                 {
                     account.Balance -= amount;
                     _context.Accounts.Update(account);
-                    _context.Transactionhistories.Add(new Transactionhistory(accountNumber, null, amount, DateTime.Now));
+                    _context.Transactionhistories.Add(new Transactionhistory(account.AccountId, null, amount, DateTime.Now));
                     await _context.SaveChangesAsync();
                     transaction.Commit();
                     return Ok(account.Balance);
@@ -178,17 +196,53 @@ namespace backend.Controllers
             }
         }
 
-        [HttpPost("deposit")]
-        public async Task<IActionResult> DepositIntoAccount(int accountNumber, int amount)
+        [HttpPost("changePin")]
+
+        public async Task<IActionResult> PinChange(int oldPin, int newPin)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
-                var account = await _context.Accounts.FindAsync(accountNumber);
-                if (account==null) return BadRequest(accountNumber+" not found");
+                string authHeader = Request.Headers["Authorization"];
+                var token = authHeader.Split(' ', 2)[1];
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token);
+                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (account==null) return BadRequest("No existing account found");
+                if(account.Pin!=oldPin) return BadRequest("Old PIN doesn't match with existing PIN");
+
+                account.Pin = newPin;
+                    _context.Accounts.Update(account);
+                    
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                    return Ok("PIN changed successfully");
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return BadRequest(ex.ToString());
+            }
+        }
+        [HttpPost("deposit")]
+        public async Task<IActionResult> DepositIntoAccount( int amount)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                string authHeader = Request.Headers["Authorization"];
+                var token = authHeader.Split(' ', 2)[1];
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token);
+                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (account==null) return BadRequest("No existing account found");
                 account.Balance += amount;
                 _context.Accounts.Update(account);
-                _context.Transactionhistories.Add(new Transactionhistory(null, accountNumber, amount, DateTime.Now));
+                _context.Transactionhistories.Add(new Transactionhistory(null, account.AccountId, amount, DateTime.Now));
                 await _context.SaveChangesAsync();
                 transaction.Commit();
                 return Ok(account.Balance);
@@ -202,15 +256,23 @@ namespace backend.Controllers
         }
 
         [HttpPost("transfer")]
-        public async Task<IActionResult> FundTransfer(int debitorId, int creditorId, int amount)
+        public async Task<IActionResult> FundTransfer( int creditorId, int amount)
         {
+            string authHeader = Request.Headers["Authorization"];
+            var token= authHeader.Split(' ',2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+
             var transaction = _context.Database.BeginTransaction();
             try
             {
                 var creditor = await _context.Accounts.FindAsync(creditorId);
-                var debitor = await _context.Accounts.FindAsync(debitorId);
+                var debitor = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+                if (debitor==null) return BadRequest("No existing account found");
+
                 if (creditor==null) return BadRequest(creditorId+" not found");
-                if (debitor==null) return BadRequest(debitorId+" not found");
                 if (debitor.Balance < amount)
 
                     return BadRequest("Cannot withdraw amount greater than balance");
@@ -220,7 +282,7 @@ namespace backend.Controllers
                 _context.Accounts.Update(creditor);
                 _context.Accounts.Update(debitor);
 
-                _context.Transactionhistories.Add(new Transactionhistory(debitorId, creditorId, amount, DateTime.Now));
+                _context.Transactionhistories.Add(new Transactionhistory(debitor.AccountId, creditorId, amount, DateTime.Now));
                 await _context.SaveChangesAsync();
                 transaction.Commit();
                 return Ok("Funds transferred");
