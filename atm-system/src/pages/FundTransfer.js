@@ -8,7 +8,8 @@ const Transfer = () => {
   const [transfer, setTransfer] = useState({
     Pin: "",
     ToAccountId: 0,
-    AmountTransfer: 0
+    AmountTransfer: 0,
+    currency:"RUPEE"
   });
   const [user, setUser] = useContext(AuthContext);
   let token = eval(user);
@@ -24,7 +25,7 @@ const Transfer = () => {
 
     console.log(transfer);
 
-    axios.post(` https://localhost:7182/api/Accounts/transfer?creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`, {}
+    axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`, {}
       , config).then((response) => {
 
         console.log(response);
@@ -57,6 +58,15 @@ const Transfer = () => {
           <br />
           <input type="number" name="AmountTransfer" onChange={handleChangeTransfer} />
         </div>
+        <div>
+        <select type="text" name="currency" onChange={handleChangeTransfer} >
+            <option>RUPEE</option>
+            <option>USD</option>
+            <option>EURO</option>
+            <option>YEN</option>
+            <option>RUBLE</option>
+            </select>
+            </div>
         <button type="submit">Submit</button>
       </form>
       <button onClick={logout}>LogOut</button>
