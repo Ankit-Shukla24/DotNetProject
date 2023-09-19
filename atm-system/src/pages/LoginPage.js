@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import "../styles/LoginPage.css"
 const LoginPage = () => {
 
     const [user,setUser] = useContext(AuthContext);
@@ -42,13 +42,16 @@ const LoginPage = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    Username:<input type="text" onChange={handleUsername} />
+        <div className="login-wrapper">
+            <form className='login-form' onSubmit={handleSubmit}>
+                <h1>Login</h1>
+                <div className="login-input">
+                    <div className="name">Username:</div>
+                    <input type="text" onChange={handleUsername} />
                 </div>
-                <div>
-                    Password:<input type="password" onChange={handlepwd} />
+                <div className="login-input">
+                    <div for="password">Password:</div>
+                    <input type="password" onChange={handlepwd} />
                 </div>
                 <div>
                     <button type="submit">Login </button>
