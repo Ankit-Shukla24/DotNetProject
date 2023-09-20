@@ -97,7 +97,7 @@ namespace backend.Controllers
 
             public Task<ActionResult<string>> passwordchange(string UserName, string OldPassword, string NewPassword)
             {   
-                return _AuthService.ChangePassword(UserName, OldPassword,NewPassword);   
+                return _authService.ChangePassword(UserName, OldPassword,NewPassword);   
             }
     }
 }

@@ -15,7 +15,7 @@ public partial class Account
 
     public string? CardNo { get; set; }
 
-    public int? Pin { get; set; }
+    public string? Pin { get; set; }
 
     public string? City { get; set; }
 

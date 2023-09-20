@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace backend.Data
 {
-    public class CredentialDataProvider: ControllerBase,ICredentialDataProvider
+    public class CredentialDataProvider: ControllerBase,ICredentialDataProvider<Credential>
     {
         private readonly PrjContext _context;
 
@@ -16,7 +16,17 @@ namespace backend.Data
         }
         public Credential GetAdminDetail(CredentialViewModel login)
         {
-            return _context.Credentials.SingleOrDefault(x => x.UserId == login.UserName && x.Password == login.Password);
+            if(login.UserName=="admin")
+            {
+                return  _context.Credentials.SingleOrDefault(x => x.UserId == login.UserName && x.Password == login.Password);
+            }
+            else
+            {
+                var cred = _context.Credentials.SingleOrDefault(x => x.UserId == login.UserName);
+                if (SecretHasher.Verify(login.Password, cred.Password)) return cred;
+                else return null;
+            }
+           
         }
         public async Task<ActionResult<string>> ChangePassword(string userName, string oldpassword,string newpassword)
         {
