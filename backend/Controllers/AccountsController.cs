@@ -12,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using backend.Service;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace backend.Controllers
 {
@@ -130,6 +131,8 @@ namespace backend.Controllers
             {
                 return Problem("Entity set 'PrjContext.Accounts'  is null.");
             }
+            Console.WriteLine("Length "+SecretHasher.Hash(account.Pin).Length);
+            account.Pin=SecretHasher.Hash(account.Pin);
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
 
@@ -207,7 +210,7 @@ namespace backend.Controllers
 
         [HttpPost("changePin")]
 
-        public async Task<IActionResult> PinChange(int oldPin, int newPin)
+        public async Task<IActionResult> PinChange(string oldPin, string newPin)
         {
             var transaction = _context.Database.BeginTransaction();
             try
@@ -220,9 +223,8 @@ namespace backend.Controllers
                 var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
                 var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (account==null) return BadRequest("No existing account found");
-                if (account.Pin!=oldPin) return BadRequest("Old PIN doesn't match with existing PIN");
-
-                account.Pin = newPin;
+                if (SecretHasher.Verify(oldPin,account.Pin)) return BadRequest("Old PIN doesn't match with existing PIN");
+                account.Pin = SecretHasher.Hash(newPin);
                 _context.Accounts.Update(account);
 
                 await _context.SaveChangesAsync();

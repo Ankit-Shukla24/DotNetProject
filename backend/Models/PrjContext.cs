@@ -31,7 +31,7 @@ public partial class PrjContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A604E43441");
+            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A662D70006");
 
             entity.ToTable("ACCOUNT");
 
@@ -45,7 +45,10 @@ public partial class PrjContext : DbContext
             entity.Property(e => e.City)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.Pin).HasColumnName("PIN");
+            entity.Property(e => e.Pin)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("PIN");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.CustomerId)
@@ -54,7 +57,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Credential>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCACB5F7E3F9");
+            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCAC28907414");
 
             entity.ToTable("CREDENTIALS");
 
@@ -63,7 +66,7 @@ public partial class PrjContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("UserID");
             entity.Property(e => e.Password)
-                .HasMaxLength(10)
+                .HasMaxLength(200)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Credentials)
@@ -73,7 +76,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D8E514AEA5");
+            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D854826F02");
 
             entity.ToTable("CUSTOMER");
 
@@ -99,7 +102,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Transactionhistory>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B55897EB0");
+            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B812D6DDE");
 
             entity.ToTable("TRANSACTIONHISTORY");
 
