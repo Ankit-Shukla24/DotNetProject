@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import logout from '../components/LogOut';
 import axios from 'axios';
-import logout from '../components/LogOut';
 import ChangePassword from "./ChangePassword";
 
 const HomePage = () => {
