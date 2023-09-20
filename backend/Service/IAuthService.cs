@@ -2,7 +2,7 @@
 
 namespace backend.Service
 {
-    public interface IAuthService
+    public interface IAuthService<Credential>
     {
         public Credential GetAdminDetail(CredentialViewModel login);
     }
