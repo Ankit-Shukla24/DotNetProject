@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using backend.Data;
+using backend.Service;
 
 namespace backend.Controllers
 {
@@ -21,13 +22,15 @@ namespace backend.Controllers
     public class CredentialsController : ControllerBase
     {
             private readonly IConfiguration _config;
-            private readonly CredentialDataProvider _AdminDataProvider;
+        private readonly IAuthService _AuthService;
+        private readonly CredentialDataProvider _AdminDataProvider;
 
 
-            public CredentialsController(IConfiguration config, CredentialDataProvider AdminDataProvider)
+            public CredentialsController(IConfiguration config, CredentialDataProvider AdminDataProvider, IAuthService authservice)
             {
                 _config = config;
                 _AdminDataProvider = AdminDataProvider;
+                _AuthService = authservice;
             }
             [AllowAnonymous]
             [HttpPost]
@@ -88,6 +91,14 @@ namespace backend.Controllers
             {
                 Credential admin = _AdminDataProvider.GetAdminDetail(login);
                 return admin;
+            }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ChangePassword")]
+
+            private Task<ActionResult<string>> passwordchange(string UserName, string Password)
+            {   
+                return _AuthService.ChangePassword(UserName, Password);   
             }
     }
 }
