@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace backend.Data
 {
-    public class CredentialDataProvider: ControllerBase,ICredentialDataProvider
+    public class CredentialDataProvider: ControllerBase,ICredentialDataProvider<Credential>
     {
         private readonly PrjContext _context;
 
