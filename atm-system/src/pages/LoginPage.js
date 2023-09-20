@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import ChangePassword from "./ChangePassword";
+
 
 const LoginPage = () => {
 
@@ -38,7 +38,7 @@ const LoginPage = () => {
             })
         }
         catch (error) {
-            alert(error.message);
+            alert(error.response.data);
         }
     }
 
@@ -55,7 +55,7 @@ const LoginPage = () => {
                     <button type="submit">Login </button>
                 </div>
             </form>
-            <button onClick={()=>navigate("/changepassword")}>Change Password</button>
+            
         </div>
     )
 }

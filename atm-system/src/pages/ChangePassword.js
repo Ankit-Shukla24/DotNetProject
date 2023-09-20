@@ -7,7 +7,7 @@ const ChangePassword = () => {
   const[user,setUser] = useContext(AuthContext);
   const [password, setpassword] = useState({
     Oldpassword:"",
-    password:"",
+    Newpassword:"",
     userName:"",
   });
   let token = eval(user);
@@ -23,11 +23,8 @@ const ChangePassword = () => {
     
     console.log(password);
 
-    axios.get(`https://localhost:7182/api/Credentials/${password.userName}`,{headers}).then((response)=>{
-    console.log(response);
-    if(response.data.password==password.Oldpassword)
-        {
-            axios.post(`https://localhost:7182/api/Credentials/password?accountNumber=${password.userName}&password=${password.password}`,{headers}).then((response)=>{
+    
+            axios.post(`https://localhost:7182/api/Credentials/ChangePassword?UserName=${password.userName}&OldPassword=${password.Oldpassword}&NewPassword=${password.Newpassword}`,{headers}).then((response)=>{
         
             console.log(response);
               if(response.status==200)
@@ -36,14 +33,7 @@ const ChangePassword = () => {
                 }
         
           }).catch((err)=>{console.log(err);
-          alert(err.message)})
-        }
-    else{
-        alert("Wrong password");
-    }
-  
-    }).catch((err)=>{console.log(err); 
-        alert(err.message)})
+          alert(err.response.data)})
 }
     
 
@@ -64,7 +54,7 @@ const ChangePassword = () => {
         <div>
          Newpassword:
           <br />
-          <input type="password" name="password" onChange={handleChangepassword} />
+          <input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
         <button type="submit">Submit</button>
       </form>
