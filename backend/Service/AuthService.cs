@@ -3,10 +3,10 @@ using backend.Data;
 using backend.Models;
 namespace backend.Service
 {
-    public class AuthService : IAuthService
+    public class AuthService : IAuthService<Credential>
     {
-        private readonly CredentialDataProvider _AdminDataProvider;
-        public AuthService(CredentialDataProvider AdminDataProvider)
+        private readonly ICredentialDataProvider<Credential> _AdminDataProvider;
+        public AuthService(ICredentialDataProvider<Credential> AdminDataProvider)
         {
             _AdminDataProvider = AdminDataProvider;
         }

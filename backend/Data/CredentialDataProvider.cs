@@ -2,7 +2,7 @@
 
 namespace backend.Data
 {
-    public class CredentialDataProvider:ICredentialDataProvider
+    public class CredentialDataProvider:ICredentialDataProvider<Credential>
     {
         private readonly PrjContext _context;
 
