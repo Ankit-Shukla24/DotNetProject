@@ -7,6 +7,6 @@ namespace backend.Data
     {
         public Credential GetAdminDetail(CredentialViewModel login);
 
-        public  Task<ActionResult<string>> ChangePassword(string userName, string oldpassword, string newpassword);
+        public string ChangePassword(string userName, string oldpassword, string newpassword);
     }
 }

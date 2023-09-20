@@ -19,7 +19,7 @@ namespace backend.Service
             return user;
         }
 
-        public Task<ActionResult<string>> ChangePassword(string userName, string oldpassword,string newpassword)
+        public string ChangePassword(string userName, string oldpassword,string newpassword)
         {
             return _AdminDataProvider.ChangePassword(userName, oldpassword, newpassword);
         }
