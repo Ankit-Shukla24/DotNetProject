@@ -6,6 +6,6 @@ namespace backend.Service
     public interface IAuthService
     {
         public Credential GetAdminDetail(CredentialViewModel login);
-        public Task<ActionResult<string>> ChangePassword(string userName, string password);
+        public Task<ActionResult<string>> ChangePassword(string userName, string oldpassword, string newpassword);
     }
 }

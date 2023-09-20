@@ -96,9 +96,9 @@ namespace backend.Controllers
         [HttpPost]
         [Route("ChangePassword")]
 
-            private Task<ActionResult<string>> passwordchange(string UserName, string Password)
+            public Task<ActionResult<string>> passwordchange(string UserName, string OldPassword, string NewPassword)
             {   
-                return _AuthService.ChangePassword(UserName, Password);   
+                return _AuthService.ChangePassword(UserName, OldPassword,NewPassword);   
             }
     }
 }

@@ -18,16 +18,16 @@ namespace backend.Data
         {
             return _context.Credentials.SingleOrDefault(x => x.UserId == login.UserName && x.Password == login.Password);
         }
-        public async Task<ActionResult<string>> ChangePassword(string userName, string password)
+        public async Task<ActionResult<string>> ChangePassword(string userName, string oldpassword,string newpassword)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
                 var credential = await _context.Credentials.FindAsync(userName);
                 if (credential==null) return BadRequest("Invalid UserName");
-                if (credential.Password!=password) return BadRequest("Old Password doesn't match with existing Password");
+                if (credential.Password!=oldpassword) return BadRequest("Old Password doesn't match with existing Password");
 
-                credential.Password = password;
+                credential.Password = newpassword;
                 _context.Credentials.Update(credential);
 
                 await _context.SaveChangesAsync();
