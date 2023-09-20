@@ -34,7 +34,7 @@ const Withdrawal = () => {
 
     }).catch((err) => {
       console.log(err);
-      alert(err.message);
+      alert(err.reponse.data);
     })
 
   };

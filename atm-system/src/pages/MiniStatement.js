@@ -24,6 +24,7 @@ const MiniStatement = () =>{
 catch(err)
 {
     console.log(err);
+    alert(err.response.data)
 }
 finally{
     setLoading(true);

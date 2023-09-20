@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using backend.Data;
 using backend.Service;
+using backend.Service;
 
 namespace backend.Controllers
 {
@@ -89,6 +90,14 @@ namespace backend.Controllers
             {
                 Credential admin = _authService.GetAdminDetail(login);
                 return admin;
+            }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ChangePassword")]
+
+            public Task<ActionResult<string>> passwordchange(string UserName, string OldPassword, string NewPassword)
+            {   
+                return _AuthService.ChangePassword(UserName, OldPassword,NewPassword);   
             }
     }
 }
