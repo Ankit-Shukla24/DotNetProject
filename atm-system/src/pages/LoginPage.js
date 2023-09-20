@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+
 const LoginPage = () => {
 
     const [user,setUser] = useContext(AuthContext);
@@ -37,7 +38,7 @@ const LoginPage = () => {
             })
         }
         catch (error) {
-            alert(error.message);
+            alert(error.response.data);
         }
     }
 
@@ -54,6 +55,7 @@ const LoginPage = () => {
                     <button type="submit">Login </button>
                 </div>
             </form>
+            
         </div>
     )
 }

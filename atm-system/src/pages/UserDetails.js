@@ -44,7 +44,7 @@ const UserDetails = () => {
 
       })
       .catch((err) => {console.log(err);
-      alert(err.message)
+      alert(err.response.data)
   });
   };
 

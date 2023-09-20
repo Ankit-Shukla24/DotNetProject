@@ -57,8 +57,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<CredentialDataProvider>();
+
+builder.Services.AddScoped<IAuthService<Credential>, AuthService>();
+builder.Services.AddScoped<ICredentialDataProvider<Credential>, CredentialDataProvider>();
+builder.Services.AddScoped<ICurrencyExchangeDataProvider,CurrencyExchangeDataProvider>();
+builder.Services.AddScoped<ICurrencyExchangeService,CurrecyExchangeService>();
 var app = builder.Build();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 

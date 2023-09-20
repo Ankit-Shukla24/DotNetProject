@@ -14,6 +14,7 @@ import MiniStatemtent from './pages/MiniStatement';
 
 import ChequeDeposit from './pages/ChequeDeposit';
 import PinChange from './pages/PinChange';
+import ChangePassword from './pages/ChangePassword';
 
 
 const router = createBrowserRouter([
@@ -48,9 +49,14 @@ const router = createBrowserRouter([
   {
     path: "/pinchange",
     element: <ProtectedRoute><PinChange /></ProtectedRoute>
-  }, {
+  }, 
+  {
     path: "/statement",
     element: <ProtectedRoute><MiniStatemtent /></ProtectedRoute>
+  },
+  {
+    path: "/changepassword",
+    element: <ProtectedRoute><ChangePassword/></ProtectedRoute>
   }
 
 ])

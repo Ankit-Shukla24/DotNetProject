@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Data
 {
-    public interface ICredentialDataProvider
+    public interface ICredentialDataProvider<Credential>
     {
         public Credential GetAdminDetail(CredentialViewModel login);
 

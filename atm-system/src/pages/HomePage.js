@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import logout from '../components/LogOut';
 import axios from 'axios';
-
+import ChangePassword from "./ChangePassword";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const HomePage = () => {
             alert(`Your account balance is ${balance}`);
         }).catch((err) => {
             console.log(err);
-            alert(err.message)
+            alert(err.response.data)
         })
     }
     //Need to change it 
@@ -37,7 +37,10 @@ const HomePage = () => {
                 <h1>Home Page</h1>
                 <button onClick={() => navigate("/user")}>Add User</button>
                 <br />
-                <button onClick={() => navigate("/account")}>Add Account</button>
+                <button onClick={() => navigate("/account")}>Add Account</button>               
+                <br/>
+                <button onClick={()=>navigate("/changepassword")}>Change Password</button>
+                <br />
                 <button onClick={logout}>LogOut</button>
             </div>
         )
@@ -59,6 +62,9 @@ const HomePage = () => {
                 <button onClick={()=>navigate("/statement")}>Mini Statement</button>
                 <br />
                 <button onClick={() => navigate("/pinchange")}>Pin Change</button>
+                <br/>
+                <button onClick={()=>navigate("/changepassword")}>Change Password</button>
+                <br />
                 <button onClick={logout}>LogOut</button>
             </div>
         )

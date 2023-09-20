@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using backend.Data;
 using backend.Service;
+using backend.Service;
 
 namespace backend.Controllers
 {
@@ -22,15 +23,13 @@ namespace backend.Controllers
     public class CredentialsController : ControllerBase
     {
             private readonly IConfiguration _config;
-        private readonly IAuthService _AuthService;
-        private readonly CredentialDataProvider _AdminDataProvider;
+            private readonly IAuthService<Credential> _authService;
 
 
-            public CredentialsController(IConfiguration config, CredentialDataProvider AdminDataProvider, IAuthService authservice)
+            public CredentialsController(IConfiguration config, IAuthService<Credential> AuthService)
             {
                 _config = config;
-                _AdminDataProvider = AdminDataProvider;
-                _AuthService = authservice;
+                _authService = AuthService;
             }
             [AllowAnonymous]
             [HttpPost]
@@ -89,7 +88,7 @@ namespace backend.Controllers
 
             private Credential Authenticateadmin(CredentialViewModel login)
             {
-                Credential admin = _AdminDataProvider.GetAdminDetail(login);
+                Credential admin = _authService.GetAdminDetail(login);
                 return admin;
             }
         [AllowAnonymous]

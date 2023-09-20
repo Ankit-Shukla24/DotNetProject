@@ -8,7 +8,6 @@ const PinChange = () => {
   const [pin, setpin] = useState({
     OldPin: 0,
     Pin: 0,
-    accountNumber: 0,
   });
   let token = eval(user);
   token = token.token;
@@ -33,7 +32,7 @@ const PinChange = () => {
 
     }).catch((err) => {
       console.log(err);
-      alert(err.message)
+      alert(err.response.data);
     })
 
 

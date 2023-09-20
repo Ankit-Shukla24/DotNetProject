@@ -11,6 +11,7 @@ using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using backend.Service;
 
 namespace backend.Controllers
 {
@@ -20,15 +21,17 @@ namespace backend.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly PrjContext _context;
+        private readonly ICurrencyExchangeService _currencyExchangeService;
 
-        public AccountsController(PrjContext context)
+        public AccountsController(PrjContext context,ICurrencyExchangeService CurrenncyExchangeService)
         {
             _context = context;
+            _currencyExchangeService = CurrenncyExchangeService;
         }
 
         // GET: api/Accounts
         [HttpGet]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
             if (_context.Accounts == null)
@@ -68,7 +71,7 @@ namespace backend.Controllers
 
             return Ok(account.Balance);
         }
-       
+
         [HttpGet]
         [Route("getBalancebyId")]
         public async Task<ActionResult<Account>> GetBalance(int id)
@@ -162,11 +165,17 @@ namespace backend.Controllers
 
         [HttpPost("withdraw")]
 
-        public async Task<IActionResult> WithdrawFromAccount(int amount)
+        public async Task<IActionResult> WithdrawFromAccount(string currency, decimal amount)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
+
+                if(currency!="RUPEE")
+                {
+                    amount = _currencyExchangeService.ExchangeRates(currency, amount);
+                }
+
                 string authHeader = Request.Headers["Authorization"];
                 var token = authHeader.Split(' ', 2)[1];
                 var handler = new JwtSecurityTokenHandler();
@@ -211,14 +220,14 @@ namespace backend.Controllers
                 var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
                 var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (account==null) return BadRequest("No existing account found");
-                if(account.Pin!=oldPin) return BadRequest("Old PIN doesn't match with existing PIN");
+                if (account.Pin!=oldPin) return BadRequest("Old PIN doesn't match with existing PIN");
 
                 account.Pin = newPin;
-                    _context.Accounts.Update(account);
-                    
-                    await _context.SaveChangesAsync();
-                    transaction.Commit();
-                    return Ok("PIN changed successfully");
+                _context.Accounts.Update(account);
+
+                await _context.SaveChangesAsync();
+                transaction.Commit();
+                return Ok("PIN changed successfully");
             }
             catch (Exception ex)
             {
@@ -227,11 +236,16 @@ namespace backend.Controllers
             }
         }
         [HttpPost("deposit")]
-        public async Task<IActionResult> DepositIntoAccount( int amount)
+        public async Task<IActionResult> DepositIntoAccount(string currency, decimal amount)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
+                if (currency!="RUPEE")
+                {
+                    amount = _currencyExchangeService.ExchangeRates(currency, amount);
+                }
+
                 string authHeader = Request.Headers["Authorization"];
                 var token = authHeader.Split(' ', 2)[1];
                 var handler = new JwtSecurityTokenHandler();
@@ -256,10 +270,10 @@ namespace backend.Controllers
         }
 
         [HttpPost("transfer")]
-        public async Task<IActionResult> FundTransfer( int creditorId, int amount)
+        public async Task<IActionResult> FundTransfer(string currency,int creditorId, decimal amount)
         {
             string authHeader = Request.Headers["Authorization"];
-            var token= authHeader.Split(' ',2)[1];
+            var token = authHeader.Split(' ', 2)[1];
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
@@ -268,6 +282,12 @@ namespace backend.Controllers
             var transaction = _context.Database.BeginTransaction();
             try
             {
+
+                if (currency!="RUPEE")
+                {
+                    amount = _currencyExchangeService.ExchangeRates(currency, amount);
+                }
+
                 var creditor = await _context.Accounts.FindAsync(creditorId);
                 var debitor = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (debitor==null) return BadRequest("No existing account found");
@@ -293,5 +313,6 @@ namespace backend.Controllers
                 return BadRequest(ex.ToString());
             }
         }
+
     }
 }
