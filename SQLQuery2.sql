@@ -20,7 +20,7 @@ CustomerId INT REFERENCES CUSTOMER(CustomerId),
 AccountType VARCHAR(20),
 Balance DECIMAL (20,2),
 CardNo VARCHAR(12),
-PIN INT,
+PIN VARCHAR(200),
 City VARCHAR(20)
 )
 
@@ -55,7 +55,7 @@ select * FROM TRANSACTIONHISTORY
 
 CREATE TABLE CREDENTIALS ( 
 UserID VARCHAR(10) Primary key,
-Password VARCHAR(10),
+Password VARCHAR(200),
 CustomerId INT REFERENCES CUSTOMER(CustomerId),
 )
 
