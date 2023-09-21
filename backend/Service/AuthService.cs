@@ -9,27 +9,27 @@ namespace backend.Service
 {
     public class AuthService : IAuthService<Credential>
     {
-        private readonly ICredentialDataProvider<Credential> _AdminDataProvider;
-        public AuthService(ICredentialDataProvider<Credential> AdminDataProvider)
+        private readonly ICredentialDataProvider<Credential> _CredentialDataProvider;
+        public AuthService(ICredentialDataProvider<Credential> CredentialDataProvider)
         {
-            _AdminDataProvider = AdminDataProvider;
+            _CredentialDataProvider = CredentialDataProvider;
         }
         public Credential GetAdminDetail(CredentialViewModel login)
         {
             Credential user = null;
-            user = _AdminDataProvider.GetAdminDetail(login);
+            user = _CredentialDataProvider.GetAdminDetail(login);
             return user;
         }
 
         public string ChangePassword(string username,string oldpassword,string newpassword)
         {
 
-            var credential = _AdminDataProvider.GetCredential(username);
+            var credential = _CredentialDataProvider.GetCredential(username);
 
             if (credential==null) return "Invalid UserName";
             if (!SecretHasher.Verify(oldpassword,credential.Password)) return "Old Password doesn't match with existing Password";
 
-            return _AdminDataProvider.ChangePassword(username, oldpassword, newpassword).ToString();
+            return _CredentialDataProvider.ChangePassword(username, oldpassword, newpassword).ToString();
         }
     }
 }

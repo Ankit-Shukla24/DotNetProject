@@ -37,7 +37,7 @@ namespace backend.Data
             return  _context.Credentials.SingleOrDefault(x => x.UserId == username);
         }
 
-        public  String ChangePassword(string userName, string oldpassword,string newpassword)
+        public String ChangePassword(string userName, string oldpassword,string newpassword)
         {
             var transaction = _context.Database.BeginTransaction();
             try
@@ -48,7 +48,7 @@ namespace backend.Data
                 credential.Password = SecretHasher.Hash(newpassword);
                 _context.Credentials.Update(credential);
 
-                 _context.SaveChangesAsync();
+                 _context.SaveChanges();
                 transaction.Commit();
                 return "PIN changed successfully";
             }
