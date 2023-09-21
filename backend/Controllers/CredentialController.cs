@@ -102,7 +102,7 @@ namespace backend.Controllers
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            var UserName = tokenS.Claims.First(claim => claim.Type == "UserId").Value;
+            string UserName = tokenS.Claims.First(claim => claim.Type == "Username").Value;
             return _authService.ChangePassword(UserName,OldPassword,NewPassword);   
             }
     }

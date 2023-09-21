@@ -27,7 +27,7 @@ namespace backend.Service
             var credential = _AdminDataProvider.GetCredential(username);
 
             if (credential==null) return "Invalid UserName";
-            if (SecretHasher.Verify(credential.Password,oldpassword)) return "Old Password doesn't match with existing Password";
+            if (!SecretHasher.Verify(oldpassword,credential.Password)) return "Old Password doesn't match with existing Password";
 
             return _AdminDataProvider.ChangePassword(username, oldpassword, newpassword).ToString();
         }
