@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using backend.Data;
 using backend.Service;
-using backend.Service;
+
 
 namespace backend.Controllers
 {
@@ -95,9 +95,15 @@ namespace backend.Controllers
         [HttpPost]
         [Route("ChangePassword")]
 
-            public Task<ActionResult<string>> passwordchange(string UserName, string OldPassword, string NewPassword)
-            {   
-                return _authService.ChangePassword(UserName, OldPassword,NewPassword);   
+            public string passwordchange( string OldPassword, string NewPassword)
+            {
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var UserName = tokenS.Claims.First(claim => claim.Type == "UserId").Value;
+            return _authService.ChangePassword(UserName,OldPassword,NewPassword);   
             }
     }
 }

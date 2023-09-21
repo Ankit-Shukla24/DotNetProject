@@ -1,12 +1,14 @@
 ﻿using Azure.Core;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Model.Strings;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace backend.Data
 {
-    public class CredentialDataProvider: ControllerBase,ICredentialDataProvider<Credential>
+    public class CredentialDataProvider: ICredentialDataProvider<Credential>
     {
         private readonly PrjContext _context;
 
@@ -28,26 +30,32 @@ namespace backend.Data
             }
            
         }
-        public async Task<ActionResult<string>> ChangePassword(string userName, string oldpassword,string newpassword)
+
+        public  Credential GetCredential(string username)
+        {
+           
+            return  _context.Credentials.SingleOrDefault(x => x.UserId == username);
+        }
+
+        public  String ChangePassword(string userName, string oldpassword,string newpassword)
         {
             var transaction = _context.Database.BeginTransaction();
             try
             {
-                var credential = await _context.Credentials.FindAsync(userName);
-                if (credential==null) return BadRequest("Invalid UserName");
-                if (credential.Password!=oldpassword) return BadRequest("Old Password doesn't match with existing Password");
+                var credential =  _context.Credentials.SingleOrDefault(x => x.UserId == userName);
+               
 
                 credential.Password = newpassword;
                 _context.Credentials.Update(credential);
 
-                await _context.SaveChangesAsync();
+                 _context.SaveChangesAsync();
                 transaction.Commit();
-                return Ok("PIN changed successfully");
+                return "PIN changed successfully";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return BadRequest(ex.ToString());
+                return ex.ToString();
             }
         }
 

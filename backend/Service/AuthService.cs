@@ -2,6 +2,8 @@
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Azure.Core;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace backend.Service
 {
@@ -19,9 +21,15 @@ namespace backend.Service
             return user;
         }
 
-        public Task<ActionResult<string>> ChangePassword(string userName, string oldpassword,string newpassword)
+        public string ChangePassword(string username,string oldpassword,string newpassword)
         {
-            return _AdminDataProvider.ChangePassword(userName, oldpassword, newpassword);
+
+            var credential = _AdminDataProvider.GetCredential(username);
+
+            if (credential==null) return "Invalid UserName";
+            if (credential.Password!=oldpassword) return "Old Password doesn't match with existing Password";
+
+            return _AdminDataProvider.ChangePassword(username, oldpassword, newpassword).ToString();
         }
     }
 }
