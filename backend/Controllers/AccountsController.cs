@@ -131,12 +131,23 @@ namespace backend.Controllers
             {
                 return Problem("Entity set 'PrjContext.Accounts'  is null.");
             }
+
+            var customer =await _context.Customers.Where(acc => acc.CustomerId == account.CustomerId)?.Include(x=> x.Accounts)?.FirstOrDefaultAsync();
+        
+            if (customer == null)
+            {
+                return Ok("Customer does not exists");
+            }
+            else if (customer.Accounts.Count() != 0)
+                return Ok("Customer already has a account");
+
+
             Console.WriteLine("Length "+SecretHasher.Hash(account.Pin).Length);
             account.Pin=SecretHasher.Hash(account.Pin);
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
+            return Ok("Account added successfully");
         }
 
         // DELETE: api/Accounts/5

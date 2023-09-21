@@ -36,7 +36,7 @@ const AccountDetails = () => {
       .post("https://localhost:7182/api/Accounts", account,{headers})
       .then((response) => {
         console.log(response);
-        alert('Account added successfully');
+        alert(response.data);
         navigate("/");
       })
       .catch((err) => {console.log(err);
@@ -61,7 +61,7 @@ const AccountDetails = () => {
         <div>
           Pin:
           <br />
-          <input type="number" name="Pin" onChange={handleChangeAccount} />
+          <input type="text" name="Pin" onChange={handleChangeAccount} />
         </div>
         <div>
           Account type:
@@ -84,7 +84,7 @@ const AccountDetails = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <button onClick={logout}>LogOut</button>
+      {/* <button onClick={logout}>LogOut</button> */}
     </>
   );
 };
