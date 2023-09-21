@@ -7,7 +7,7 @@ const ChangePassword = () => {
   const[user,setUser] = useContext(AuthContext);
   const [password, setpassword] = useState({
     Newpassword:"",
-    userName:"",
+    Oldpassword:"",
   });
   let token = eval(user);
     token=token.token;

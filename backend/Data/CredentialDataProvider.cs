@@ -45,7 +45,7 @@ namespace backend.Data
                 var credential =  _context.Credentials.SingleOrDefault(x => x.UserId == userName);
                
 
-                credential.Password = newpassword;
+                credential.Password = SecretHasher.Hash(newpassword);
                 _context.Credentials.Update(credential);
 
                  _context.SaveChangesAsync();
