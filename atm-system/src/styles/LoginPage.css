@@ -1,11 +1,60 @@
 .login-wrapper {
-    background-color: red;
+    background-color: rgb(255, 255, 255);
     position: absolute;
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
     margin: auto;
-    height: 50%;
-    width: 30%;
+    width: 50%;
+    display:flex;
 }
 
+.login-form-image {
+    background-color: cyan;
+    flex-grow: 1;
+    width: 50%;
+    padding-bottom: 20px;
+}
+.login-form-wrapper {
+    width:50%;
+    margin-left:auto;
+    padding-bottom: 20px;
+}
+
+.login-wrapper h1 {
+    text-align: center;
+    color: black;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid black ;
+}
+
+.login-form {
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+    margin-top: 40px;
+}
+
+.login-input label {
+    
+    border: red solid 1px;
+}
+
+.login-input input{
+    width: 90%;
+    height: 40px;
+    margin-top: 5px;
+    padding: 0 15px;
+    border-radius: 5px;
+    border: none;
+    
+}
+
+.login-button{
+    background-color: red;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 20px;
+    color:white;
+}

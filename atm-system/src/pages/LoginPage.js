@@ -3,6 +3,8 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css"
+import Button from "../components/Button/Button";
+import Card from "../components/Card/Card";
 const LoginPage = () => {
 
     const [user,setUser] = useContext(AuthContext);
@@ -42,22 +44,27 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="login-wrapper">
+        <Card className='login-wrapper'>
+            <div className="login-form-image">
+                abcd
+            </div>
+            <div className="login-form-wrapper">
+            <h1>Login</h1>
             <form className='login-form' onSubmit={handleSubmit}>
-                <h1>Login</h1>
                 <div className="login-input">
-                    <div className="name">Username:</div>
-                    <input type="text" onChange={handleUsername} />
+                    <label for="name">Username</label>
+                    <input id="name" className="name" type="text" onChange={handleUsername} />
                 </div>
                 <div className="login-input">
-                    <div for="password">Password:</div>
-                    <input type="password" onChange={handlepwd} />
+                    <label for="password">Password</label>
+                    <input id="password" type="password" onChange={handlepwd} />
                 </div>
                 <div>
-                    <button type="submit">Login </button>
+                    <Button className="login-button" type="submit">Login </Button>
                 </div>
             </form>
-        </div>
+            </div>
+        </Card>
     )
 }
 
