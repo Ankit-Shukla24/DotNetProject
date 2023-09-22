@@ -57,6 +57,7 @@ CREATE TABLE CREDENTIALS (
 UserID VARCHAR(10) Primary key,
 Password VARCHAR(200),
 CustomerId INT REFERENCES CUSTOMER(CustomerId),
+IsEnabled BIT
 )
 
-insert into CREDENTIALS values('admin','admin',NULL);
+insert into CREDENTIALS values('admin','admin',NULL,1);
