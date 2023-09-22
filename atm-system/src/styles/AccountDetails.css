@@ -1,0 +1,13 @@
+.account-form-wrapper { 
+    padding: 20px;
+}
+.account-form-wrapper h1 {
+    margin-bottom: 20px;
+}
+.account-form { 
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    align-items: center;
+}

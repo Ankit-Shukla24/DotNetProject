@@ -4,7 +4,9 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logout from "../components/LogOut";
-
+import Button from "../components/Button/Button";
+import Card from "../components/Card/Card";
+import "../styles/AccountDetails.css"
 
 const AccountDetails = () => {
   const navigate = useNavigate();
@@ -45,9 +47,9 @@ const AccountDetails = () => {
   };
 
   return (
-    <>
+    <Card className='account-form-wrapper'>
       <h1>Enter User Details</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="account-form" onSubmit={handleSubmit}>
       <div>
           Customerid:
           <br />
@@ -82,10 +84,9 @@ const AccountDetails = () => {
           <br />
           <input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-      <button onClick={logout}>LogOut</button>
-    </>
+    </Card>
   );
 };
 
