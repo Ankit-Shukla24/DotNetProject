@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using backend.Data;
 using backend.Service;
-using backend.Service;
+
 
 namespace backend.Controllers
 {
@@ -37,7 +37,7 @@ namespace backend.Controllers
             {
                 IActionResult response = Unauthorized();
                 var admin = Authenticateadmin(login);
-
+            if((bool)!admin.IsEnabled) return BadRequest("User is currently disabled. Please contact admin");
             if (admin != null)
             {
                 var tokenString = GenerateJSONWebToken(admin);
@@ -91,13 +91,34 @@ namespace backend.Controllers
                 Credential admin = _authService.GetAdminDetail(login);
                 return admin;
             }
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("ChangePassword")]
 
-            public Task<ActionResult<string>> passwordchange(string UserName, string OldPassword, string NewPassword)
-            {   
-                return _authService.ChangePassword(UserName, OldPassword,NewPassword);   
+            public string passwordchange( string OldPassword, string NewPassword)
+            {
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            string UserName = tokenS.Claims.First(claim => claim.Type == "Username").Value;
+            return _authService.ChangePassword(UserName,OldPassword,NewPassword);   
             }
+
+
+        [Authorize]
+        [HttpPost]
+        [Route("activity")]
+
+        public async void SetActiveStatus(Boolean status)
+        {
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+        }
     }
 }

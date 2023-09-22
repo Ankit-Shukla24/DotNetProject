@@ -62,7 +62,7 @@ const ChequeDeposit = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <button onClick={logout}>LogOut</button>
+      {/* <button onClick={logout}>LogOut</button> */}
     </>
   );
 };

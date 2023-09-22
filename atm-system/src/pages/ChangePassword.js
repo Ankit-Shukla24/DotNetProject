@@ -2,13 +2,19 @@ import { useState,useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const ChangePassword = () => {
+
+  const navigator = useNavigate();
+
   const[user,setUser] = useContext(AuthContext);
   const [password, setpassword] = useState({
-    Oldpassword:"",
     Newpassword:"",
-    userName:"",
+    Oldpassword:"",
   });
   let token = eval(user);
     token=token.token;
@@ -24,12 +30,13 @@ const ChangePassword = () => {
     console.log(password);
 
     
-            axios.post(`https://localhost:7182/api/Credentials/ChangePassword?UserName=${password.userName}&OldPassword=${password.Oldpassword}&NewPassword=${password.Newpassword}`,{headers}).then((response)=>{
+            axios.post(`https://localhost:7182/api/Credentials/ChangePassword?OldPassword=${password.Oldpassword}&NewPassword=${password.Newpassword}`,{},{headers: headers}).then((response)=>{
         
             console.log(response);
               if(response.status==200)
                 {
                     alert(response.data);
+                    navigator('/');
                 }
         
           }).catch((err)=>{console.log(err);
@@ -41,11 +48,6 @@ const ChangePassword = () => {
     <>
       <h1>Enter password Details</h1>
       <form onSubmit={handleSubmit}>
-      <div>
-        Username:
-          <br />
-          <input type="text" name="userName" onChange={handleChangepassword} />
-        </div>
         <div>
           Oldpassword :
           <br />
@@ -58,7 +60,7 @@ const ChangePassword = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <button onClick={logout}>LogOut</button>
+      {/* <button onClick={logout}>LogOut</button> */}
     </>
   );
 };

@@ -11,5 +11,7 @@ public partial class Credential
 
     public int? CustomerId { get; set; }
 
+    public bool? IsEnabled { get; set; }
+
     public virtual Customer? Customer { get; set; }
 }
