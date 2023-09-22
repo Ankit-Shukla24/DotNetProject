@@ -15,7 +15,8 @@ import MiniStatemtent from './pages/MiniStatement';
 import ChequeDeposit from './pages/ChequeDeposit';
 import PinChange from './pages/PinChange';
 import ChangePassword from './pages/ChangePassword';
-
+import DisableUser from './pages/DisableUser';
+import EnableUser from './pages/EnableUser';
 
 const router = createBrowserRouter([
   {
@@ -57,8 +58,15 @@ const router = createBrowserRouter([
   {
     path: "/changepassword",
     element: <ProtectedRoute><ChangePassword/></ProtectedRoute>
-  }
-
+  },
+  {
+    path: "/disableuser",
+    element: <ProtectedRoute><DisableUser/></ProtectedRoute>
+  },
+  {
+    path: "/enableuser",
+    element: <ProtectedRoute><EnableUser/></ProtectedRoute>
+  },
 ])
 function App() {
   return (
