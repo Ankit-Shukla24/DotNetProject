@@ -91,7 +91,7 @@ namespace backend.Controllers
                 Credential admin = _authService.GetAdminDetail(login);
                 return admin;
             }
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("ChangePassword")]
 
@@ -105,5 +105,20 @@ namespace backend.Controllers
             string UserName = tokenS.Claims.First(claim => claim.Type == "Username").Value;
             return _authService.ChangePassword(UserName,OldPassword,NewPassword);   
             }
+
+
+        [Authorize]
+        [HttpPost]
+        [Route("activity")]
+
+        public async void SetActiveStatus(Boolean status)
+        {
+            string authHeader = Request.Headers["Authorization"];
+            var token = authHeader.Split(' ', 2)[1];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+        }
     }
 }
