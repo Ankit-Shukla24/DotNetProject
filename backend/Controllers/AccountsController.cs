@@ -179,7 +179,7 @@ namespace backend.Controllers
 
         [HttpPost("withdraw")]
 
-        public async Task<IActionResult> WithdrawFromAccount(string currency, decimal amount)
+        public async Task<IActionResult> WithdrawFromAccount(string currency, decimal amount,string pin)
         {
             var transaction = _context.Database.BeginTransaction();
             try
@@ -198,6 +198,7 @@ namespace backend.Controllers
                 var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
                 var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (account==null) return BadRequest("No existing account found");
+                if (!SecretHasher.Verify(pin, account.Pin)) return BadRequest("Entered PIN is incorrect");
                 if (account.Balance >= amount)
                 {
                     account.Balance -= amount;
@@ -234,7 +235,7 @@ namespace backend.Controllers
                 var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
                 var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (account==null) return BadRequest("No existing account found");
-                if (SecretHasher.Verify(oldPin,account.Pin)) return BadRequest("Old PIN doesn't match with existing PIN");
+                if (!SecretHasher.Verify(oldPin,account.Pin)) return BadRequest("Old PIN doesn't match with existing PIN");
                 account.Pin = SecretHasher.Hash(newPin);
                 _context.Accounts.Update(account);
 
@@ -249,7 +250,7 @@ namespace backend.Controllers
             }
         }
         [HttpPost("deposit")]
-        public async Task<IActionResult> DepositIntoAccount(string currency, decimal amount)
+        public async Task<IActionResult> DepositIntoAccount(string currency, decimal amount,string pin)
         {
             var transaction = _context.Database.BeginTransaction();
             try
@@ -267,6 +268,7 @@ namespace backend.Controllers
                 var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
                 var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
                 if (account==null) return BadRequest("No existing account found");
+                if (!SecretHasher.Verify(pin, account.Pin)) return BadRequest("Entered PIN is incorrect");
                 account.Balance += amount;
                 _context.Accounts.Update(account);
                 _context.Transactionhistories.Add(new Transactionhistory(null, account.AccountId, amount, DateTime.Now));
@@ -283,7 +285,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("transfer")]
-        public async Task<IActionResult> FundTransfer(string currency,int creditorId, decimal amount)
+        public async Task<IActionResult> FundTransfer(string currency,int creditorId, decimal amount,string pin)
         {
             string authHeader = Request.Headers["Authorization"];
             var token = authHeader.Split(' ', 2)[1];
@@ -309,7 +311,7 @@ namespace backend.Controllers
                 if (debitor.Balance < amount)
 
                     return BadRequest("Cannot withdraw amount greater than balance");
-
+                if (!SecretHasher.Verify(pin, debitor.Pin)) return BadRequest("Entered PIN is incorrect");
                 creditor.Balance += amount;
                 debitor.Balance -= amount;
                 _context.Accounts.Update(creditor);

@@ -23,7 +23,7 @@ const ChequeDeposit = () => {
 
     console.log(deposit);
 
-    axios.post(`https://localhost:7182/api/Accounts/deposit?currency=${deposit.currency}&amount=${deposit.amount}`, {}, { headers: headers }).then((response) => {
+    axios.post(`https://localhost:7182/api/Accounts/deposit?currency=${deposit.currency}&amount=${deposit.amount}&pin=${deposit.Pin}`, {}, { headers: headers }).then((response) => {
 
       console.log(response);
       if (response.status == 200) {

@@ -6,7 +6,7 @@ import logout from "../components/LogOut";
 const Withdrawal = () => {
   const [user, setUser] = useContext(AuthContext);
   const [withdrawal, setWithdrawal] = useState({
-
+    Pin: "",
     amount: 0,
     currency:"RUPEE"
 
@@ -25,7 +25,7 @@ const Withdrawal = () => {
 
     console.log(withdrawal);
 
-    axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}`, {}, { headers: headers }).then((response) => {
+    axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}&pin=${withdrawal.Pin}`, {}, { headers: headers }).then((response) => {
 
       console.log(response);
       if (response.status == 200) {
@@ -34,7 +34,7 @@ const Withdrawal = () => {
 
     }).catch((err) => {
       console.log(err);
-      alert(err.reponse.data);
+      alert(err.response.data);
     })
 
   };
@@ -57,6 +57,11 @@ const Withdrawal = () => {
             <option>RUBLE</option>
             </select>
             </div>
+            <div>
+          Pin:
+          <br />
+          <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
+        </div>
         <button type="submit">Submit</button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}
