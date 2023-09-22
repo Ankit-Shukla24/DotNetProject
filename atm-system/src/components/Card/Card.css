@@ -1,0 +1,11 @@
+.card {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    margin: auto;
+    height: fit-content;
+    box-shadow: 0px 5px 4px rgba(0,0,0,0.2);
+    width: 20%;
+}
