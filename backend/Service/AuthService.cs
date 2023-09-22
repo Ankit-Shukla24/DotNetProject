@@ -16,7 +16,6 @@ namespace backend.Service
         }
         public Credential GetAdminDetail(CredentialViewModel login)
         {
-            Console.WriteLine(SecretHasher.Hash("admin"));
             Credential user = null;
             user = _CredentialDataProvider.GetAdminDetail(login);
             return user;
