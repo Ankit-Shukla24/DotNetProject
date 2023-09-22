@@ -25,7 +25,7 @@ const Transfer = () => {
 
     console.log(transfer);
 
-    axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`, {}
+    axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}&pin=${transfer.Pin}`, {}
       , config).then((response) => {
 
         console.log(response);
@@ -49,15 +49,16 @@ const Transfer = () => {
           <input type="number" name="ToAccountId" onChange={handleChangeTransfer} />
         </div>
         <div>
-          Pin :
-          <br />
-          <input type="number" name="Pin" onChange={handleChangeTransfer} />
-        </div>
-        <div>
-          Amount Transfered:
+          Transfer Amount:
           <br />
           <input type="number" name="AmountTransfer" onChange={handleChangeTransfer} />
         </div>
+        <div>
+          Pin:
+          <br />
+          <input type="number" name="Pin" onChange={handleChangeTransfer} />
+        </div>
+        
         <div>
         <select type="text" name="currency" onChange={handleChangeTransfer} >
             <option>RUPEE</option>
