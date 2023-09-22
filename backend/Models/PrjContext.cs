@@ -31,7 +31,7 @@ public partial class PrjContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A662D70006");
+            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A6DB2EA0E8");
 
             entity.ToTable("ACCOUNT");
 
@@ -57,7 +57,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Credential>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCAC28907414");
+            entity.HasKey(e => e.UserId).HasName("PK__CREDENTI__1788CCAC4A0178C5");
 
             entity.ToTable("CREDENTIALS");
 
@@ -76,7 +76,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D854826F02");
+            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64D879A1BB34");
 
             entity.ToTable("CUSTOMER");
 
@@ -102,7 +102,7 @@ public partial class PrjContext : DbContext
 
         modelBuilder.Entity<Transactionhistory>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B812D6DDE");
+            entity.HasKey(e => e.TransactionId).HasName("PK__TRANSACT__55433A6B0E545804");
 
             entity.ToTable("TRANSACTIONHISTORY");
 

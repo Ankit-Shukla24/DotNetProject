@@ -37,7 +37,7 @@ namespace backend.Controllers
             {
                 IActionResult response = Unauthorized();
                 var admin = Authenticateadmin(login);
-
+            if((bool)!admin.IsEnabled) return BadRequest("User is currently disabled. Please contact admin");
             if (admin != null)
             {
                 var tokenString = GenerateJSONWebToken(admin);

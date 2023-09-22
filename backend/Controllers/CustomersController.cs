@@ -145,6 +145,7 @@ namespace backend.Controllers
                   cred.CustomerId = customer.CustomerId;
                   cred.UserId=customer.CustomerId.ToString();
                   cred.Password=SecretHasher.Hash("1234");
+                  cred.IsEnabled = true;
                   _context.Credentials.Add(cred);
                   await _context.SaveChangesAsync();
                   transaction.Commit();

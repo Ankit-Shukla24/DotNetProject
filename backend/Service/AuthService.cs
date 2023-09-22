@@ -16,6 +16,7 @@ namespace backend.Service
         }
         public Credential GetAdminDetail(CredentialViewModel login)
         {
+            Console.WriteLine(SecretHasher.Hash("admin"));
             Credential user = null;
             user = _CredentialDataProvider.GetAdminDetail(login);
             return user;
@@ -23,11 +24,11 @@ namespace backend.Service
 
         public string ChangePassword(string username,string oldpassword,string newpassword)
         {
-
+            
             var credential = _CredentialDataProvider.GetCredential(username);
 
             if (credential==null) return "Invalid UserName";
-            if (!SecretHasher.Verify(oldpassword,credential.Password)) return "Old Password doesn't match with existing Password";
+            if (!SecretHasher.Verify(oldpassword, credential.Password)) return "Old Password doesn't match with existing Password";
 
             return _CredentialDataProvider.ChangePassword(username, oldpassword, newpassword).ToString();
         }
