@@ -8,5 +8,7 @@ namespace backend.Data
         public Credential GetAdminDetail(CredentialViewModel login);
         public Credential GetCredential(string username);
         public  string ChangePassword(string userName, string oldpassword, string newpassword);
+
+        public string ChangeActivityStatus(String userName, Boolean status);
     }
 }
