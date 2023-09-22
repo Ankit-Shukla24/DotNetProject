@@ -50,7 +50,7 @@ namespace backend.Data
 
                  _context.SaveChanges();
                 transaction.Commit();
-                return "PIN changed successfully";
+                return "Password changed successfully";
             }
             catch (Exception ex)
             {

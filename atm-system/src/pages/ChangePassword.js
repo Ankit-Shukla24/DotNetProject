@@ -2,8 +2,15 @@ import { useState,useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const ChangePassword = () => {
+
+  const navigator = useNavigate();
+
   const[user,setUser] = useContext(AuthContext);
   const [password, setpassword] = useState({
     Newpassword:"",
@@ -29,6 +36,7 @@ const ChangePassword = () => {
               if(response.status==200)
                 {
                     alert(response.data);
+                    navigator('/');
                 }
         
           }).catch((err)=>{console.log(err);
