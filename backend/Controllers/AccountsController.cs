@@ -22,12 +22,12 @@ namespace backend.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly PrjContext _context;
-        private readonly ICurrencyExchangeService _currencyExchangeService;
+        private readonly IAccountService _accountService;
 
-        public AccountsController(PrjContext context,ICurrencyExchangeService CurrenncyExchangeService)
+        public AccountsController(PrjContext context,IAccountService AccountService)
         {
             _context = context;
-            _currencyExchangeService = CurrenncyExchangeService;
+            _accountService = AccountService;
         }
 
         // GET: api/Accounts
@@ -68,7 +68,7 @@ namespace backend.Controllers
             var jsonToken = handler.ReadToken(token);
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
             var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-            var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
+            var account = _accountService.GetAccountDetails();
 
             return Ok(account.Balance);
         }
@@ -187,7 +187,7 @@ namespace backend.Controllers
 
                 if(currency!="RUPEE")
                 {
-                    amount = _currencyExchangeService.ExchangeRates(currency, amount);
+                    amount = _accountService.ExchangeRates(currency, amount);
                 }
 
                 string authHeader = Request.Headers["Authorization"];
@@ -257,7 +257,7 @@ namespace backend.Controllers
             {
                 if (currency!="RUPEE")
                 {
-                    amount = _currencyExchangeService.ExchangeRates(currency, amount);
+                    amount = _accountService.ExchangeRates(currency, amount);
                 }
 
                 string authHeader = Request.Headers["Authorization"];
@@ -300,7 +300,7 @@ namespace backend.Controllers
 
                 if (currency!="RUPEE")
                 {
-                    amount = _currencyExchangeService.ExchangeRates(currency, amount);
+                    amount = _accountService.ExchangeRates(currency, amount);
                 }
 
                 var creditor = await _context.Accounts.FindAsync(creditorId);
