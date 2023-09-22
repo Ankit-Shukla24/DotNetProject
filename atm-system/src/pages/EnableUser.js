@@ -23,13 +23,14 @@ const EnableUser = () => {
 
     event.preventDefault();
     console.log(customer);
+    console.log(user.userType);
     let token = eval(user);
     token=token.token;
     const headers = {"Authorization":`Bearer `+token};
     console.log(headers);
-    console.log(user);
+    
     axios
-      .post("https://localhost:7182/api/Credentials/${customer.customerId}",{},{headers})
+      .post("https://localhost:7182/api/Credentials/activity?status=true",{},{headers})
       .then((response) => {
         console.log(response);
         alert('User Disabled successfully');

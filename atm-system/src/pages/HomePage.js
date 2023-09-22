@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 import logout from '../components/LogOut';
 import axios from 'axios';
 import ChangePassword from "./ChangePassword";
+import DisableUser from './DisableUser';
+import EnableUser from './EnableUser';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -40,6 +42,10 @@ const HomePage = () => {
                 <button onClick={() => navigate("/account")}>Add Account</button>               
                 <br/>
                 <button onClick={()=>navigate("/changepassword")}>Change Password</button>
+                <br/>
+                <button onClick={()=>navigate("/enableuser")}>Enable User</button>
+                <br/>
+                <button onClick={()=>navigate("/disableuser")}>Disable User</button>
                 <br />
                 <button onClick={logout}>LogOut</button>
             </div>

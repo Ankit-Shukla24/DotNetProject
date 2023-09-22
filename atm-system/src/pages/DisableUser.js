@@ -29,7 +29,7 @@ const DisableUser = () => {
     console.log(headers);
     console.log(user);
     axios
-      .post("https://localhost:7182/api/Credentials/${customer.customerId}",{},{headers})
+      .post("https://localhost:7182/api/Credentials/activity?status=false",{},{headers})
       .then((response) => {
         console.log(response);
         alert('User Disabled successfully');
