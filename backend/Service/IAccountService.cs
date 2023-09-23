@@ -7,14 +7,26 @@ namespace backend.Service
     {
         public decimal ExchangeRates(string currency,Decimal amount);
 
-        public Account GetAccountDetailsByCustmerId(string customerId);
+        public Account GetAccountDetailsByCustomerId(string customerId);
 
-        public Account GetAccountByAccountId(string accountId);
+        public Account GetAccountDetailsByAccountId(int accountId);
 
         public List<Account> GetAccounts();
 
         public string ChangeAccountDetails(int accountId,Account account);
 
+        public string CreateAccount(Account account);
 
+        public void DeleteAccount(int accountId);
+
+        public string WithdrawFromAccount(string currency, decimal amount, string pin, string authHeader);
+
+        public string DepositIntoAccount(string currency, decimal amount, string pin, string authHeader);
+
+        public string PinChange(string oldPin, string newPin, string authHeader);
+
+        public string FundTransfer(string currency, int creditorId, decimal amount, string pin, string authHeader);
+
+        public string GetCustomerFromHeader(string header);
     }
 }

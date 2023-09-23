@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
+import { useNavigate } from "react-router-dom";
 
 const PinChange = () => {
   const [user, setUser] = useContext(AuthContext);
@@ -9,6 +10,9 @@ const PinChange = () => {
     OldPin: 0,
     Pin: 0,
   });
+
+  const navigate = useNavigate();
+
   let token = eval(user);
   token = token.token;
   const headers = { "Authorization": `Bearer ` + token };
@@ -28,6 +32,7 @@ const PinChange = () => {
       console.log(response);
       if (response.status == 200) {
         alert(response.data);
+        navigate('/');
       }
 
     }).catch((err) => {

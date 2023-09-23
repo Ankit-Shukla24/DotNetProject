@@ -35,298 +35,67 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
-            return await _context.Accounts.ToListAsync();
+            return _accountService.GetAccounts();
         }
 
         // GET: api/Accounts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.FindAsync(id);
-
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            return account;
+           return _accountService.GetAccountDetailsByAccountId(id);
         }
         [HttpGet("balance")]
         public async Task<ActionResult<IEnumerable<Account>>> GetUserBalance()
         {
             string authHeader = Request.Headers["Authorization"];
-            var token = authHeader.Split(' ', 2)[1];
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(token);
-            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-            var account = _accountService.GetAccountDetails();
+            var customerId = _accountService.GetCustomerFromHeader(authHeader);
+            var account = _accountService.GetAccountDetailsByCustomerId(customerId);
 
             return Ok(account.Balance);
         }
 
-        [HttpGet]
-        [Route("getBalancebyId")]
-        public async Task<ActionResult<Account>> GetBalance(int id)
-        {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.FindAsync(id);
-
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(account.Balance);
-        }
-
-        // PUT: api/Accounts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
-        {
-            if (id != account.AccountId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(account).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AccountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Accounts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
-            if (_context.Accounts == null)
-            {
-                return Problem("Entity set 'PrjContext.Accounts'  is null.");
-            }
-
-            var customer =await _context.Customers.Where(acc => acc.CustomerId == account.CustomerId)?.Include(x=> x.Accounts)?.FirstOrDefaultAsync();
-        
-            if (customer == null)
-            {
-                return Ok("Customer does not exists");
-            }
-            else if (customer.Accounts.Count() != 0)
-                return Ok("Customer already has a account");
-
-
-            Console.WriteLine("Length "+SecretHasher.Hash(account.Pin).Length);
-            account.Pin=SecretHasher.Hash(account.Pin);
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
-
-            return Ok("Account added successfully");
+            return Ok(_accountService.CreateAccount(account));
         }
 
-        // DELETE: api/Accounts/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(int id)
-        {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.FindAsync(id);
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool AccountExists(int id)
-        {
-            return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
-        }
-
+   
 
 
         [HttpPost("withdraw")]
 
-        public async Task<IActionResult> WithdrawFromAccount(string currency, decimal amount,string pin)
+        public async Task<IActionResult> WithdrawFromAccount(string currency, int amount,string pin)
         {
-            var transaction = _context.Database.BeginTransaction();
-            try
-            {
-
-                if(currency!="RUPEE")
-                {
-                    amount = _accountService.ExchangeRates(currency, amount);
-                }
-
-                string authHeader = Request.Headers["Authorization"];
-                var token = authHeader.Split(' ', 2)[1];
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(token);
-                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
-                if (account==null) return BadRequest("No existing account found");
-                if (!SecretHasher.Verify(pin, account.Pin)) return BadRequest("Entered PIN is incorrect");
-                if (account.Balance >= amount)
-                {
-                    account.Balance -= amount;
-                    _context.Accounts.Update(account);
-                    _context.Transactionhistories.Add(new Transactionhistory(account.AccountId, null, amount, DateTime.Now));
-                    await _context.SaveChangesAsync();
-                    transaction.Commit();
-                    return Ok(account.Balance);
-                }
-                else
-                {
-                    return BadRequest("Cannot withdraw amount greater than balance");
-                }
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                return BadRequest(ex.ToString());
-            }
+            string authHeader = Request.Headers["Authorization"];
+            return Ok(_accountService.WithdrawFromAccount(currency, amount, pin, authHeader));
         }
 
         [HttpPost("changePin")]
 
         public async Task<IActionResult> PinChange(string oldPin, string newPin)
         {
-            var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                string authHeader = Request.Headers["Authorization"];
-                var token = authHeader.Split(' ', 2)[1];
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(token);
-                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
-                if (account==null) return BadRequest("No existing account found");
-                if (!SecretHasher.Verify(oldPin,account.Pin)) return BadRequest("Old PIN doesn't match with existing PIN");
-                account.Pin = SecretHasher.Hash(newPin);
-                _context.Accounts.Update(account);
 
-                await _context.SaveChangesAsync();
-                transaction.Commit();
-                return Ok("PIN changed successfully");
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                return BadRequest(ex.ToString());
-            }
+            string authHeader = Request.Headers["Authorization"];
+            return Ok(_accountService.PinChange(oldPin,newPin,authHeader));
         }
         [HttpPost("deposit")]
         public async Task<IActionResult> DepositIntoAccount(string currency, decimal amount,string pin)
-        {
-            var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                if (currency!="RUPEE")
-                {
-                    amount = _accountService.ExchangeRates(currency, amount);
-                }
+        { 
+                
 
                 string authHeader = Request.Headers["Authorization"];
-                var token = authHeader.Split(' ', 2)[1];
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(token);
-                var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-                var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-                var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
-                if (account==null) return BadRequest("No existing account found");
-                if (!SecretHasher.Verify(pin, account.Pin)) return BadRequest("Entered PIN is incorrect");
-                account.Balance += amount;
-                _context.Accounts.Update(account);
-                _context.Transactionhistories.Add(new Transactionhistory(null, account.AccountId, amount, DateTime.Now));
-                await _context.SaveChangesAsync();
-                transaction.Commit();
-                return Ok(account.Balance);
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                return BadRequest(ex.ToString());
-            }
+                return Ok(_accountService.DepositIntoAccount(currency,amount, pin, authHeader));
 
-        }
+
+            }
 
         [HttpPost("transfer")]
         public async Task<IActionResult> FundTransfer(string currency,int creditorId, decimal amount,string pin)
         {
             string authHeader = Request.Headers["Authorization"];
-            var token = authHeader.Split(' ', 2)[1];
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(token);
-            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-
-            var transaction = _context.Database.BeginTransaction();
-            try
-            {
-
-                if (currency!="RUPEE")
-                {
-                    amount = _accountService.ExchangeRates(currency, amount);
-                }
-
-                var creditor = await _context.Accounts.FindAsync(creditorId);
-                var debitor = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
-                if (debitor==null) return BadRequest("No existing account found");
-
-                if (creditor==null) return BadRequest(creditorId+" not found");
-                if (debitor.Balance < amount)
-
-                    return BadRequest("Cannot withdraw amount greater than balance");
-                if (!SecretHasher.Verify(pin, debitor.Pin)) return BadRequest("Entered PIN is incorrect");
-                creditor.Balance += amount;
-                debitor.Balance -= amount;
-                _context.Accounts.Update(creditor);
-                _context.Accounts.Update(debitor);
-
-                _context.Transactionhistories.Add(new Transactionhistory(debitor.AccountId, creditorId, amount, DateTime.Now));
-                await _context.SaveChangesAsync();
-                transaction.Commit();
-                return Ok("Funds transferred");
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                return BadRequest(ex.ToString());
-            }
+            return Ok(_accountService.FundTransfer(currency,creditorId,amount,pin,authHeader));
         }
 
     }

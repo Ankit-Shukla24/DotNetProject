@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using backend.Service;
 
 namespace backend.Controllers
 {
@@ -17,10 +18,11 @@ namespace backend.Controllers
     public class TransactionhistoriesController : ControllerBase
     {
         private readonly PrjContext _context;
-
-        public TransactionhistoriesController(PrjContext context)
+        private readonly ITransactionHistoryService _transactionHistoryService;
+        public TransactionhistoriesController(PrjContext context, ITransactionHistoryService transactionHistoryService)
         {
             _context = context;
+            _transactionHistoryService = transactionHistoryService;
         }
 
         // GET: api/Transactionhistories
@@ -38,96 +40,12 @@ namespace backend.Controllers
         [HttpGet("statement")]
         public async Task<ActionResult<Transactionhistory>> GetTransactionhistoryByAccountId(int limit)
         {
-          if (_context.Transactionhistories == null)
-          {
-              return NotFound();
-          }
+
             string authHeader = Request.Headers["Authorization"];
-            var token = authHeader.Split(' ', 2)[1];
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(token);
-            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
-            var account = await _context.Accounts.FirstAsync(a => a.CustomerId.ToString()==customerId);
-            var transactionhistory = await _context.Transactionhistories.Where(x => x.CreditorId==account.AccountId||x.DebitorId==account.AccountId).OrderByDescending(x=>x.TransactionDate).Take(limit).ToListAsync();
+            return Ok(_transactionHistoryService.GetTransactionHistoriesByAccountId(limit, authHeader));
 
-            if (transactionhistory == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(transactionhistory);
         }
 
-        // PUT: api/Transactionhistories/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTransactionhistory(int id, Transactionhistory transactionhistory)
-        {
-            if (id != transactionhistory.TransactionId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(transactionhistory).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TransactionhistoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Transactionhistories
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Transactionhistory>> PostTransactionhistory(Transactionhistory transactionhistory)
-        {
-          if (_context.Transactionhistories == null)
-          {
-              return Problem("Entity set 'PrjContext.Transactionhistories'  is null.");
-          }
-            _context.Transactionhistories.Add(transactionhistory);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTransactionhistory", new { id = transactionhistory.TransactionId }, transactionhistory);
-        }
-
-        // DELETE: api/Transactionhistories/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTransactionhistory(int id)
-        {
-            if (_context.Transactionhistories == null)
-            {
-                return NotFound();
-            }
-            var transactionhistory = await _context.Transactionhistories.FindAsync(id);
-            if (transactionhistory == null)
-            {
-                return NotFound();
-            }
-
-            _context.Transactionhistories.Remove(transactionhistory);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool TransactionhistoryExists(int id)
-        {
-            return (_context.Transactionhistories?.Any(e => e.TransactionId == id)).GetValueOrDefault();
-        }
+    
     }
 }
