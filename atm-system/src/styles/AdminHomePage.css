@@ -1,0 +1,71 @@
+/* AdminHomePage.css */
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-page h1 {
+  margin-bottom: 20px;
+}
+
+.admin-page table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-page th,
+.admin-page td {
+  padding: 15px;
+  text-align: center;
+}
+
+.admin-page th {
+  background-color: #ff0000;
+  color: white;
+}
+
+.admin-page tbody tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.admin-page .custom-input {
+  width: 400px;
+}
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-page h1 {
+  margin-bottom: 20px;
+}
+
+.admin-page .input-container {
+  display: flex;
+}
+
+.admin-page .custom-input {
+  width: 500px; /* Adjust the width as needed */
+  padding: 12px 24px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+.admin-page .custom-button {
+  margin-left: 10px; /* Adjust spacing between input and button */
+}
