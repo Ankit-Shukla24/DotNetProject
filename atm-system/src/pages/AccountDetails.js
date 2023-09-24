@@ -36,7 +36,7 @@ const AccountDetails = () => {
         error.Pin = "Pin is required!";
     }
     else if(values.Pin.length != 4 ){
-        error.password = "Pin must contain 4 numbers";
+        error.Pin = "Pin must contain 4 numbers";
     }
     if(!values.CardNo){
       error.CardNo = "Card number is required!";
@@ -80,16 +80,19 @@ useEffect(() => {
           <br />
           <input type="text" name="Customerid" onChange={handleChangeAccount} />
         </div>
+        <p>{errors.Customerid}</p>
         <div>
           Card Number:
           <br />
           <input type="text" name="CardNo" onChange={handleChangeAccount} />
         </div>
+        <p>{errors.CardNoa}</p>
         <div>
           Pin:
           <br />
           <input type="text" name="Pin" onChange={handleChangeAccount} />
         </div>
+        <p>{errors.Pin}</p>
         <div>
           Account type:
           <br />
@@ -99,16 +102,19 @@ useEffect(() => {
             <option>Salary</option>
           </select>
         </div>
+        <p>{errors.AccountType}</p>
         <div>
           City:
           <br />
           <input type="text" name="City" onChange={handleChangeAccount} />
         </div>
+        <p>{errors.City}</p>
         <div>
           Balance:
           <br />
           <input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
+        <p>{errors.Balance}</p>
         <button type="submit">Submit</button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}

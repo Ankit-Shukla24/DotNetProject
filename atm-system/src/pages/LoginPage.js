@@ -63,7 +63,7 @@ const LoginPage = () => {
       }, [errors]);
 
       
-    const handleSubmit = async (event) => {
+    const handleSubmit =  (event) => {
         event.preventDefault();
         setErrors(validate(credentialValues));
         setIsSubmit(true);

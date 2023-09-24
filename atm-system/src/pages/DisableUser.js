@@ -66,7 +66,8 @@ const validate = (values) => {
           CustomerId :
           <br />
           <input type="number" name="customerId" onChange={handleChangeCustomer} />
-        </div>        
+        </div>   
+        <p>{errors.customerId}</p>     
         <button type="submit">Submit</button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}

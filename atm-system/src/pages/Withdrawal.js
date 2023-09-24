@@ -23,7 +23,7 @@ const Withdrawal = () => {
   const validate = (values) => {
     const error = {};
     if(values.amount == 0 ){
-        error.password = "Deposit amount cannot be 0";
+        error.amount = "Deposit amount cannot be 0";
     }
     return error;
 }
@@ -63,6 +63,7 @@ const handleSubmit = async (event) => {
           <br />
           <input type="number" name="amount" onChange={handleChangeWithdrawal} />
         </div>
+        <p>{errors.amount}</p>
         <div>
         <select type="text" name="currency" onChange={handleChangeWithdrawal} >
             <option>RUPEE</option>
@@ -72,6 +73,7 @@ const handleSubmit = async (event) => {
             <option>RUBLE</option>
             </select>
             </div>
+            <p>{errors.currency}</p>
         <button type="submit">Submit</button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}

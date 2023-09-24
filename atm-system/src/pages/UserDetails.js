@@ -81,21 +81,25 @@ const UserDetails = () => {
           <br />
           <input type="text" name="FirstName" onChange={handleChangeCustomer} />
         </div>
+        <p>{errors.FirstName}</p>
         <div>
           Last name:
           <br />
           <input type="text" name="LastName" onChange={handleChangeCustomer} />
         </div>
+        <p>{errors.LastName}</p>
         <div>
           Address:
           <br />
           <input type="text" name="Address" onChange={handleChangeCustomer} />
         </div>
+        <p>{errors.Address}</p>
         <div>
           Email:
           <br />
           <input type="email" name="EmailId" onChange={handleChangeCustomer} />
         </div>
+        <p>{errors.EmailId}</p>
         <div>
           Contact:
           <br />
@@ -105,6 +109,7 @@ const UserDetails = () => {
             onChange={handleChangeCustomer}
           />
         </div>
+        <p>{errors.PhoneNumber}</p>
         <div>
           Date of Birth:
           <br />
@@ -114,6 +119,7 @@ const UserDetails = () => {
             onChange={handleChangeCustomer}
           />
         </div>
+        <p>{errors.DateOfBirth}</p>
         
         <button type="submit">Submit</button>
       </form>

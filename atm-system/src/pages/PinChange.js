@@ -29,8 +29,8 @@ const validate = (values) => {
   if(!values.OldPin){
       error.OldPin = "OldPin is required!";
   }
-  else if(values.customerId.length != 4 ){
-      error.customerId = "CustomerId must contain 4 digits";
+  else if(values.OldPin.length != 4 ){
+      error.OldPin = "Pin must contain 4 digits";
   }
   if(!values.Pin){
     error.Pin = " New Pin is required!";
@@ -72,11 +72,13 @@ else if(values.Pin.length != 4 ){
           <br />
           <input type="number" name="OldPin" onChange={handleChangepin} />
         </div>
+        <p>{errors.OldPin}</p>
         <div>
           NewPin:
           <br />
           <input type="number" name="Pin" onChange={handleChangepin} />
         </div>
+        <p>{errors.Pin}</p>
         <button type="submit">Submit</button>
       </form>
       <button onClick={logout}>LogOut</button>

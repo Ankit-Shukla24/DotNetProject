@@ -25,11 +25,11 @@ const ChequeDeposit = () => {
     if(!values.Pin){
         error.Pin = "Pin is required!";
     }
-    else if(values.Pin != 4){
+    else if(values.Pin.length != 4){
         error.Pin = "Pin must contain 4 digits";
     }
     if(values.amount == 0 ){
-        error.password = "Deposit amount cannot be 0";
+        error.amount = "Deposit amount cannot be 0";
     }
     return error;
 }
@@ -69,6 +69,7 @@ const handleSubmit = async (event) => {
           <br />
           <input type="number" name="amount" onChange={handleChangedeposit} />
         </div>
+        <p>{errors.amount}</p>
         <div>
         <select type="text" name="currency" onChange={handleChangedeposit} >
             <option>RUPEE</option>
@@ -78,11 +79,13 @@ const handleSubmit = async (event) => {
             <option>RUBLE</option>
             </select>
             </div>
+            <p>{errors.currency}</p>
         <div>
           Pin :
           <br />
           <input type="number" name="Pin" onChange={handleChangedeposit} />
         </div>
+        <p>{errors.Pin}</p>
         <button type="submit">Submit</button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}

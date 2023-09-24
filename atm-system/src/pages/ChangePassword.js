@@ -4,9 +4,6 @@ import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const ChangePassword = () => {
 
   const navigator = useNavigate();
@@ -75,11 +72,13 @@ const ChangePassword = () => {
           <br />
           <input type="password" name="Oldpassword" onChange={handleChangepassword} />
         </div>
+        <p>{errors.Oldpassword}</p>
         <div>
          Newpassword:
           <br />
           <input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
+        <p>{errors.Newpassword}</p>
         <button type="submit">Submit</button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}

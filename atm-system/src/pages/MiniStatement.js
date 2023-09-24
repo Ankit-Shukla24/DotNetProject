@@ -64,6 +64,7 @@ finally{
           <br />
           <input type="number" name="limit" onChange={handleMiniStatement} />
         </div>
+        <p>{errors.limit}</p>
         <button type="submit">Submit</button>
       </form>
       
