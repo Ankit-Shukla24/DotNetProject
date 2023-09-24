@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -20,29 +20,56 @@ const AccountDetails = () => {
     City: "",
     Balance: ""
   });
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChangeAccount = (event) => {
     setAccount({ ...account, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    let token = eval(user);
-    token=token.token;
-    const headers = {"Authorization":`Bearer `+token};
-    event.preventDefault();
-    
-    console.log(account);
-    axios
-      .post("https://localhost:7182/api/Accounts", account,{headers})
-      .then((response) => {
-        console.log(response);
-        alert(response.data);
-        navigate("/");
-      })
-      .catch((err) => {console.log(err);
-        alert(err.response.data)
-      });
-  };
+  const validate = (values) => {
+    const error = {};
+    if(!values.Customerid){
+        error.Customerid = "Customerid is required!";
+    }
+    if(!values.Pin){
+        error.Pin = "Pin is required!";
+    }
+    else if(values.Pin.length != 4 ){
+        error.password = "Pin must contain 4 numbers";
+    }
+    if(!values.CardNo){
+      error.CardNo = "Card number is required!";
+    }
+    else if(values.CardNo.length != 12 ){
+        error.CardNo = "Card number must contain 12 numbers";
+    }
+    return error;
+}
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  setErrors(validate(account));
+  setIsSubmit(true); 
+}
+useEffect(() => {
+  console.log(errors);
+  if (Object.keys(errors).length === 0 && isSubmit) {
+  let token = eval(user);
+  token=token.token;
+  const headers = {"Authorization":`Bearer `+token};
+  console.log(account);
+  axios
+    .post("https://localhost:7182/api/Accounts", account,{headers})
+    .then((response) => {
+      console.log(response);
+      alert(response.data);
+      navigate("/");
+    })
+    .catch((err) => {console.log(err);
+      alert(err.response.data)
+    });}
+  },[errors]);
 
   return (
     <>

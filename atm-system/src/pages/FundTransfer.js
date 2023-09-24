@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
@@ -11,6 +11,8 @@ const Transfer = () => {
     AmountTransfer: 0,
     currency:"RUPEE"
   });
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUser] = useContext(AuthContext);
   let token = eval(user);
   token = token.token;
@@ -19,10 +21,35 @@ const Transfer = () => {
   const handleChangeTransfer = (event) => {
     setTransfer({ ...transfer, [event.target.name]: event.target.value });
   };
-  const handleSubmit = (event) => {
 
-    event.preventDefault();
-
+  const validate = (values) => {
+    const error = {};
+    if(!values.Pin){
+        error.Pin = "Pin is required!";
+    }
+    else if(values.Pin != 4){
+        error.Pin = "Pin must contain 4 numbers";
+    }
+    if(!values.ToAccountId){
+      error.ToAccountId = "AccountId is required!";
+    }
+    else if(values.ToAccountId.length != 4){
+      error.ToAccountId = "AccountId must contain 4 digits";
+    }
+    if(values.amount == 0 ){
+        error.password = "Transfer amount cannot be 0";
+    }
+    return error;
+}
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  setErrors(validate(transfer));
+  setIsSubmit(true);
+  
+}
+  useEffect( () => {
+    if (Object.keys(errors).length === 0 && isSubmit){
     console.log(transfer);
 
     axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`, {}
@@ -37,8 +64,8 @@ const Transfer = () => {
         console.log(err);
         alert(err.response.data)
       })
-
-  };
+    }
+  },[errors]);
   return (
     <>
       <h1>Enter Transfer Details</h1>

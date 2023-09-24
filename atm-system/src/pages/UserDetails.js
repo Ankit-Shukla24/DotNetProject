@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext,useState } from "react";
+import { useContext,useState,useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logout from "../components/LogOut";
@@ -16,20 +16,44 @@ const UserDetails = () => {
     PhoneNumber: "",
     DateOfBirth: "",
   });
-
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
  
 
   const handleChangeCustomer = (event) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
 
-
-
-  const handleSubmit = (event) => {
-    
-
+  const validate = (values) => {
+    const error = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(!values.FirstName){
+        error.FirstName = "FirstName is required!";
+    }
+    if(!values.EmailId){
+        error.EmailId = "EmailId is required!";
+    }
+    else if(!regex.test(values.email) ){
+        error.EmailId = "Enter a valid EmailId";
+    }
+    if(!values.PhoneNumber){
+      error.PhoneNumber = "Phone Number is required!";
+    }
+    else if(values.PhoneNumber.length!=10){
+      error.PhoneNumber = "Phone Number must contain 10 numbers";
+    }
+    return error;
+}
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(customer);
+    setErrors(validate(customer));
+    setIsSubmit(true);
+    
+}
+
+  useEffect(() => {
+    
+    if (Object.keys(errors).length === 0 && isSubmit) {console.log(customer);
     let token = eval(user);
     token=token.token;
     const headers = {"Authorization":`Bearer `+token};
@@ -45,8 +69,8 @@ const UserDetails = () => {
       })
       .catch((err) => {console.log(err);
       alert(err.response.data)
-  });
-  };
+  });}
+  },[errors]);
 
   return (
     <>

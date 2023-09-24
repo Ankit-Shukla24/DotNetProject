@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
@@ -9,6 +9,8 @@ const PinChange = () => {
     OldPin: 0,
     Pin: 0,
   });
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   let token = eval(user);
   token = token.token;
   const headers = { "Authorization": `Bearer ` + token };
@@ -16,10 +18,32 @@ const PinChange = () => {
     setpin({ ...pin, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors(validate(pin));
+    setIsSubmit(true);
+    
+}
+const validate = (values) => {
+  const error = {};
+  if(!values.OldPin){
+      error.OldPin = "OldPin is required!";
+  }
+  else if(values.customerId.length != 4 ){
+      error.customerId = "CustomerId must contain 4 digits";
+  }
+  if(!values.Pin){
+    error.Pin = " New Pin is required!";
+}
+else if(values.Pin.length != 4 ){
+    error.Pin = "New Pin must contain 4 digits";
+}
+  return error;
+}
+  useEffect(() => {
 
+    
+    if (Object.keys(errors).length === 0 && isSubmit) {
     console.log(pin);
 
 
@@ -35,8 +59,8 @@ const PinChange = () => {
       alert(err.response.data);
     })
 
-
   }
+  },[errors]);
 
 
   return (

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
@@ -11,7 +11,8 @@ const Withdrawal = () => {
     currency:"RUPEE"
 
   });
-
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   let token = eval(user);
   token = token.token;
   const headers = { "Authorization": `Bearer ` + token };
@@ -19,10 +20,24 @@ const Withdrawal = () => {
     setWithdrawal({ ...withdrawal, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const validate = (values) => {
+    const error = {};
+    if(values.amount == 0 ){
+        error.password = "Deposit amount cannot be 0";
+    }
+    return error;
+}
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  setErrors(validate(withdrawal));
+  setIsSubmit(true);
+  
+}
+  useEffect( () => {
 
-    event.preventDefault();
-
+    
+    if (Object.keys(errors).length === 0 && isSubmit){
     console.log(withdrawal);
 
     axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}`, {}, { headers: headers }).then((response) => {
@@ -36,8 +51,8 @@ const Withdrawal = () => {
       console.log(err);
       alert(err.reponse.data);
     })
-
-  };
+  }
+  },[errors]);
 
   return (
     <>

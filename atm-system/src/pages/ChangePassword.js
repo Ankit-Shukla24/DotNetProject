@@ -1,4 +1,4 @@
-import { useState,useContext } from "react";
+import { useState,useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
@@ -16,20 +16,42 @@ const ChangePassword = () => {
     Newpassword:"",
     Oldpassword:"",
   });
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   let token = eval(user);
-    token=token.token;
-    const headers = {"Authorization":`Bearer `+token};
+  token=token.token;
+  const headers = {"Authorization":`Bearer `+token};
+
   const handleChangepassword = (event) => {
     setpassword({ ...password, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-
+  const validate = (values) => {
+    const error = {};
+    if(!values.Oldpassword){
+        error.Oldpassword = "Old  Password is required!";
+    }
+    if(!values.Newpassword){
+        error.Newpassword = "New Password is required!";
+    }
+    else if(values.Newpassword.length <4 ){
+        error.Newpassword = "Password must be more than 3 characters";
+    }
+    else if(values.Newpassword.length >10 ){
+        error.Newpassword = "Password cannot exceed 10 characters";
+    }
+    return error;
+}
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors(validate(password));
+    setIsSubmit(true);
     
-    console.log(password);
-
-    
+  }
+  useEffect(() => {
+   
+    if (Object.keys(errors).length === 0 && isSubmit){
+      console.log(password);
             axios.post(`https://localhost:7182/api/Credentials/ChangePassword?OldPassword=${password.Oldpassword}&NewPassword=${password.Newpassword}`,{},{headers: headers}).then((response)=>{
         
             console.log(response);
@@ -40,8 +62,8 @@ const ChangePassword = () => {
                 }
         
           }).catch((err)=>{console.log(err);
-          alert(err.response.data)})
-}
+          alert(err.response.data)})}
+},[errors]);
     
 
   return (

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
@@ -10,18 +10,40 @@ const ChequeDeposit = () => {
     amount: 0,
     currency:"RUPEE"
   });
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   let token = eval(user);
   token = token.token;
   const headers = { "Authorization": `Bearer ` + token };
+  
   const handleChangedeposit = (event) => {
     setdeposit({ ...deposit, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit =(event) => {
+  const validate = (values) => {
+    const error = {};
+    if(!values.Pin){
+        error.Pin = "Pin is required!";
+    }
+    else if(values.Pin != 4){
+        error.Pin = "Pin must contain 4 digits";
+    }
+    if(values.amount == 0 ){
+        error.password = "Deposit amount cannot be 0";
+    }
+    return error;
+}
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  setErrors(validate(deposit));
+  setIsSubmit(true);
+  
+}
+  useEffect(() => {
 
-    event.preventDefault();
-
-    console.log(deposit);
+    if (Object.keys(errors).length === 0 && isSubmit)
+    {console.log(deposit);
 
     axios.post(`https://localhost:7182/api/Accounts/deposit?currency=${deposit.currency}&amount=${deposit.amount}`, {}, { headers: headers }).then((response) => {
 
@@ -34,8 +56,9 @@ const ChequeDeposit = () => {
       console.log(err);
       alert(err.response.data)
     })
+  }
 
-  };
+  },[errors]);
 
   return (
     <>

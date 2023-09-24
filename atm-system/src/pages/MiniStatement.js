@@ -9,7 +9,8 @@ const MiniStatement = () =>{
     const [miniStatemtent,setMiniStatement]=useState({
         limit:Number.MAX_SAFE_INTEGER
     })
-
+    const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
     const[user,setUser] = useContext(AuthContext);
   let token = eval(user);
     token=token.token;
@@ -35,12 +36,24 @@ finally{
     const handleMiniStatement = (event) => {
         setMiniStatement({ ...miniStatemtent, [event.target.name]: event.target.value });
       };
-    
-  const handleSubmit = (event) => {
-
-    event.preventDefault();
-    getStatement();   
-  };
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+        setErrors(validate(miniStatemtent));
+        setIsSubmit(true);
+        
+    }
+    const validate = (values) => {
+      const error = {};
+      if(!values.limit){
+          error.limit = "limit is required!";
+      }
+      return error;
+    }
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && isSubmit){
+      getStatement();
+    }   
+  },[errors]);
 
  return (
     <>
