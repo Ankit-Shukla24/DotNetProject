@@ -1,0 +1,8 @@
+.custom-input {
+  width: calc(100% - 12px);
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
