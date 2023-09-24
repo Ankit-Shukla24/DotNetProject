@@ -3,6 +3,7 @@ import { useContext,useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logout from "../components/LogOut";
+import V from "max-validator";
 
 const EnableUser = () => {
 
@@ -22,6 +23,19 @@ const EnableUser = () => {
     
 
     event.preventDefault();
+    
+    V.setMessages(
+        {required: "This field is required",
+        numeric: "Enter a Number",
+         min: "Atleast 3 numbers required in this field"}
+    );
+    const result = V.validate(customer,{
+        customerId : 'required|numeric|min:3',
+    });
+    
+    console.log(result.isError('customerId','required'));
+    console.log(result.isError('customerId','numeric'));
+    console.log(result.isError('customerId','min'));
     console.log(customer);
     console.log(user.userType);
     let token = eval(user);

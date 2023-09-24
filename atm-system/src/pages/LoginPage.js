@@ -2,6 +2,8 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { UserSchema } from "../Validations/UserValidation";
+
 
 
 const LoginPage = () => {
@@ -20,6 +22,13 @@ const LoginPage = () => {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
+        let formDate = {
+            username: event.target[0].value,
+            password: event.target[1],
+        };
+        const isValid = await UserSchema.isValid(formDate);
+        console.log(isValid);
+
         try {
             axios.post('https://localhost:7182/api/Credentials', {
              userName:username,
