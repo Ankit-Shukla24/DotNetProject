@@ -5,7 +5,7 @@ namespace backend.Service
 {
     public interface ICustomerService
     {
-        public Customer GetCustomerDetailsByCustomerId(string customerId);
+        public Customer GetCustomerDetailsByCustomerId(int customerId);
         public List<Customer> GetCustomers();
 
         public string CreateAccount(Customer customer);

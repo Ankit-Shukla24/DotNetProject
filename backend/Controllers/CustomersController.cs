@@ -36,7 +36,7 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-          return _constomerService.GetCustomerDetailsByCustomerId(id.ToString());
+          return _constomerService.GetCustomerDetailsByCustomerId(id);
         }
 
 
