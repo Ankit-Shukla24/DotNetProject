@@ -66,7 +66,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/enableuser",
-    element: <ProtectedRoute><EnableUser/></ProtectedRoute>
+    element: <EnableUser/>
   },
   {
     path: "/customer/:id",

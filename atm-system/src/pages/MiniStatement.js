@@ -39,10 +39,17 @@ const MiniStatement = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors(validate(miniStatemtent));
+    setIsSubmit(true);
+    
+}
+useEffect(() => {
+  if (Object.keys(errors).length === 0 && isSubmit){
     getStatement();
-  };
+  }   
+},[errors]);
 
   return (
     <Card>
@@ -53,7 +60,8 @@ const MiniStatement = () => {
           <br />
           <Input type="number" name="limit" onChange={handleMiniStatement} />
         </div>
-        <Button type="submit">Submit</Button>
+        <p>{errors.limit}</p>
+        <button type="submit">Submit</button>
       </form>
 
       {Loading ? (
