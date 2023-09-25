@@ -20,7 +20,7 @@ namespace backend.Service
             return _customerDataProvider.CreateAccount(customer);
         }
 
-        public Customer GetCustomerDetailsByCustomerId(string customerId)
+        public Customer GetCustomerDetailsByCustomerId(int customerId)
         {
             return _customerDataProvider.GetCustomerDetailsByCustomerId(customerId);
         }

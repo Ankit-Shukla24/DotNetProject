@@ -14,7 +14,7 @@ namespace backend.Data
             _context = context;
         }
 
-        public Customer GetCustomerDetailsByCustomerId(string customerId)
+        public Customer GetCustomerDetailsByCustomerId(int customerId)
         {
             return _context.Customers.Find(customerId);
         }
