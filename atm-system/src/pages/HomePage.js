@@ -63,8 +63,6 @@ const HomePage = () => {
                 <br />
                 <button onClick={handleBalanceShow}>Balance</button>
                 <br />
-                <button onClick={() => navigate("/deposit")}>Cheque Deposit</button>
-                <br />
                 <button onClick={()=>navigate("/statement")}>Mini Statement</button>
                 <br />
                 <button onClick={() => navigate("/pinchange")}>Pin Change</button>

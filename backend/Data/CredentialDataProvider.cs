@@ -17,13 +17,11 @@ namespace backend.Data
             _context = context;
         }
         public Credential GetAdminDetail(CredentialViewModel login)
-        {
-            
+        { 
                 var cred = _context.Credentials.SingleOrDefault(x => x.UserId == login.UserName);
                 if (SecretHasher.Verify(login.Password, cred.Password)) return cred;
                 else return null;
-            
-           
+ 
         }
 
         public  Credential GetCredential(string username)
@@ -53,6 +51,30 @@ namespace backend.Data
                 return ex.ToString();
             }
         }
+
+        public string ChangeActivityStatus(string userName, bool status)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var credential = _context.Credentials.SingleOrDefault(x => x.UserId == userName);
+
+
+                credential.IsEnabled = status ;
+                _context.Credentials.Update(credential);
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return "Customer disabled";
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+        }
+
+    
 
     }
 }

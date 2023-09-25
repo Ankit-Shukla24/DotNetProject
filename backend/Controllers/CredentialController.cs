@@ -111,14 +111,22 @@ namespace backend.Controllers
         [HttpPost]
         [Route("activity")]
 
-        public async void SetActiveStatus(Boolean status)
+        public IActionResult SetActiveStatus(string customerId, Boolean status)
         {
             string authHeader = Request.Headers["Authorization"];
             var token = authHeader.Split(' ', 2)[1];
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            var customerId = tokenS.Claims.First(claim => claim.Type == "CustomerId").Value;
+
+            var userType = tokenS.Claims.First(claim => claim.Type == "UserType").Value;
+
+            if(userType!="Admin")
+            {
+                return BadRequest("User access denied");
+            }
+            return Ok(_authService.ChangeActivityStatus(customerId, status));
+
         }
     }
 }

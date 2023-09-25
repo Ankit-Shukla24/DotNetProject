@@ -46,7 +46,7 @@ const handleSubmit = async (event) => {
     if (Object.keys(errors).length === 0 && isSubmit){
     console.log(withdrawal);
 
-    axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}`, {}, { headers: headers }).then((response) => {
+    axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}&pin=${withdrawal.Pin}`, {}, { headers: headers }).then((response) => {
 
       console.log(response);
       if (response.status == 200) {
@@ -55,7 +55,7 @@ const handleSubmit = async (event) => {
 
     }).catch((err) => {
       console.log(err);
-      alert(err.reponse.data);
+      alert(err.response.data);
     })
   }
   },[errors]);

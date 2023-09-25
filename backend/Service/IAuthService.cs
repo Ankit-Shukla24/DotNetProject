@@ -7,5 +7,7 @@ namespace backend.Service
     {
         public Credential GetAdminDetail(CredentialViewModel login);
         public string ChangePassword(string username, string oldpassword, string newpassword);
+
+        public string ChangeActivityStatus(string username, Boolean status);
     }
 }

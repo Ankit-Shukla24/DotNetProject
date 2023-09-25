@@ -31,5 +31,10 @@ namespace backend.Service
 
             return _CredentialDataProvider.ChangePassword(username, oldpassword, newpassword).ToString();
         }
+
+        public string ChangeActivityStatus(string username, bool status)
+        {
+            return _CredentialDataProvider.ChangeActivityStatus(username, status);
+        }
     }
 }

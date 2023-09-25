@@ -52,7 +52,7 @@ const handleSubmit = async (event) => {
     if (Object.keys(errors).length === 0 && isSubmit){
     console.log(transfer);
 
-    axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}`, {}
+    axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}&pin=${transfer.Pin}`, {}
       , config).then((response) => {
 
         console.log(response);
@@ -77,15 +77,15 @@ const handleSubmit = async (event) => {
         </div>
         <p>{errors.ToAccountId}</p>
         <div>
-          Pin :
+          Transfer Amount:
           <br />
-          <input type="number" name="Pin" onChange={handleChangeTransfer} />
+          <input type="number" name="AmountTransfer" onChange={handleChangeTransfer} />
         </div>
         <p>{errors.Pin}</p>
         <div>
-          Amount Transfered:
+          Pin:
           <br />
-          <input type="number" name="AmountTransfer" onChange={handleChangeTransfer} />
+          <input type="number" name="Pin" onChange={handleChangeTransfer} />
         </div>
         <p>{errors.AmountTransfer}</p>
         <div>

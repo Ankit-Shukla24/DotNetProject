@@ -47,15 +47,15 @@ const validate = (values) => {
     console.log(headers);
     
     axios
-      .post("https://localhost:7182/api/Credentials/activity?status=true",{},{headers})
+      .post(`https://localhost:7182/api/Credentials/activity?customerId=${customer.customerId}&status=true`,{},{headers})
       .then((response) => {
         console.log(response);
-        alert('User Disabled successfully');
+        alert('User Enabled successfully');
         navigate("/");
 
       })
       .catch((err) => {console.log(err);
-      alert(err.response.data)
+      
   });
 }
   },[errors]);
