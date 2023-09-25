@@ -26,15 +26,15 @@ const UserDetails = () => {
 
   const validate = (values) => {
     const error = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(!values.FirstName){
         error.FirstName = "FirstName is required!";
     }
     if(!values.EmailId){
-        error.EmailId = "EmailId is required!";
+        error.EmailId = "Email Id is required!";
     }
-    else if(!regex.test(values.email) ){
-        error.EmailId = "Enter a valid EmailId";
+    else if(!regex.test(values.EmailId) ){
+        error.EmailId = "Enter a valid Email Id";
     }
     if(!values.PhoneNumber){
       error.PhoneNumber = "Phone Number is required!";

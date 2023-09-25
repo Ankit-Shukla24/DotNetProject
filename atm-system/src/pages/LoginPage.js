@@ -12,7 +12,7 @@ const LoginPage = () => {
     const [user,setUser] = useContext(AuthContext);
     const navigate = useNavigate();
     const [credentialValues, setCredentialValues] = useState({
-        userName:"",
+        username:"",
         password:""
     });
     const [errors,setErrors] = useState({});
@@ -25,8 +25,9 @@ const LoginPage = () => {
 
     const validate = (values) => {
         const error = {};
-        if(!values.userName){
-            error.userName = "UserName is required!";
+        console.log(values);
+        if(!values.username){
+            error.username = "UserName is required!";
         }
         if(!values.password){
             error.password = "Password is required!";
@@ -45,7 +46,7 @@ const LoginPage = () => {
             try {
             
                 axios.post('https://localhost:7182/api/Credentials', {
-                 userName: credentialValues.userName,
+                 username: credentialValues.username,
                  password: credentialValues.password
                 }).then((response) => {
                     if (response.status == 200) {
@@ -70,6 +71,7 @@ const LoginPage = () => {
       
     const handleSubmit =  (event) => {
         event.preventDefault();
+        console.log(credentialValues)
         setErrors(validate(credentialValues));
         setIsSubmit(true);
         
@@ -87,12 +89,12 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username:</label>
-              <Input type="text" id="username" onChange={handleUsername} />
+              <Input type="text" name="username" onChange={handleChange} />
             </div>
-            <p>{errors.userName}</p>
+            <p>{errors.username}</p>
             <div className="form-group">
               <label htmlFor="password">Password:</label>
-              <Input type="password" id="password" onChange={handlepwd} />
+              <Input type="password" name="password" onChange={handleChange} />
             </div>
             <p>{errors.password}</p>
             <div className="button-container">
