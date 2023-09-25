@@ -2,14 +2,16 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
-
+import Card from "../components/Card/Card";
+import Input from "../components/Input/Input";
+import Button from "../components/Button/Button";
+import "../styles/Withdrawal.css";
 const Withdrawal = () => {
   const [user, setUser] = useContext(AuthContext);
   const [withdrawal, setWithdrawal] = useState({
     Pin: "",
     amount: 0,
-    currency:"RUPEE"
-
+    currency: "RUPEE",
   });
 
   let token = eval(user);
@@ -20,7 +22,6 @@ const Withdrawal = () => {
   };
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
 
     console.log(withdrawal);
@@ -36,36 +37,38 @@ const Withdrawal = () => {
       console.log(err);
       alert(err.response.data);
     })
-
   };
 
   return (
-    <>
+    <Card>
       <h1>Enter Withdrawal Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Enter amount:
           <br />
-          <input type="number" name="amount" onChange={handleChangeWithdrawal} />
+          <Input
+            type="number"
+            name="amount"
+            onChange={handleChangeWithdrawal}
+          />
         </div>
         <div>
-        <select type="text" name="currency" onChange={handleChangeWithdrawal} >
+          <select type="text" name="currency" onChange={handleChangeWithdrawal}>
             <option>RUPEE</option>
             <option>USD</option>
             <option>EURO</option>
             <option>YEN</option>
             <option>RUBLE</option>
-            </select>
-            </div>
-            <div>
+          </select>
+        </div>
+        <div>
           Pin:
           <br />
-          <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
+          <Input type="number" name="Pin" onChange={handleChangeWithdrawal} />
         </div>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
-    </>
+    </Card>
   );
 };
 

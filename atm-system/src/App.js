@@ -11,12 +11,13 @@ import Withdrawal from './pages/Withdrawal';
 import FundTransfer from './pages/FundTransfer';
 import UserHomePage from './pages/UserHomePage';
 import MiniStatemtent from './pages/MiniStatement';
-
+import EditCustomerPage from "./pages/EditCustomerPage"
 import ChequeDeposit from './pages/ChequeDeposit';
 import PinChange from './pages/PinChange';
 import ChangePassword from './pages/ChangePassword';
 import DisableUser from './pages/DisableUser';
 import EnableUser from './pages/EnableUser';
+import Navbar from './components/Navbar/Navbar';
 
 const router = createBrowserRouter([
   {
@@ -67,12 +68,18 @@ const router = createBrowserRouter([
     path: "/enableuser",
     element: <ProtectedRoute><EnableUser/></ProtectedRoute>
   },
+  {
+    path: "/customer/:id",
+    element: <ProtectedRoute><EditCustomerPage/></ProtectedRoute>
+  },
 ])
 function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <RouterProvider router={router} /></AuthProvider>
+        <Navbar/>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </div>
   );
 }
