@@ -16,7 +16,7 @@ namespace backend.Data
 
         public Customer GetCustomerDetailsByCustomerId(int customerId)
         {
-            return _context.Customers.Find(customerId);
+            return _context.Customers.Include("Accounts").Include("Credentials").FirstOrDefault(cust => customerId == cust.CustomerId);
         }
 
         public List<Customer> GetCustomers()
