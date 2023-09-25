@@ -3,6 +3,9 @@ import { useContext,useState,useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logout from "../components/LogOut";
+import Card from "../components/Card/Card";
+import Input from "../components/Input/Input";
+import Button from "../components/Button/Button";
 
 const UserDetails = () => {
 
@@ -79,37 +82,37 @@ const UserDetails = () => {
   },[errors]);
 
   return (
-    <>
+    <Card>
       <h1>Enter User Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           First name:
           <br />
-          <input type="text" name="FirstName" onChange={handleChangeCustomer} />
+          <Input type="text" name="FirstName" onChange={handleChangeCustomer} />
         </div>
         <p>{errors.FirstName}</p>
         <div>
           Last name:
           <br />
-          <input type="text" name="LastName" onChange={handleChangeCustomer} />
+          <Input type="text" name="LastName" onChange={handleChangeCustomer} />
         </div>
         <p>{errors.LastName}</p>
         <div>
           Address:
           <br />
-          <input type="text" name="Address" onChange={handleChangeCustomer} />
+          <Input type="text" name="Address" onChange={handleChangeCustomer} />
         </div>
         <p>{errors.Address}</p>
         <div>
           Email:
           <br />
-          <input type="email" name="EmailId" onChange={handleChangeCustomer} />
+          <Input type="email" name="EmailId" onChange={handleChangeCustomer} />
         </div>
         <p>{errors.EmailId}</p>
         <div>
           Contact:
           <br />
-          <input
+          <Input
             type="text"
             name="PhoneNumber"
             onChange={handleChangeCustomer}
@@ -119,7 +122,7 @@ const UserDetails = () => {
         <div>
           Date of Birth:
           <br />
-          <input
+          <Input
             type="date"
             name="DateOfBirth"
             onChange={handleChangeCustomer}
@@ -127,10 +130,9 @@ const UserDetails = () => {
         </div>
         <p>{errors.DateOfBirth}</p>
         
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
-    </>
+    </Card>
   );
 };
 

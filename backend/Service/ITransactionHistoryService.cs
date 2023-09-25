@@ -7,6 +7,6 @@ namespace backend.Service
     public interface ITransactionHistoryService
     {
         public List<Transactionhistory> GetTransactionHistories();
-        public List<Transactionhistory> GetTransactionHistoriesByAccountId(int limit, string authHeader);
+        public List<Transactionhistory> GetTransactionHistoriesByAccountId(int? cus, int limit, string authHeader);
     }
 }

@@ -38,11 +38,11 @@ namespace backend.Controllers
 
         // GET: api/Transactionhistories/5
         [HttpGet("statement")]
-        public async Task<ActionResult<Transactionhistory>> GetTransactionhistoryByAccountId(int limit)
+        public async Task<ActionResult<Transactionhistory>> GetTransactionhistoryByAccountId(int? cus,int limit)
         {
 
             string authHeader = Request.Headers["Authorization"];
-            return Ok(_transactionHistoryService.GetTransactionHistoriesByAccountId(limit, authHeader));
+            return Ok(_transactionHistoryService.GetTransactionHistoriesByAccountId(cus,limit, authHeader));
 
         }
 

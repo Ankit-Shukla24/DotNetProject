@@ -4,6 +4,9 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logout from "../components/LogOut";
+import Button from "../components/Button/Button";
+import Card from "../components/Card/Card";
+import Input from "../components/Input/Input";
 
 
 const AccountDetails = () => {
@@ -71,25 +74,25 @@ useEffect(() => {
   },[errors]);
 
   return (
-    <>
+    <Card>
       <h1>Enter User Details</h1>
       <form onSubmit={handleSubmit}>
       <div>
           Customerid:
           <br />
-          <input type="text" name="Customerid" onChange={handleChangeAccount} />
+          <Input type="text" name="Customerid" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Customerid}</p>
         <div>
           Card Number:
           <br />
-          <input type="text" name="CardNo" onChange={handleChangeAccount} />
+          <Input type="text" name="CardNo" onChange={handleChangeAccount} />
         </div>
         <p>{errors.CardNo}</p>
         <div>
           Pin:
           <br />
-          <input type="text" name="Pin" onChange={handleChangeAccount} />
+          <Input type="text" name="Pin" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Pin}</p>
         <div>
@@ -105,19 +108,18 @@ useEffect(() => {
         <div>
           City:
           <br />
-          <input type="text" name="City" onChange={handleChangeAccount} />
+          <Input type="text" name="City" onChange={handleChangeAccount} />
         </div>
         <p>{errors.City}</p>
         <div>
           Balance:
           <br />
-          <input type="number" name="Balance" onChange={handleChangeAccount} />
+          <Input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Balance}</p>
         <button type="submit">Submit</button>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
-    </>
+    </Card>
   );
 };
 
