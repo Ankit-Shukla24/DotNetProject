@@ -42,6 +42,12 @@ const UserDetails = () => {
     else if(values.PhoneNumber.length!=10){
       error.PhoneNumber = "Phone Number must contain 10 numbers";
     }
+    if(!values.Address){
+      error.Address = "Address is required!";
+    }
+    if(!values.DateOfBirth){
+      error.DateOfBirth = "Date of Birth is required!";
+    }
     return error;
 }
   const handleSubmit = async (event) => {

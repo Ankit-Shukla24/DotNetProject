@@ -6,7 +6,7 @@ import logout from "../components/LogOut";
 const Withdrawal = () => {
   const [user, setUser] = useContext(AuthContext);
   const [withdrawal, setWithdrawal] = useState({
-
+    Pin: "",
     amount: 0,
     currency:"RUPEE"
 
@@ -25,6 +25,12 @@ const Withdrawal = () => {
     if(values.amount == 0 ){
         error.amount = "Deposit amount cannot be 0";
     }
+    if(!values.Pin){
+      error.Pin = "Pin is required!";
+  }
+  else if(values.Pin.length != 4){
+      error.Pin = "Pin must contain 4 numbers";
+  }
     return error;
 }
   
@@ -58,6 +64,12 @@ const handleSubmit = async (event) => {
     <>
       <h1>Enter Withdrawal Details</h1>
       <form onSubmit={handleSubmit}>
+      <div>
+          Pin :
+          <br />
+          <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
+        </div>
+        <p>{errors.Pin}</p>
         <div>
           Enter amount:
           <br />

@@ -18,7 +18,7 @@ const AccountDetails = () => {
     Pin: "",
     CardNo: "",
     City: "",
-    Balance: ""
+    Balance: 0
   });
   const [errors,setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
