@@ -21,7 +21,7 @@ const AccountDetails = () => {
     Pin: "",
     CardNo: "",
     City: "",
-    Balance: 0
+    Balance:0
   });
   const [errors,setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -32,6 +32,8 @@ const AccountDetails = () => {
 
   const validate = (values) => {
     const error = {};
+    const regexCardNumber = /^\d{12}$/;
+    const regexPin = /^\d{4}$/;
     if(!values.Customerid){
         error.Customerid = "Customerid is required!";
     }
@@ -41,11 +43,26 @@ const AccountDetails = () => {
     else if(values.Pin.length != 4 ){
         error.Pin = "Pin must contain 4 numbers";
     }
+    else if(!regexPin.test(values.Pin))
+    {
+      error.Pin = "Enter digits only";
+    }
     if(!values.CardNo){
       error.CardNo = "Card number is required!";
     }
     else if(values.CardNo.length != 12 ){
-        error.CardNo = "Card number must contain 12 numbers";
+      error.CardNo = "Card number must contain 12 numbers";
+  }
+    else if(!regexCardNumber.test(values.CardNo))
+    {
+      error.CardNo = "Enter digits only";
+    }
+    if(!values.City){
+      error.City = "City is required!";
+    }
+    if(!values.Balance)
+    {
+      error.Balance="Enter a amount";
     }
     return error;
 }
@@ -69,7 +86,8 @@ useEffect(() => {
       navigate("/");
     })
     .catch((err) => {console.log(err);
-      alert(err.response.data)
+      alert(JSON.stringify(err.response.data.errors));
+  
     });}
   },[errors]);
 
