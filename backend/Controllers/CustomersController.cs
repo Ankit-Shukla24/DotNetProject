@@ -48,7 +48,12 @@ namespace backend.Controllers
             return Ok(_constomerService.CreateAccount(customer));
         }
 
-        // DELETE: api/Customers/5
+        [HttpPut]
+
+        public async Task<ActionResult<Customer>> PutCustomer(Customer customer)
+        {
+            return Ok(_constomerService.PutCustomer(customer));
+        }
 
     }
 }

@@ -29,5 +29,10 @@ namespace backend.Service
         {
          return _customerDataProvider.GetCustomers();
         }
+
+        public Customer PutCustomer(Customer customer)
+        {
+            return _customerDataProvider.PutCustomer(customer);
+        }
     }
 }

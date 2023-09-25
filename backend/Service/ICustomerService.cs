@@ -10,5 +10,7 @@ namespace backend.Service
 
         public string CreateAccount(Customer customer);
 
+        public Customer PutCustomer(Customer customer);
+
     }
 }

@@ -52,5 +52,22 @@ namespace backend.Data
             }
             
         }
+
+        public Customer PutCustomer(Customer customer)
+        {
+            _context.Entry(customer).State = EntityState.Modified;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+
+            return customer;
+        }
     }
 }

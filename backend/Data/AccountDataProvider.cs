@@ -130,5 +130,21 @@ namespace backend.Data
             }
         }
 
+        public Account ChangeAccountDetails(Account account)
+        {
+            _context.Entry(account).State = EntityState.Modified;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+
+            return account;
+        }
     }
 }
