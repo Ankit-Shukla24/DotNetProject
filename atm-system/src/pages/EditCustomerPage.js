@@ -8,12 +8,13 @@ import "../styles/EditCustomerPage.css";
 import { AuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 
-const EditCustomerPage = () => {
+const EditCustomerPage = ({cust,enabled,id}) => {
   const [user,setUser] = useContext(AuthContext);
   const [editMode, setEditMode] = useState(false);
-  const [customer, setCustomer] = useState({});
-  const [originalCustomer, setOriginalCustomer] = useState({});
-  const {id} = useParams();
+  const [customer, setCustomer] = useState(cust);
+  const [originalCustomer, setOriginalCustomer] = useState(cust);
+  const [isEnabled,setIsEnabled] = useState(enabled);
+  const [oldIsEnabled, setOldIsEnabled] = useState(enabled);
 
   const handleChangeCustomer = (event) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
@@ -21,10 +22,12 @@ const EditCustomerPage = () => {
   const headers = {
     "Authorization": `Bearer ${user.token}`
   }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(customer);
-    axios.put(`https://localhost:7182/api/Customers/${id}`, customer,{headers:headers})
+    if(originalCustomer != customer){
+    axios.put(`https://localhost:7182/api/Customers`, customer,{headers:headers})
       .then((response) => {
         console.log(response);
         alert('Changes saved successfully');
@@ -34,6 +37,21 @@ const EditCustomerPage = () => {
         console.log(err);
         alert('Error saving changes');
       });
+    }
+
+      if(isEnabled != oldIsEnabled) {
+        axios.post(`https://localhost:7182/api/Credentials/activity?customerId=${id}&status=${isEnabled}`, {},{headers:headers})
+      .then((response) => {
+        console.log(response);
+        alert('User status changed successfully');
+        setEditMode(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('Error saving changes');
+      });
+      }
+
   };
 
   const handleCancelEdit = () => {
@@ -41,20 +59,11 @@ const EditCustomerPage = () => {
     setEditMode(false);
   };
 
-  useEffect(()=>{
-    axios.get(`https://localhost:7182/api/Customers/${id}`,{headers:headers})
-    .then((response)=>{
-      setCustomer(response.data)
-      setOriginalCustomer(response.data)
-    })
-    .catch((error)=>{
-      alert(error.response.data)
-    })
-  },[])
+  
 
   return (
     <Card>
-      <h1>User Details</h1>
+      <h1 className="card-header">User Details</h1>
       <form>
         <div className="input-group">
           <label className="input-label">First name</label>
@@ -113,6 +122,17 @@ const EditCustomerPage = () => {
             name="DateOfBirth"
             value={customer.DateOfBirth}
             onChange={handleChangeCustomer}
+            disabled={!editMode}
+          />
+        </div>
+        <div className="input-group">
+          <label className="input-label">User disabled</label>
+          <Input
+            type="checkbox"
+            name="isEnabled"
+            value={isEnabled}
+            onChange={(e)=>{setIsEnabled(!isEnabled)}}
+            checked = {isEnabled}
             disabled={!editMode}
           />
         </div>

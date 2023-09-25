@@ -1,16 +1,29 @@
 .tabs-wrapper {
     display: flex;
     justify-content: center;
-
+    margin-bottom: 50px;
+    column-gap: 1px;
 }
 
 .tabs {
-padding: 12px 24px;
-  border: 2px solid #ff0000;
-  border-radius: 5px;
-  background-color: #ff0000;
-  color: white;
-  cursor: pointer;
-  flex-grow: 1;
-  text-align: center;
+    padding: 12px 24px;
+    background-color: #ffffff;
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.tabs:hover { 
+    background-color: #eeeeee;
+    color: rgb(255, 0, 0);
+}
+
+.active {
+    border-bottom: 3px solid #ff0000;   
+    background-color: #ffffff;
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
 }

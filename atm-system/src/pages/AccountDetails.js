@@ -75,7 +75,7 @@ useEffect(() => {
 
   return (
     <Card>
-      <h1>Enter User Details</h1>
+      <h1 className="card-header">Enter Account Details</h1>
       <form onSubmit={handleSubmit}>
       <div>
           Customerid:
@@ -117,7 +117,7 @@ useEffect(() => {
           <Input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Balance}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </Card>
   );

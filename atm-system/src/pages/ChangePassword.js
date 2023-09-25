@@ -67,7 +67,7 @@ const ChangePassword = () => {
 
   return (
     <Card>
-      <h1>Enter password Details</h1>
+      <h1 className="card-header">Enter password Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Old Password :

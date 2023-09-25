@@ -69,7 +69,7 @@ else if(values.Pin.length != 4 ){
 
   return (
     <Card>
-      <h1>Enter Pin Details</h1>
+      <h1 className="card-header">Enter Pin Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Old Pin

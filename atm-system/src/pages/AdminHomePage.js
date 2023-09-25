@@ -54,7 +54,12 @@ const AdminHomePage = () => {
         />
         <Button onClick={() => navigate("/user")}>Add Customer</Button>
       </div>
-      <table>
+      {filteredCustomers.length === 0 ? (
+            <tr>
+              <td colSpan="3">No customers available.</td>
+            </tr>
+          ) : 
+      (<table>
         <thead>
           <tr>
             <th>Customer ID</th>
@@ -63,11 +68,7 @@ const AdminHomePage = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredCustomers.length === 0 ? (
-            <tr>
-              <td colSpan="3">No customers available.</td>
-            </tr>
-          ) : (
+          {(
             filteredCustomers.map((customer) => (
               <tr
                 key={customer.customerId}
@@ -81,7 +82,7 @@ const AdminHomePage = () => {
             ))
           )}
         </tbody>
-      </table>
+      </table>)}
     </div>
   );
 };

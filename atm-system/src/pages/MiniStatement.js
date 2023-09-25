@@ -58,7 +58,7 @@ useEffect(() => {
 
   return (
     <Card>
-      <h1>Statement Details</h1>
+      <h1 className="card-header">Statement Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           No of transactions

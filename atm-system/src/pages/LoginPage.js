@@ -61,6 +61,9 @@ const LoginPage = () => {
                     }
     
                 })
+                .catch((err)=> {
+                  alert(err.response.data)
+                })
             }
             catch (error) {
                 alert(error.response.data);
