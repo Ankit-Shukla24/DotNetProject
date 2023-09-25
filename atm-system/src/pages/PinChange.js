@@ -31,7 +31,7 @@ const PinChange = () => {
 const validate = (values) => {
   const error = {};
   if(!values.OldPin){
-      error.OldPin = "OldPin is required!";
+      error.OldPin = "Old Pin is required!";
   }
   else if(values.OldPin.length != 4 ){
       error.OldPin = "Pin must contain 4 digits";

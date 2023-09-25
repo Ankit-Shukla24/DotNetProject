@@ -42,9 +42,6 @@ const MiniStatement = () => {
   };
   const validate = (values) => {
     const error = {};
-    if(!values.limit){
-        error.limit = "limit is required!";
-    }
     return error;
   }
   const handleSubmit = async (event) => {

@@ -35,8 +35,8 @@ const Transfer = () => {
     else if(values.ToAccountId.length != 4){
       error.ToAccountId = "AccountId must contain 4 digits";
     }
-    if(values.amount == 0 ){
-        error.amount = "Transfer amount cannot be 0";
+    if(values.AmountTransfer == 0 ){
+        error.AmountTransfer = "Transfer amount cannot be 0";
     }
     return error;
 }

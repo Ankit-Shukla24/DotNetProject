@@ -30,20 +30,24 @@ const UserDetails = () => {
   const validate = (values) => {
     const error = {};
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const regexPhoneNumber = /^\d{10}$/;
     if(!values.FirstName){
         error.FirstName = "FirstName is required!";
     }
     if(!values.EmailId){
         error.EmailId = "Email Id is required!";
     }
-    else if(!regex.test(values.EmailId) ){
+    else if(!regex.test(values.EmailId)){
         error.EmailId = "Enter a valid Email Id";
     }
     if(!values.PhoneNumber){
       error.PhoneNumber = "Phone Number is required!";
-    }
+    } 
     else if(values.PhoneNumber.length!=10){
       error.PhoneNumber = "Phone Number must contain 10 numbers";
+    }
+    else if(!regexPhoneNumber.test(values.PhoneNumber)){
+      error.PhoneNumber = "Phone Number must contain digits only";
     }
     if(!values.Address){
       error.Address = "Address is required!";
