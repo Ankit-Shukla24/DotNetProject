@@ -8,7 +8,7 @@ const LoginPage = () => {
     const [user,setUser] = useContext(AuthContext);
     const navigate = useNavigate();
     const [credentialValues, setCredentialValues] = useState({
-        username:"",
+        userName:"",
         password:""
     });
     const [errors,setErrors] = useState({});
@@ -21,8 +21,8 @@ const LoginPage = () => {
 
     const validate = (values) => {
         const error = {};
-        if(!values.username){
-            error.username = "UserName is required!";
+        if(!values.userName){
+            error.userName = "UserName is required!";
         }
         if(!values.password){
             error.password = "Password is required!";
@@ -41,8 +41,8 @@ const LoginPage = () => {
             try {
             
                 axios.post('https://localhost:7182/api/Credentials', {
-                 userName:credentialValues.username,
-                    password:credentialValues.password
+                 userName: credentialValues.userName,
+                 password: credentialValues.password
                 }).then((response) => {
                     if (response.status == 200) {
                         setUser(response.data);
@@ -51,7 +51,8 @@ const LoginPage = () => {
                         navigate("/");
                     }
                     else {
-                        alert("Auth failed");
+                        console.log(response);
+                        alert(response.data);
                     }
     
                 })
@@ -74,9 +75,9 @@ const LoginPage = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    Username:<input type="text" name = "username" onChange={handleChange} />
+                    Username:<input type="text" name = "userName" onChange={handleChange} />
                 </div>
-                <p>{errors.username}</p>
+                <p>{errors.userName}</p>
                 <div>
                     Password:<input type="password" name = "password" onChange={handleChange} />
                 </div>
