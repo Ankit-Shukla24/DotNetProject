@@ -85,7 +85,7 @@ useEffect(() => {
           <br />
           <input type="text" name="CardNo" onChange={handleChangeAccount} />
         </div>
-        <p>{errors.CardNoa}</p>
+        <p>{errors.CardNo}</p>
         <div>
           Pin:
           <br />

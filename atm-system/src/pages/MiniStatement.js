@@ -14,6 +14,8 @@ const MiniStatement = () => {
   });
 
   const [user, setUser] = useContext(AuthContext);
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   const headers = {"Authorization":`Bearer ${user.token}`};
 
   const [Loading, setLoading] = useState(false);
@@ -38,7 +40,13 @@ const MiniStatement = () => {
       [event.target.name]: event.target.value,
     });
   };
-
+  const validate = (values) => {
+    const error = {};
+    if(!values.limit){
+        error.limit = "limit is required!";
+    }
+    return error;
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors(validate(miniStatemtent));

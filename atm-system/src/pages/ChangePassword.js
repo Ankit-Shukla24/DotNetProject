@@ -70,13 +70,13 @@ const ChangePassword = () => {
       <h1>Enter password Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          Oldpassword :
+          Old Password :
           <br />
           <Input type="password" name="Oldpassword" onChange={handleChangepassword} />
         </div>
         <p>{errors.Oldpassword}</p>
         <div>
-         Newpassword:
+         New Password:
           <br />
           <Input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
