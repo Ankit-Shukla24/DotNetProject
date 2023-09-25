@@ -60,8 +60,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IAuthService<Credential>, AuthService>();
 builder.Services.AddScoped<ICredentialDataProvider<Credential>, CredentialDataProvider>();
-builder.Services.AddScoped<ICurrencyExchangeDataProvider,CurrencyExchangeDataProvider>();
-builder.Services.AddScoped<ICurrencyExchangeService,CurrecyExchangeService>();
+builder.Services.AddScoped<IAccountDataProvider,AccountDataProvider>();
+builder.Services.AddScoped<ITransactionHistoryService,TransactionHistoryService>();
+builder.Services.AddScoped<ITransactionHistoryDataProvider, TransactionHistoryDataProvider>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICustomerDataProvider, CustomerDataProvider>();
+builder.Services.AddScoped<ICustomerService,CustomerService>();
 var app = builder.Build();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 

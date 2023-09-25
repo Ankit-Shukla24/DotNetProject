@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using backend.Service;
 
 namespace backend.Controllers
 {
@@ -16,173 +17,38 @@ namespace backend.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly PrjContext _context;
+        private readonly ICustomerService _constomerService;
 
-        public CustomersController(PrjContext context)
+        public CustomersController(PrjContext context, ICustomerService CustomerService)
         {
             _context = context;
+            _constomerService = CustomerService;
         }
 
         // GET: api/Customers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-          if (_context.Customers == null)
-          {
-              return NotFound();
-          }
-            return await _context.Customers.ToListAsync();
+  return _constomerService.GetCustomers();
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-          if (_context.Customers == null)
-          {
-              return NotFound();
-          }
-            var customer = await _context.Customers.FindAsync(id);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return customer;
-        }
-        [HttpGet]
-        [Route("getCardNumbyId")]
-        public async Task<ActionResult<Customer>> GetCardNum(int cid, int aid)
-        {
-            if (_context.Customers == null)
-            {
-                return NotFound();
-            }
-            var customer = await _context.Customers.FindAsync(cid);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.FindAsync(aid);
-            if (account == null)
-            {
-                return NotFound();
-            }
-            return Ok(account.CardNo);
+          return _constomerService.GetCustomerDetailsByCustomerId(id.ToString());
         }
 
-        [HttpGet]
-        [Route("getBalancebyId")]
-        public async Task<ActionResult<Customer>> GetBalance(int cid, int aid)
-        {
-            if (_context.Customers == null)
-            {
-                return NotFound();
-            }
-            var customer = await _context.Customers.FindAsync(cid);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.FindAsync(aid);
-            if (account == null)
-            {
-                return NotFound();
-            }
-            return Ok(account.Balance);
-        }
-        // PUT: api/Customers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
-        {
-            if (id != customer.CustomerId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {   
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // POST: api/Customers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-          if (_context.Customers == null)
-          {
-              return Problem("Entity set 'PrjContext.Customers'  is null.");
-          }
-           
-            
-           var transaction=_context.Database.BeginTransaction();
-              try
-              {
-                 _context.Customers.Add(customer);
-                  _context.SaveChanges();
-                      Console.WriteLine("id:   "+customer.CustomerId);
-                  var cred = new Credential();
-                  cred.CustomerId = customer.CustomerId;
-                  cred.UserId=customer.CustomerId.ToString();
-                  cred.Password=SecretHasher.Hash("1234");
-                  cred.IsEnabled = true;
-                  _context.Credentials.Add(cred);
-                  await _context.SaveChangesAsync();
-                  transaction.Commit();
-                return Ok(cred.CustomerId);
-
-              }
-              catch (Exception e)
-              {
-                  Console.WriteLine("Error:   "+e.ToString());
-                  transaction.Rollback();
-                  return Ok(e.ToString());
-              }
+            return Ok(_constomerService.CreateAccount(customer));
         }
 
         // DELETE: api/Customers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
-        {
-            if (_context.Customers == null)
-            {
-                return NotFound();
-            }
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
 
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CustomerExists(int id)
-        {
-            return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
-        }
     }
 }

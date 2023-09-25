@@ -5,6 +5,7 @@ import logout from "../components/LogOut";
 import Card from "../components/Card/Card";
 import Input from "../components/Input/Input";
 import Button from "../components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const PinChange = () => {
   const [user, setUser] = useContext(AuthContext);
@@ -14,6 +15,8 @@ const PinChange = () => {
   });
 
   const headers = { "Authorization": `Bearer ${user.token}` };
+  const navigate = useNavigate();
+
   const handleChangepin = (event) => {
     setpin({ ...pin, [event.target.name]: event.target.value });
   };
@@ -28,6 +31,7 @@ const PinChange = () => {
       console.log(response);
       if (response.status == 200) {
         alert(response.data);
+        navigate('/');
       }
 
     }).catch((err) => {

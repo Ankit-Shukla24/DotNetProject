@@ -19,6 +19,7 @@ namespace backend.Data
         public Credential GetAdminDetail(CredentialViewModel login)
         { 
                 var cred = _context.Credentials.SingleOrDefault(x => x.UserId == login.UserName);
+            if (cred == null) { return null; }
                 if (SecretHasher.Verify(login.Password, cred.Password)) return cred;
                 else return null;
  
@@ -36,7 +37,7 @@ namespace backend.Data
             try
             {
                 var credential =  _context.Credentials.SingleOrDefault(x => x.UserId == userName);
-               
+        
 
                 credential.Password = SecretHasher.Hash(newpassword);
                 _context.Credentials.Update(credential);
