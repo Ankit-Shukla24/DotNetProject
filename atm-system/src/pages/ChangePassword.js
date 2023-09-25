@@ -3,9 +3,9 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import logout from "../components/LogOut";
 import { useNavigate } from "react-router-dom";
-
-
-
+import Card from "../components/Card/Card";
+import Button from "../components/Button/Button";
+import Input from "../components/Input/Input";
 
 const ChangePassword = () => {
 
@@ -16,9 +16,8 @@ const ChangePassword = () => {
     Newpassword:"",
     Oldpassword:"",
   });
-  let token = eval(user);
-    token=token.token;
-    const headers = {"Authorization":`Bearer `+token};
+
+  const headers = {"Authorization":`Bearer ${user.token}`};
   const handleChangepassword = (event) => {
     setpassword({ ...password, [event.target.name]: event.target.value });
   };
@@ -45,23 +44,23 @@ const ChangePassword = () => {
     
 
   return (
-    <>
+    <Card>
       <h1>Enter password Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Oldpassword :
           <br />
-          <input type="password" name="Oldpassword" onChange={handleChangepassword} />
+          <Input type="password" name="Oldpassword" onChange={handleChangepassword} />
         </div>
         <div>
          Newpassword:
           <br />
-          <input type="password" name="Newpassword" onChange={handleChangepassword} />
+          <Input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}
-    </>
+    </Card>
   );
 };
 

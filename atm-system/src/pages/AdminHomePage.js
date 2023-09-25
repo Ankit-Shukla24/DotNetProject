@@ -1,37 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import "../styles/AdminHomePage.css";
+import { AuthContext } from "../context/AuthContext";
 
 const AdminHomePage = () => {
   const navigate = useNavigate();
-  const [customers, setCustomers] = useState([
-    {
-      customerId: "1",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      contact: "1234567890",
-      dateOfBirth: "1990-01-01",
-    },
-    {
-      customerId: "2",
-      firstName: "Jane",
-      lastName: "Smith",
-      email: "jane.smith@example.com",
-      contact: "9876543210",
-      dateOfBirth: "1985-05-15",
-    },
-  ]);
+  const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [user,setUser] = useContext(AuthContext);
+  const token = user.token;
+  const headers = {
+    "Authorization": `Bearer ${token}`
+  }
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get("YOUR_API_ENDPOINT_HERE");
-        setCustomers(response.data);
+        await axios.get("https://localhost:7182/api/Customers",{headers:headers})
+        .then((response)=>{
+            setCustomers(response.data);
+        })
+        .catch((err)=>console.log(err));
+        
       } catch (error) {
         console.error("Error fetching customer data:", error);
       }
@@ -42,7 +34,7 @@ const AdminHomePage = () => {
 
   const filteredCustomers = customers.filter((customer) => {
     return (
-      customer.customerId.includes(searchTerm) ||
+      customer.customerId.toString().includes(searchTerm) ||
       `${customer.firstName} ${customer.lastName}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
@@ -84,7 +76,7 @@ const AdminHomePage = () => {
               >
                 <td>{customer.customerId}</td>
                 <td>{`${customer.firstName} ${customer.lastName}`}</td>
-                <td>{customer.contact}</td>
+                <td>{customer.phoneNumber}</td>
               </tr>
             ))
           )}

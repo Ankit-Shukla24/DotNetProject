@@ -22,22 +22,21 @@ const LoginPage = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    alert(username);
     try {
-      // axios.post('https://localhost:7182/api/Credentials', {
-      //  userName:username,
-      //     password: pwd
-      // }).then((response) => {
-      //     if (response.status == 200) {
-      //         setUser(response.data);
-      //         localStorage.setItem("userCredentials",JSON.stringify(response.data));
-      //         alert(`Welcome ${response.data.userId}`);
-      //         navigate("/");
-      //     }
-      //     else {
-      //         alert("Auth failed");
-      //     }
-      // })
+      axios.post('https://localhost:7182/api/Credentials', {
+       userName:username,
+          password: pwd
+      }).then((response) => {
+          if (response.status == 200) {
+              setUser(response.data);
+              localStorage.setItem("userCredentials",JSON.stringify(response.data));
+              alert(`Welcome ${response.data.userId}`);
+              navigate("/");
+          }
+          else {
+              alert("Auth failed");
+          }
+      })
     } catch (error) {
       alert(error.response.data);
     }
@@ -46,8 +45,8 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <div className="left-content">
-        <h1>Welcome to Our App</h1>
-        <p>Your tagline or other content goes here.</p>
+        <h1>Wellsman Forgan</h1>
+        <p>Money. Take it or leave it. Or transfer it.</p>
       </div>
       <div className="right-content">
         <Card>

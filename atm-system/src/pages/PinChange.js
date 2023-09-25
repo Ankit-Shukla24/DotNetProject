@@ -12,9 +12,8 @@ const PinChange = () => {
     OldPin: 0,
     Pin: 0,
   });
-  // let token = eval(user);
-  // token = token.token;
-  // const headers = { "Authorization": `Bearer ` + token };
+
+  const headers = { "Authorization": `Bearer ${user.token}` };
   const handleChangepin = (event) => {
     setpin({ ...pin, [event.target.name]: event.target.value });
   };
@@ -24,17 +23,17 @@ const PinChange = () => {
 
     console.log(pin);
 
-    // axios.post(` https://localhost:7182/api/Accounts/changePin?oldPin=${pin.OldPin}&newPin=${pin.Pin}`, {}, { headers: headers }).then((response) => {
+    axios.post(` https://localhost:7182/api/Accounts/changePin?oldPin=${pin.OldPin}&newPin=${pin.Pin}`, {}, { headers: headers }).then((response) => {
 
-    //   console.log(response);
-    //   if (response.status == 200) {
-    //     alert(response.data);
-    //   }
+      console.log(response);
+      if (response.status == 200) {
+        alert(response.data);
+      }
 
-    // }).catch((err) => {
-    //   console.log(err);
-    //   alert(err.response.data);
-    // })
+    }).catch((err) => {
+      console.log(err);
+      alert(err.response.data);
+    })
   };
 
   return (

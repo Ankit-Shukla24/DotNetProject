@@ -24,16 +24,15 @@ const AccountDetails = () => {
   const handleChangeAccount = (event) => {
     setAccount({ ...account, [event.target.name]: event.target.value });
   };
-
+  console.log(user)
   const handleSubmit = (event) => {
-    let token = eval(user);
-    token=token.token;
-    const headers = {"Authorization":`Bearer `+token};
+    
+    const headers = {"Authorization":`Bearer ${user.token}`};
     event.preventDefault();
     
     console.log(account);
     axios
-      .post("https://localhost:7182/api/Accounts", account,{headers})
+      .post("https://localhost:7182/api/Accounts", account,{headers:headers})
       .then((response) => {
         console.log(response);
         alert(response.data);

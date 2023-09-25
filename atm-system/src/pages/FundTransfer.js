@@ -13,11 +13,8 @@ const Transfer = () => {
     AmountTransfer: 0,
     currency: "RUPEE",
   });
-  // const [user, setUser] = useContext(AuthContext);
-  // let token = eval(user);
-  // token = token.token;
-  // const headers = { "Authorization": `Bearer ` + token };
-  // const config = { headers: headers }
+  const [user, setUser] = useContext(AuthContext);
+  const headers = { "Authorization": `Bearer ${user.token}` };
   const handleChangeTransfer = (event) => {
     setTransfer({ ...transfer, [event.target.name]: event.target.value });
   };
@@ -26,18 +23,18 @@ const Transfer = () => {
 
     console.log(transfer);
 
-    // axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}&pin=${transfer.Pin}`, {}
-    //   , config).then((response) => {
+    axios.post(` https://localhost:7182/api/Accounts/transfer?currency=${transfer.currency}&creditorId=${transfer.ToAccountId}&amount=${transfer.AmountTransfer}&pin=${transfer.Pin}`, {}
+      , {headers:headers}).then((response) => {
 
-    //     console.log(response);
-    //     if (response.status == 200) {
-    //       alert(response.data);
-    //     }
+        console.log(response);
+        if (response.status == 200) {
+          alert(response.data);
+        }
 
-    //   }).catch((err) => {
-    //     console.log(err);
-    //     alert(err.response.data)
-    //   })
+      }).catch((err) => {
+        console.log(err);
+        alert(err.response.data)
+      })
   };
   return (
     <Card>

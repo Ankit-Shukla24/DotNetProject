@@ -1,48 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import axios from "axios";
 import Input from "../components/Input/Input"; // Import the Input component
 import Button from "../components/Button/Button"; // Import the Button component
 import Card from "../components/Card/Card"; // Import the Card component
 import logout from "../components/LogOut";
 import "../styles/EditCustomerPage.css";
+import { AuthContext } from "../context/AuthContext";
+import { useParams } from "react-router-dom";
 
 const EditCustomerPage = () => {
+  const [user,setUser] = useContext(AuthContext);
   const [editMode, setEditMode] = useState(false);
-  const [customer, setCustomer] = useState({
-    firstName: "John",
-    LastName: "Doe",
-    Address: "1234 Elm St",
-    EmailId: "john.doe@example.com",
-    PhoneNumber: "123-456-7890",
-    DateOfBirth: "1990-01-01",
-  });
-  const [originalCustomer, setOriginalCustomer] = useState({
-    firstName: "John",
-    LastName: "Doe",
-    Address: "1234 Elm St",
-    EmailId: "john.doe@example.com",
-    PhoneNumber: "123-456-7890",
-    DateOfBirth: "1990-01-01",
-  });
+  const [customer, setCustomer] = useState({});
+  const [originalCustomer, setOriginalCustomer] = useState({});
+  const {id} = useParams();
 
   const handleChangeCustomer = (event) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
-
+  const headers = {
+    "Authorization": `Bearer ${user.token}`
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(customer);
-    // Add your API endpoint for saving changes here
-    // axios.post('API_ENDPOINT_HERE', customer)
-    //   .then((response) => {
-    //     console.log(response);
-    //     alert('Changes saved successfully');
-    //     setEditMode(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     alert('Error saving changes');
-    //   });
+    axios.put(`https://localhost:7182/api/Customers/${id}`, customer,{headers:headers})
+      .then((response) => {
+        console.log(response);
+        alert('Changes saved successfully');
+        setEditMode(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('Error saving changes');
+      });
   };
 
   const handleCancelEdit = () => {
@@ -50,10 +41,21 @@ const EditCustomerPage = () => {
     setEditMode(false);
   };
 
+  useEffect(()=>{
+    axios.get(`https://localhost:7182/api/Customers/${id}`,{headers:headers})
+    .then((response)=>{
+      setCustomer(response.data)
+      setOriginalCustomer(response.data)
+    })
+    .catch((error)=>{
+      alert(error.response.data)
+    })
+  },[])
+
   return (
     <Card>
       <h1>User Details</h1>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="input-group">
           <label className="input-label">First name</label>
           <Input
@@ -68,8 +70,8 @@ const EditCustomerPage = () => {
           <label className="input-label">Last name</label>
           <Input
             type="text"
-            name="LastName"
-            value={customer.LastName}
+            name="lastName"
+            value={customer.lastName}
             onChange={handleChangeCustomer}
             disabled={!editMode}
           />
@@ -78,8 +80,8 @@ const EditCustomerPage = () => {
           <label className="input-label">Address</label>
           <Input
             type="text"
-            name="Address"
-            value={customer.Address}
+            name="address"
+            value={customer.address}
             onChange={handleChangeCustomer}
             disabled={!editMode}
           />
@@ -88,8 +90,8 @@ const EditCustomerPage = () => {
           <label className="input-label">Email</label>
           <Input
             type="email"
-            name="EmailId"
-            value={customer.EmailId}
+            name="emailId"
+            value={customer.emailId}
             onChange={handleChangeCustomer}
             disabled={!editMode}
           />
@@ -98,8 +100,8 @@ const EditCustomerPage = () => {
           <label className="input-label">Contact</label>
           <Input
             type="text"
-            name="PhoneNumber"
-            value={customer.PhoneNumber}
+            name="phoneNumber"
+            value={customer.phoneNumber}
             onChange={handleChangeCustomer}
             disabled={!editMode}
           />
@@ -117,14 +119,14 @@ const EditCustomerPage = () => {
         <div className="button-container">
           {editMode ? (
             <>
-              <Button type="submit">Save</Button>
+              <Button onClick={handleSubmit} type="submit">Save</Button>
               <span className="button-spacing"></span>
               <Button type="button" onClick={handleCancelEdit} secondary>
                 Cancel
               </Button>
             </>
           ) : (
-            <Button type="button" onClick={() => setEditMode(true)}>
+            <Button type="button" onClick={(e) =>{ e.preventDefault(); setEditMode(true)}}>
               Edit
             </Button>
           )}

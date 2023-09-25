@@ -14,9 +14,9 @@ const Withdrawal = () => {
     currency: "RUPEE",
   });
 
-  // let token = eval(user);
-  // token = token.token;
-  // const headers = { "Authorization": `Bearer ` + token };
+  let token = eval(user);
+  token = token.token;
+  const headers = { "Authorization": `Bearer ` + token };
   const handleChangeWithdrawal = (event) => {
     setWithdrawal({ ...withdrawal, [event.target.name]: event.target.value });
   };
@@ -26,17 +26,17 @@ const Withdrawal = () => {
 
     console.log(withdrawal);
 
-    // axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}&pin=${withdrawal.Pin}`, {}, { headers: headers }).then((response) => {
+    axios.post(`https://localhost:7182/api/Accounts/withdraw?currency=${withdrawal.currency}&amount=${withdrawal.amount}&pin=${withdrawal.Pin}`, {}, { headers: headers }).then((response) => {
 
-    //   console.log(response);
-    //   if (response.status == 200) {
-    //     alert("Remaining balance :" + response.data);
-    //   }
+      console.log(response);
+      if (response.status == 200) {
+        alert("Remaining balance :" + response.data);
+      }
 
-    // }).catch((err) => {
-    //   console.log(err);
-    //   alert(err.response.data);
-    // })
+    }).catch((err) => {
+      console.log(err);
+      alert(err.response.data);
+    })
   };
 
   return (

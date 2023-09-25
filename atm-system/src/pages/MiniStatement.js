@@ -13,24 +13,22 @@ const MiniStatement = () => {
   });
 
   const [user, setUser] = useContext(AuthContext);
-  // let token = eval(user);
-  // token=token.token;
-  // const headers = {"Authorization":`Bearer `+token};
+  const headers = {"Authorization":`Bearer ${user.token}`};
 
   const [Loading, setLoading] = useState(false);
   const getStatement = async () => {
-    // try{
-    // const getData= await axios.get(`https://localhost:7182/api/Transactionhistories/statement?limit=${miniStatemtent.limit}`,{ headers: headers });
-    //     setStatement(getData.data);
-    // }
-    // catch(err)
-    // {
-    //     console.log(err);
-    //     alert(err.response.data)
-    // }
-    // finally{
-    //     setLoading(true);
-    // }
+    try{
+    const getData= await axios.get(`https://localhost:7182/api/Transactionhistories/statement?limit=${miniStatemtent.limit}`,{ headers: headers });
+        setStatement(getData.data);
+    }
+    catch(err)
+    {
+        console.log(err);
+        alert(err.response.data)
+    }
+    finally{
+        setLoading(true);
+    }
   };
 
   const handleMiniStatement = (event) => {

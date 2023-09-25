@@ -12,33 +12,10 @@ import UserHomePage from "./UserHomePage";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  //   const [user, setUser] = useContext(AuthContext);
-  //   var balance;
-  //   const [balanceShow, setBalanceShow] = useState("false");
-  const userDetail = { userType: "customer" };
-  //   const userDetail = eval(user);
-  //   let token = eval(user);
-  //   token = token.token;
-  //   const headers = { Authorization: `Bearer ` + token };
+    const [user, setUser] = useContext(AuthContext);
 
-  //   const handleBalanceShow = (event) => {
-  //     console.log(balanceShow);
-  //     setBalanceShow(!balanceShow);
-  //     axios
-  //       .get(`https://localhost:7182/api/Accounts/balance`, { headers: headers })
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         balance = response.data;
-  //         alert(`Your account balance is ${balance}`);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         alert(err.response.data);
-  //       });
-  //   };
-  //Need to change it
 
-  if (userDetail.userType == "Admin") {
+  if (user.userType == "Admin") {
     return <AdminHomePage />;
   } else {
     return <UserHomePage />;

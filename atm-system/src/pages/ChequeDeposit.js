@@ -13,25 +13,24 @@ const ChequeDeposit = () => {
     amount: 0,
     currency: "RUPEE",
   });
-  // let token = eval(user);
-  // token = token.token;
-  // const headers = { Authorization: `Bearer ` + token };
+
+  const headers = { Authorization: `Bearer ${user.token}` };
   const handleChangedeposit = (event) => {
     setdeposit({ ...deposit, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = (event) => {
-    //   event.preventDefault();
-    //   console.log(deposit);
-    //   axios.post(`https://localhost:7182/api/Accounts/deposit?currency=${deposit.currency}&amount=${deposit.amount}&pin=${deposit.Pin}`, {}, { headers: headers }).then((response) => {
-    //     console.log(response);
-    //     if (response.status == 200) {
-    //       alert("Balance :"+response.data);
-    //     }
-    //   }).catch((err) => {
-    //     console.log(err);
-    //     alert(err.response.data)
-    //   })
+      event.preventDefault();
+      console.log(deposit);
+      axios.post(`https://localhost:7182/api/Accounts/deposit?currency=${deposit.currency}&amount=${deposit.amount}&pin=${deposit.Pin}`, {}, { headers: headers }).then((response) => {
+        console.log(response);
+        if (response.status == 200) {
+          alert("Balance :"+response.data);
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert(err.response.data)
+      })
   };
 
   return (
