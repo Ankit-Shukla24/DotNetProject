@@ -3,6 +3,9 @@ import { useContext,useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logout from "../components/LogOut";
+import Card from "../components/Card/Card";
+import Input from "../components/Input/Input";
+import Button from "../components/Button/Button";
 
 const UserDetails = () => {
 
@@ -49,33 +52,33 @@ const UserDetails = () => {
   };
 
   return (
-    <>
+    <Card>
       <h1>Enter User Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           First name:
           <br />
-          <input type="text" name="FirstName" onChange={handleChangeCustomer} />
+          <Input type="text" name="FirstName" onChange={handleChangeCustomer} />
         </div>
         <div>
           Last name:
           <br />
-          <input type="text" name="LastName" onChange={handleChangeCustomer} />
+          <Input type="text" name="LastName" onChange={handleChangeCustomer} />
         </div>
         <div>
           Address:
           <br />
-          <input type="text" name="Address" onChange={handleChangeCustomer} />
+          <Input type="text" name="Address" onChange={handleChangeCustomer} />
         </div>
         <div>
           Email:
           <br />
-          <input type="email" name="EmailId" onChange={handleChangeCustomer} />
+          <Input type="email" name="EmailId" onChange={handleChangeCustomer} />
         </div>
         <div>
           Contact:
           <br />
-          <input
+          <Input
             type="text"
             name="PhoneNumber"
             onChange={handleChangeCustomer}
@@ -84,17 +87,16 @@ const UserDetails = () => {
         <div>
           Date of Birth:
           <br />
-          <input
+          <Input
             type="date"
             name="DateOfBirth"
             onChange={handleChangeCustomer}
           />
         </div>
         
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
-    </>
+    </Card>
   );
 };
 
