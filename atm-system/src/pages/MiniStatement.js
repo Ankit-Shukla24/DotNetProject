@@ -5,6 +5,7 @@ import axios from "axios";
 import Input from "../components/Input/Input";
 import Button from "../components/Button/Button";
 import Card from "../components/Card/Card";
+import "../styles/MiniStatement.css";
 
 const MiniStatement = () => {
   const [statement, setStatement] = useState([]);
@@ -56,7 +57,7 @@ const MiniStatement = () => {
       </form>
 
       {Loading ? (
-        <div>
+        <div className="statement-table">
           <table>
             <thead>
               <tr>
