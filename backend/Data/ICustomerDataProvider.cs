@@ -11,5 +11,7 @@ namespace backend.Data
 
         public string CreateAccount(Customer customer);
 
+        public Customer PutCustomer(Customer customer);
+
     }
 }

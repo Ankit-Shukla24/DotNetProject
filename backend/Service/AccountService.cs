@@ -15,9 +15,9 @@ namespace backend.Service
             _accountDataProvider=accountDataProvider;
         }
 
-        public string ChangeAccountDetails(int accountId, Account account)
+        public Account ChangeAccountDetails( Account account)
         {
-            throw new NotImplementedException();
+            return _accountDataProvider.ChangeAccountDetails(account);
         }
 
         public string CreateAccount(Account account)
@@ -134,6 +134,11 @@ namespace backend.Service
                 account.Pin = SecretHasher.Hash(newPin);
              
             return _accountDataProvider.PinChange(account);
+        }
+
+        public Account PutAccount(Account account)
+        {
+            throw new NotImplementedException();
         }
 
         public string WithdrawFromAccount(string currency, decimal amount, string pin,string authHeader)

@@ -22,6 +22,6 @@ namespace backend.Data
         public string FundTransfer(Account creditor,Account debitor,decimal amount);
 
         public string PinChange(Account account);
-
+        Account ChangeAccountDetails(Account account);
     }
 }
