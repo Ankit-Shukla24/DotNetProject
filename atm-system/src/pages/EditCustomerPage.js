@@ -1,8 +1,8 @@
 import React, { useContext, useState,useEffect } from "react";
 import axios from "axios";
-import Input from "../components/Input/Input"; // Import the Input component
-import Button from "../components/Button/Button"; // Import the Button component
-import Card from "../components/Card/Card"; // Import the Card component
+import Input from "../components/Input/Input"; 
+import Button from "../components/Button/Button"; 
+import Card from "../components/Card/Card";
 import logout from "../components/LogOut";
 import "../styles/EditCustomerPage.css";
 import { AuthContext } from "../context/AuthContext";

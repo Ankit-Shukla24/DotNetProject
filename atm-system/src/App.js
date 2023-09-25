@@ -18,6 +18,8 @@ import ChangePassword from './pages/ChangePassword';
 import DisableUser from './pages/DisableUser';
 import EnableUser from './pages/EnableUser';
 import Navbar from './components/Navbar/Navbar';
+import EditAccountPage from './pages/EditAccountPage';
+import ViewUser from './pages/ViewUser';
 
 const router = createBrowserRouter([
   {
@@ -70,7 +72,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/customer/:id",
-    element: <ProtectedRoute><EditCustomerPage/></ProtectedRoute>
+    element: <ProtectedRoute><ViewUser/></ProtectedRoute>
   },
 ])
 function App() {

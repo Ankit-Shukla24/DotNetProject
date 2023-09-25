@@ -33,19 +33,19 @@ const AccountDetails = () => {
   const validate = (values) => {
     const error = {};
     if(!values.Customerid){
-        error.Customerid = "Customerid is required!";
+        error.Customerid = "Customer Id is required!";
     }
     if(!values.Pin){
         error.Pin = "Pin is required!";
     }
     else if(values.Pin.length != 4 ){
-        error.Pin = "Pin must contain 4 numbers";
+        error.Pin = "Pin must contain 4 digits!";
     }
     if(!values.CardNo){
       error.CardNo = "Card number is required!";
     }
     else if(values.CardNo.length != 12 ){
-        error.CardNo = "Card number must contain 12 numbers";
+        error.CardNo = "Card number must contain 12 digits";
     }
     return error;
 }
@@ -98,11 +98,11 @@ useEffect(() => {
         <div>
           Account type:
           <br />
-          <select type="text" name="AccountType" onChange={handleChangeAccount} >
-            <option> Saving</option>
-            <option>Current</option>
-            <option>Salary</option>
-          </select>
+            <select type="text" name="AccountType" onChange={handleChangeAccount} >
+              <option> Saving</option>
+              <option>Current</option>
+              <option>Salary</option>
+            </select>
         </div>
         <p>{errors.AccountType}</p>
         <div>
