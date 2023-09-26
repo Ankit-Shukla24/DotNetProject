@@ -126,7 +126,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
           />
         </div>
         <div className="input-group">
-          <label className="input-label">User disabled</label>
+          <label className="input-label">User Enabled</label>
           <Input
             type="checkbox"
             name="isEnabled"

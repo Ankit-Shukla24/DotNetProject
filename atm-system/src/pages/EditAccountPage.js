@@ -24,7 +24,7 @@ const EditAccountPage = ({acc,id}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(account);
-    axios.put(`https://localhost:7182/api/Accounts`, account,{headers:headers})
+    axios.put(`https://localhost:7182/api/Accounts`, {...account,customerId:id},{headers:headers})
       .then((response) => {
         console.log(response);
         alert('Changes saved successfully');
@@ -58,18 +58,8 @@ const EditAccountPage = ({acc,id}) => {
           />
         </div>
         <div className="input-group">
-          <label className="input-label">PIN</label>
-          <Input
-            type="text"
-            name="pin"
-            value={account.pin}
-            onChange={handleChangeAccount}
-            disabled={!editMode}
-          />
-        </div>
-        <div className="input-group">
           <label className="input-label">Account Type</label>
-          <select type="text" name="accountType" value={account.accountType} onChange={handleChangeAccount} >
+          <select type="text" disabled={!editMode} name="accountType" value={account.accountType} onChange={handleChangeAccount} >
               <option> Saving</option>
               <option>Current</option>
               <option>Salary</option>
@@ -78,7 +68,7 @@ const EditAccountPage = ({acc,id}) => {
         <div className="input-group">
           <label className="input-label">City</label>
           <Input
-            type="email"
+            type="text"
             name="city"
             value={account.city}
             onChange={handleChangeAccount}
@@ -92,7 +82,7 @@ const EditAccountPage = ({acc,id}) => {
             name="balance"
             value={account.balance}
             onChange={handleChangeAccount}
-            disabled={!editMode}
+            disabled
           />
         </div>
         <div className="button-container">

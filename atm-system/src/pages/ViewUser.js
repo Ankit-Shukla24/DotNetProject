@@ -33,12 +33,13 @@ const ViewUser = () => {
             const cust = response.data
             setCustomer({customerId:parseInt(id),firstName: cust.firstName, lastName: cust.lastName, address: cust.address, emailId: cust.emailId, phoneNumber: cust.phoneNumber, dateOfbirth: cust.dateOfbirth})
             setEnabled(cust.credentials[0].isEnabled);
-            const account = cust.accounts[0];
-            setAccount({accountId: account.accountId, cardNo:account.cardNo,accountType:account.accountType,city:account.city, pin:account.pin, balance:account.balance})
+            const account = cust.accounts[0] ;
+            
+            setAccount(cust.accounts.length === 0 ? null:{accountId: account?.accountId, cardNo:account?.cardNo,accountType:account?.accountType,city:account?.city, pin:account?.pin, balance:account?.balance})
         })
         .then(()=>setLoading(false))
         .catch((error)=>{
-          alert(error.response.data)
+          alert(error)
         })
       },[])
     return loading? (<>Loading...</>) : (
