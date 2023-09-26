@@ -68,7 +68,7 @@ const handleSubmit = async (event) => {
 
   return (
     <Card>
-      <h1 className="card-header">Enter Deposit Details</h1>
+      <h1 className="card-header">Deposit Cheque</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Deposit Amount:

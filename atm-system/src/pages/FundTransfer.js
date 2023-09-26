@@ -70,7 +70,7 @@ const handleSubmit = async (event) => {
   },[errors]);
   return (
     <Card>
-      <h1 className="card-header">Enter Transfer Details</h1>
+      <h1 className="card-header">Fund Transfer</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Recepient Account ID
