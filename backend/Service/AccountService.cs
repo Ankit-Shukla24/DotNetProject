@@ -15,7 +15,7 @@ namespace backend.Service
             _accountDataProvider=accountDataProvider;
         }
 
-        public Account ChangeAccountDetails( Account account)
+        public Account ChangeAccountDetails(AccountViewModel account)
         {
             return _accountDataProvider.ChangeAccountDetails(account);
         }

@@ -13,7 +13,7 @@ namespace backend.Service
 
         public List<Account> GetAccounts();
 
-        public Account ChangeAccountDetails(Account account);
+        public Account ChangeAccountDetails(AccountViewModel account);
 
         public string CreateAccount(Account account);
 

@@ -130,9 +130,15 @@ namespace backend.Data
             }
         }
 
-        public Account ChangeAccountDetails(Account account)
+        public Account ChangeAccountDetails(AccountViewModel account)
         {
-            _context.Entry(account).State = EntityState.Modified;
+            var acc = _context.Accounts.Find(account.AccountId);
+
+            acc.City = acc.City==account.City?acc.City:account.City;
+            acc.AccountType = acc.AccountType==account.AccountType?acc.AccountType:account.AccountType;
+            acc.CardNo = acc.CardNo==account.CardNo?acc.CardNo:account.CardNo;
+
+            _context.Entry(acc).State = EntityState.Modified;
 
             try
             {
@@ -144,7 +150,7 @@ namespace backend.Data
                 return null;
             }
 
-            return account;
+            return acc;
         }
     }
 }

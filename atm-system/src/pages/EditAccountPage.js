@@ -55,7 +55,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
   useEffect(() => {
     if(Object.keys(errors).length === 0 && isSubmit){
       console.log(account);
-    axios.put(`https://localhost:7182/api/Accounts/${id}`, {...account,customerId:id},{headers:headers})
+    axios.put(`https://localhost:7182/api/Accounts/${id}`, {...account,customerId:customerId},{headers:headers})
       .then((response) => {
         console.log(response);
         alert('Changes saved successfully');

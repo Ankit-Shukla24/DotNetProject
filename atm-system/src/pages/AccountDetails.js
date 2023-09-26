@@ -68,6 +68,10 @@ const AccountDetails = () => {
       error.Balance="Enter a amount";
 
     }
+    else if(values.Balance<0)
+    {
+      error.Balance="Balance cannot be negative";
+    }
     return error;
 }
   
