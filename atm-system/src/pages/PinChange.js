@@ -83,7 +83,7 @@ else if(values.Pin.length != 4 ){
           <Input type="number" name="Pin" onChange={handleChangepin} />
         </div>
         <p>{errors.Pin}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </Card>
   );

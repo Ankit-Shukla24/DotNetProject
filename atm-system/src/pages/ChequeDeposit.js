@@ -92,7 +92,7 @@ const handleSubmit = async (event) => {
           <Input type="number" name="Pin" onChange={handleChangedeposit} />
         </div>
         <p>{errors.Pin}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </Card>
   );

@@ -72,7 +72,7 @@ const handleSubmit = async (event) => {
       <div>
           Pin :
           <br />
-          <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
+          <Input type="number" name="Pin" onChange={handleChangeWithdrawal} />
         </div>
         <p>{errors.Pin}</p>
         <div>

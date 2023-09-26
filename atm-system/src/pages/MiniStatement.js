@@ -66,7 +66,7 @@ useEffect(() => {
           <Input type="number" name="limit" onChange={handleMiniStatement} />
         </div>
         <p>{errors.limit}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
 
       {Loading ? (
