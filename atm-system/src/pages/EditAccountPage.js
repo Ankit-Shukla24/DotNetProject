@@ -7,6 +7,7 @@ import logout from "../components/LogOut";
 import "../styles/EditCustomerPage.css";
 import { AuthContext } from "../context/AuthContext";
 import { useParams,useNavigate } from "react-router-dom";
+import MiniStatement from "./MiniStatement";
 
 const EditAccountPage = ({acc,id}) => {
   const [user,setUser] = useContext(AuthContext);
@@ -44,6 +45,7 @@ const EditAccountPage = ({acc,id}) => {
   const navigate = useNavigate()
   console.log(acc);
   return !acc ? (<><h2 style={{textAlign:"center"}}>No account configured for the user!</h2><Button onClick={()=>navigate("/account")}>Add account</Button></>) : (
+    <>
     <Card>
       <h1 className="card-header">Account Details</h1>
       <form>
@@ -102,6 +104,10 @@ const EditAccountPage = ({acc,id}) => {
         </div>
       </form>
     </Card>
+    <div style={{marginTop:"50px"}}> 
+        <MiniStatement id={id}/> 
+    </div>
+     </>
   )
 };
 

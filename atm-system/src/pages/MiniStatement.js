@@ -7,7 +7,7 @@ import Button from "../components/Button/Button";
 import Card from "../components/Card/Card";
 import "../styles/MiniStatement.css";
 
-const MiniStatement = () => {
+const MiniStatement = ({id}) => {
   const [statement, setStatement] = useState([]);
   const [miniStatemtent, setMiniStatement] = useState({
     limit: Number.MAX_SAFE_INTEGER,
@@ -21,7 +21,7 @@ const MiniStatement = () => {
   const [Loading, setLoading] = useState(false);
   const getStatement = async () => {
     try{
-    const getData= await axios.get(`https://localhost:7182/api/Transactionhistories/statement?limit=${miniStatemtent.limit}`,{ headers: headers });
+    const getData= await axios.get(`https://localhost:7182/api/Transactionhistories/statement?cus=${id?id:parseInt(JSON.parse(localStorage.getItem("userCredentials")).customerId)}&limit=${miniStatemtent.limit}`,{ headers: headers });
         setStatement(getData.data);
     }
     catch(err)
@@ -50,6 +50,7 @@ const MiniStatement = () => {
     setIsSubmit(true);
     
 }
+
 useEffect(() => {
   if (Object.keys(errors).length === 0 && isSubmit){
     getStatement();
@@ -66,16 +67,16 @@ useEffect(() => {
           <Input type="number" name="limit" onChange={handleMiniStatement} />
         </div>
         <p>{errors.limit}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
 
-      {Loading ? (
+      {Loading ? statement.length ===0 ? (<><h2 style={{textAlign:"center"}}>No transactions to display!</h2></>):(
         <div className="statement-table">
           <table>
             <thead>
               <tr>
-                <th>DebitorId</th>
-                <th>CreditorId</th>
+                <th>Transaction Type</th>
+                <th>Creditor ID</th>
                 <th>Date</th>
                 <th>Amount</th>
               </tr>
@@ -83,8 +84,8 @@ useEffect(() => {
             <tbody>
               {statement.map((st, index) => (
                 <tr key={index}>
-                  <td>{st.debitorId}</td>
-                  <td>{st.creditorId}</td>
+                  <td>{st.debitorId ? st.creditorId ? "Transfer": "Withdraw":"Deposit"}</td>
+                  <td>{st.creditorId ??"-"}</td>
                   <td>{new Date(st.transactionDate).toDateString()}</td>
                   <td>{st.amount}</td>
                 </tr>
