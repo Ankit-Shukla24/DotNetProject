@@ -6,6 +6,21 @@ namespace backend.Models;
 
 public partial class Account
 {
+    public Account()
+    {
+    }
+
+    public Account(int accountId, int? customerId, string? accountType, decimal? balance, string? cardNo, string? pin, string? city)
+    {
+        AccountId = accountId;
+        CustomerId = customerId;
+        AccountType = accountType;
+        Balance = balance;
+        CardNo = cardNo;
+        Pin = pin;
+        City = city;
+    }
+
     public int AccountId { get; set; }
 
         [Required(ErrorMessage = "Customer ID is required.")]
