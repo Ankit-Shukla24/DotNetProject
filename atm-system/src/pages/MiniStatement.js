@@ -10,7 +10,7 @@ import "../styles/MiniStatement.css";
 const MiniStatement = ({id}) => {
   const [statement, setStatement] = useState([]);
   const [miniStatemtent, setMiniStatement] = useState({
-    limit: Number.MAX_SAFE_INTEGER,
+    limit: 10,
   });
 
   const [user, setUser] = useContext(AuthContext);
@@ -58,19 +58,19 @@ useEffect(() => {
 },[errors]);
 
   return (
-    <Card>
+    <Card> 
       <h1 className="card-header">Statement Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          No of transactions
+          Number of Transactions
           <br />
-          <Input type="number" name="limit" onChange={handleMiniStatement} />
+          <Input value={miniStatemtent.limit} type="number" name="limit" onChange={handleMiniStatement} />
         </div>
         <p>{errors.limit}</p>
         <Button type="submit">Submit</Button>
       </form>
 
-      {Loading ? statement.length ===0 ? (<><h2 style={{textAlign:"center"}}>No transactions to display!</h2></>):(
+      {Loading ? statement.length ===0 ? (<><h2 style={{textAlign:"center"}}>No transactions to display</h2></>):(
         <div className="statement-table">
           <table>
             <thead>

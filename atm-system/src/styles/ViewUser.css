@@ -12,6 +12,7 @@
     cursor: pointer;
     flex-grow: 1;
     text-align: center;
+    font-weight: 600;
 }
 
 .tabs:hover { 
@@ -25,5 +26,5 @@
     color: rgb(255, 0, 0);
     cursor: pointer;
     text-align: center;
-    font-weight: 500;
+
 }

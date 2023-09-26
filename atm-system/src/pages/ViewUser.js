@@ -45,8 +45,8 @@ const ViewUser = () => {
     return loading? (<>Loading...</>) : (
         <Card>
             <div className='tabs-wrapper'>
-                <span onClick={()=>setTab(0)} className={`tabs ${tab===0?"active":""}`}>User details</span>
-                <span onClick={()=>setTab(1)} className={`tabs ${tab===1?"active":""}`}>Account details</span>
+                <span onClick={()=>setTab(0)} className={`tabs ${tab===0?"active":""}`}>User Details</span>
+                <span onClick={()=>setTab(1)} className={`tabs ${tab===1?"active":""}`}>Account Details</span>
             </div>
             {tab == 0? (<EditCustomerPage cust={customer} enabled={enabled} id={id}/>):(<EditAccountPage acc={account} id={id}/>)}
         </Card>
