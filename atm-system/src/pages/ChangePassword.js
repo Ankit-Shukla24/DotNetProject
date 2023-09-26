@@ -39,6 +39,9 @@ const ChangePassword = () => {
     else if(values.Newpassword.length >10 ){
         error.Newpassword = "Password cannot exceed 10 characters";
     }
+    else if(values.Oldpassword == values.Newpassword){
+      error.Newpassword = "New Password cannot be same as Old Password";
+    }
     return error;
 }
   const handleSubmit = async (event) => {

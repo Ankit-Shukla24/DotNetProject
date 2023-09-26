@@ -15,6 +15,9 @@ const EditCustomerPage = ({cust,enabled,id}) => {
   const [originalCustomer, setOriginalCustomer] = useState(cust);
   const [isEnabled,setIsEnabled] = useState(enabled);
   const [oldIsEnabled, setOldIsEnabled] = useState(enabled);
+  const [errors,setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+ 
 
   const handleChangeCustomer = (event) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
@@ -22,9 +25,60 @@ const EditCustomerPage = ({cust,enabled,id}) => {
   const headers = {
     "Authorization": `Bearer ${user.token}`
   }
+  const calculate_age = (dateofbirth) => {
+    var today = new Date();
+    var dob = new Date(dateofbirth)  
+    var age_now = today.getFullYear() - dob.getFullYear();
+    var m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) 
+    {
+        age_now--;
+    }
+    console.log(age_now);
+    return age_now;
+  }
+  const validate = (values) => {
+    const error = {};
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const regexPhoneNumber = /^\d{10}$/;
+    if(!values.firstName){
+        error.firstName = "FirstName is required!";
+    }
+    if(!values.emailId){
+        error.emailId = "Email Id is required!";
+    }
+    else if(!regex.test(values.emailId)){
+        error.emailId = "Enter a valid Email Id";
+    }
+    if(!values.phoneNumber){
+      error.phoneNumber = "Phone Number is required!";
+    } 
+    else if(values.phoneNumber.length!=10){
+      error.phoneNumber = "Phone Number must contain 10 numbers";
+    }
+    else if(!regexPhoneNumber.test(values.phoneNumber)){
+      error.phoneNumber = "Phone Number must contain digits only";
+    }
+    if(!values.address){
+      error.address = "Address is required!";
+    }
+    if(!values.DateOfBirth){
+      error.DateOfBirth = "Date of Birth is required!";
+    }
+    else if(calculate_age(values.DateOfBirth) < 18){
+      error.DateOfBirth = "Age of the User should be greater than 18";
+    }
+    return error;
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setErrors(validate(customer));
+    setIsSubmit(true); 
+  }
+  useEffect(() => {
+      
+    if (Object.keys(errors).length === 0 && isSubmit) {
     console.log(customer);
     if(originalCustomer != customer){
     axios.put(`https://localhost:7182/api/Customers/${id}`, customer,{headers:headers})
@@ -52,7 +106,8 @@ const EditCustomerPage = ({cust,enabled,id}) => {
       });
       }
 
-  };
+    }
+  },[errors]);
 
   const handleCancelEdit = () => {
     setCustomer(originalCustomer);
@@ -75,6 +130,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
+        <p>{errors.firstName}</p>
         <div className="input-group">
           <label className="input-label">Last name</label>
           <Input
@@ -85,6 +141,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
+        <p>{errors.lastName}</p>
         <div className="input-group">
           <label className="input-label">Address</label>
           <Input
@@ -95,6 +152,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
+        <p>{errors.address}</p>
         <div className="input-group">
           <label className="input-label">Email</label>
           <Input
@@ -105,6 +163,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
+        <p>{errors.emailId}</p>
         <div className="input-group">
           <label className="input-label">Contact</label>
           <Input
@@ -115,6 +174,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
+        <p>{errors.phoneNumber}</p>
         <div className="input-group">
           <label className="input-label">Date of Birth</label>
           <Input
@@ -125,6 +185,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
+        <p>{errors.DateOfBirth}</p>
         <div className="input-group">
           <label className="input-label">User Enabled</label>
           <Input

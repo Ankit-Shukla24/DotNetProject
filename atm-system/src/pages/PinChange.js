@@ -38,12 +38,15 @@ const validate = (values) => {
   }
   if(!values.Pin){
     error.Pin = " New Pin is required!";
-}
-else if(values.Pin.length != 4 ){
-    error.Pin = "New Pin must contain 4 digits";
-}
-  return error;
-}
+  }
+  else if(values.Pin.length != 4 ){
+      error.Pin = "New Pin must contain 4 digits";
+  }
+  else if(values.OldPin == values.Pin){
+    error.Pin = "New Pin cannot be same as Old Pin";
+  }
+    return error;
+  }
   useEffect(() => {
 
     
