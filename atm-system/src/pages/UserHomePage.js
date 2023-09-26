@@ -5,6 +5,7 @@ import Button from "../components/Button/Button";
 import "../styles/UserHomePage.css";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { currencyRates } from "../utils/constants";
 
 const UserHomePage = () => {
   const navigate = useNavigate();
@@ -17,8 +18,7 @@ const UserHomePage = () => {
   axios
     .get(`https://localhost:7182/api/Accounts/balance`, { headers: headers })
     .then((response) => {
-      console.log(response.data);
-      alert(`Your account balance is ${response.data}`);
+      alert(`Your account balance is \nINR ${response.data}\nUSD ${(response.data/currencyRates.USD).toFixed(2)}\nEUR ${(response.data/currencyRates.EURO).toFixed(2)}\nRUB ${(response.data/currencyRates.RUBLE).toFixed(2)}\nYEN ${(response.data/currencyRates.YEN).toFixed(2)}`);
     })
     .catch((err) => {
       console.log(err);
