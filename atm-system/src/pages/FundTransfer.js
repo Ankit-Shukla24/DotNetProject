@@ -95,7 +95,12 @@ const handleSubmit = async (event) => {
         <div>
           Pin
           <br />
-          <Input type="number" name="Pin" onChange={handleChangeTransfer} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={transfer.Pin} 
+            onChange={(event)=>setTransfer({...transfer,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <div>
@@ -108,9 +113,8 @@ const handleSubmit = async (event) => {
             </select>
             </div>
             <p>{errors.currency}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
     </Card>
   );
 };

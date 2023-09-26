@@ -67,7 +67,7 @@ useEffect(() => {
           <Input value={miniStatemtent.limit} type="number" name="limit" onChange={handleMiniStatement} />
         </div>
         <p>{errors.limit}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
 
       {Loading ? statement.length ===0 ? (<><h2 style={{textAlign:"center"}}>No transactions to display</h2></>):(
@@ -84,7 +84,7 @@ useEffect(() => {
             <tbody>
               {statement.map((st, index) => (
                 <tr key={index}>
-                  <td>{st.debitorId ? st.creditorId ? "Transfer": "Withdrawl":"Deposit"}</td>
+                  <td>{st.debitorId ? st.creditorId ? "Transfer": "Withdrawal":"Deposit"}</td>
                   <td>{st.creditorId ??"-"}</td>
                   <td>{new Date(st.transactionDate).toDateString()}</td>
                   <td>{st.amount}</td>

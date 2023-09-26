@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logout from "../components/LogOut";
 import Button from "../components/Button/Button";
 import Card from "../components/Card/Card";
@@ -11,12 +11,12 @@ import Input from "../components/Input/Input";
 
 const AccountDetails = () => {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [user,setUser] = useContext(AuthContext);
  
-  
+
   const [account, setAccount] = useState({
-    Customerid: "",
+    Customerid: location?.state?.customerId?.toString() ?? "",
     AccountType: "Saving",
     Pin: "",
     CardNo: "",
@@ -74,7 +74,7 @@ const AccountDetails = () => {
 const handleSubmit = async (event) => {
   event.preventDefault();
   setErrors(validate(account));
-  setIsSubmit(true); 
+   setIsSubmit(true); 
 }
 useEffect(() => {
   console.log(errors);
@@ -102,7 +102,7 @@ useEffect(() => {
       <div>
           Customerid:
           <br />
-          <Input type="text" name="Customerid" onChange={handleChangeAccount} />
+          <Input value={account.Customerid} type="text" name="Customerid" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Customerid}</p>
         <div>
@@ -114,7 +114,12 @@ useEffect(() => {
         <div>
           Pin:
           <br />
-          <Input type="text" name="Pin" onChange={handleChangeAccount} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={account.Pin} 
+            onChange={(event)=>setAccount({...account,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <div>
@@ -139,7 +144,7 @@ useEffect(() => {
           <Input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Balance}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
   );

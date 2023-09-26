@@ -5,10 +5,12 @@
   background-color: #ff0000;
   color: white;
   cursor: pointer;
+  justify-content: center;
 }
 
 .primary-button:hover {
   background-color: #d00000;
+  border-color: #d00000;
 }
 
 .secondary-button {
@@ -22,5 +24,6 @@
 
 .secondary-button:hover {
   background-color: #d00000;
+  border: 2px solid #d00000;
   color: white;
 }

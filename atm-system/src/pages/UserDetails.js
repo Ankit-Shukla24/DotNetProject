@@ -26,6 +26,19 @@ const UserDetails = () => {
   const handleChangeCustomer = (event) => {
     setCustomer({ ...customer, [event.target.name]: event.target.value });
   };
+  
+  const calculate_age = (dateofbirth) => {
+    var today = new Date();
+    var dob = new Date(dateofbirth)  
+    var age_now = today.getFullYear() - dob.getFullYear();
+    var m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) 
+    {
+        age_now--;
+    }
+    console.log(age_now);
+    return age_now;
+  }
 
   const validate = (values) => {
     const error = {};
@@ -54,6 +67,9 @@ const UserDetails = () => {
     }
     if(!values.DateOfBirth){
       error.DateOfBirth = "Date of Birth is required!";
+    }
+    else if(calculate_age(values.DateOfBirth) < 18){
+      error.DateOfBirth = "Age of the User should be greater than 18";
     }
     return error;
 }
@@ -133,8 +149,7 @@ const UserDetails = () => {
           />
         </div>
         <p>{errors.DateOfBirth}</p>
-        
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
   );

@@ -1,24 +1,5 @@
-.button-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
 .button-spacing {
   margin-left: 10px;
-}
-
-.secondary-button {
-  padding: 12px 24px;
-  border: 2px solid #ff0000;
-  border-radius: 5px;
-  background-color: white;
-  color: #ff0000;
-  cursor: pointer;
-}
-
-.secondary-button:hover {
-  background-color: #ff0000;
-  color: white;
 }
 
 .input-label {

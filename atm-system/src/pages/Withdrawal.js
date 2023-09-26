@@ -64,7 +64,7 @@ const handleSubmit = async (event) => {
     })
   }
   },[errors]);
-
+  
   return (
     <Card>
       <h1 className="card-header">Withdraw Money</h1>
@@ -72,7 +72,12 @@ const handleSubmit = async (event) => {
       <div>
           Pin
           <br />
-          <Input type="number" name="Pin" onChange={handleChangeWithdrawal} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={withdrawal.Pin} 
+            onChange={(event)=>setWithdrawal({...withdrawal,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <div>
@@ -95,7 +100,7 @@ const handleSubmit = async (event) => {
             </select>
             </div>
             <p>{errors.currency}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
   );

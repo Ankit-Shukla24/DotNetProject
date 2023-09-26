@@ -1,7 +1,7 @@
-form > div {
-  margin-bottom: 10px;
+.input-group {
+  margin-bottom: 40px;
 }
 
-button {
-  margin-top: 20px;
+.button-container {
+  text-align: center;
 }
