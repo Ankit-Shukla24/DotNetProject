@@ -95,7 +95,7 @@ const handleSubmit = async (event) => {
             </select>
             </div>
             <p>{errors.currency}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </Card>
   );
