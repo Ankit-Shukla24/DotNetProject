@@ -33,6 +33,10 @@ const ChequeDeposit = () => {
     if(values.amount == 0 ){
         error.amount = "Deposit amount cannot be 0";
     }
+    else if(values.amount <0)
+    {
+      error.amount = "Deposit amount cannot be negative";
+    }
     return error;
 }
   

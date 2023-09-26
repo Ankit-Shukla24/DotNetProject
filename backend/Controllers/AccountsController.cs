@@ -99,8 +99,8 @@ namespace backend.Controllers
         }
 
         //Remove if not required 
-        [HttpPut]
-
+        [HttpPut("{id}")]
+       
         public async Task<ActionResult<Account>> PutAccount(Account account)
         {
             return Ok(_accountService.ChangeAccountDetails(account));

@@ -81,7 +81,7 @@ const UserDetails = () => {
 
       })
       .catch((err) => {console.log(err);
-      alert(err.response.data)
+      alert(JSON.stringify(err.response.data.errors));
   });}
   },[errors]);
 

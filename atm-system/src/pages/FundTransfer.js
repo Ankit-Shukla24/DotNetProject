@@ -38,6 +38,9 @@ const Transfer = () => {
     if(values.AmountTransfer == 0 ){
         error.AmountTransfer = "Transfer amount cannot be 0";
     }
+    else  if(values.AmountTransfer < 0 ){
+      error.AmountTransfer = "Transfer amount cannot be negative";
+  }
     return error;
 }
   

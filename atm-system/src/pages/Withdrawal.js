@@ -25,8 +25,11 @@ const Withdrawal = () => {
   const validate = (values) => {
     const error = {};
     if(values.amount == 0 ){
-        error.amount = "Deposit amount cannot be 0";
+        error.amount = "Withdraw amount cannot be 0";
     }
+    else if(values.amount < 0 ){
+      error.amount = "Withdraw amount cannot be negative";
+  }
     if(!values.Pin){
       error.Pin = "Pin is required!";
   }

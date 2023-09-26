@@ -48,7 +48,7 @@ namespace backend.Controllers
             return Ok(_constomerService.CreateAccount(customer));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
 
         public async Task<ActionResult<Customer>> PutCustomer(Customer customer)
         {
