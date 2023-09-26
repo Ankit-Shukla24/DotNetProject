@@ -55,7 +55,7 @@ const handleSubmit = async (event) => {
 
       console.log(response);
       if (response.status == 200) {
-        alert("Balance :"+response.data);
+        alert(response.data);
       }
 
     }).catch((err) => {
