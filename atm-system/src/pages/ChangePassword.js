@@ -84,9 +84,8 @@ const ChangePassword = () => {
           <Input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
         <p>{errors.Newpassword}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
     </Card>
   );
 };

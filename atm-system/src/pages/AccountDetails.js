@@ -144,7 +144,7 @@ useEffect(() => {
           <Input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
         <p>{errors.Balance}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
   );

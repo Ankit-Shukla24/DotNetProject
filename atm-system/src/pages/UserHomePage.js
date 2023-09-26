@@ -28,7 +28,7 @@ const UserHomePage = () => {
   return (
     <Card>
       <h1 className="card-header">Welcome</h1>
-      <div className="button-container">
+      <div className="user-options">
         <Button onClick={() => navigate("/withdraw")}>Withdraw Money</Button>
         <Button onClick={() => navigate("/deposit")}>Deposit Cheque</Button>
         <Button onClick={() => navigate("/transfer")}>Fund Transfer</Button>

@@ -67,7 +67,7 @@ useEffect(() => {
           <Input value={miniStatemtent.limit} type="number" name="limit" onChange={handleMiniStatement} />
         </div>
         <p>{errors.limit}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
 
       {Loading ? statement.length ===0 ? (<><h2 style={{textAlign:"center"}}>No transactions to display</h2></>):(

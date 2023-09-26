@@ -113,9 +113,8 @@ const handleSubmit = async (event) => {
             </select>
             </div>
             <p>{errors.currency}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
-      {/* <button onClick={logout}>LogOut</button> */}
     </Card>
   );
 };

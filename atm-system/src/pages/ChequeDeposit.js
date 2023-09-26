@@ -97,7 +97,7 @@ const handleSubmit = async (event) => {
           />
         </div>
         <p>{errors.Pin}</p>
-        <Button type="submit">Submit</Button>
+        <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
   );
