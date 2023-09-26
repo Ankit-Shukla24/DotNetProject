@@ -4,10 +4,12 @@
   align-items: center;
   padding: 10px 20px;
   background-color: #f0f0f0;
+  margin-bottom: 40px;
 }
 
 .logo {
   cursor: pointer;
+  font-size: 20px;
 }
 
 .user-details {
