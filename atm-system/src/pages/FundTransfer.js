@@ -95,7 +95,12 @@ const handleSubmit = async (event) => {
         <div>
           Pin
           <br />
-          <Input type="number" name="Pin" onChange={handleChangeTransfer} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={transfer.Pin} 
+            onChange={(event)=>setTransfer({...transfer,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <div>

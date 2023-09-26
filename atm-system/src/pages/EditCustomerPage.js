@@ -81,7 +81,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
     if (Object.keys(errors).length === 0 && isSubmit) {
     console.log(customer);
     if(originalCustomer != customer){
-    axios.put(`https://localhost:7182/api/Customers`, customer,{headers:headers})
+    axios.put(`https://localhost:7182/api/Customers/${id}`, customer,{headers:headers})
       .then((response) => {
         console.log(response);
         alert('Changes saved successfully');

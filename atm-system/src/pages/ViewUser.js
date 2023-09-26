@@ -24,6 +24,7 @@ const ViewUser = () => {
     const [enabled,setEnabled] = useState(0);
     const [user,setUser] = useContext(AuthContext);
     const [account, setAccount] = useState(null);
+    const [accountId,setAccountId] = useState(null);
     const headers = {
         "Authorization": `Bearer ${user.token}`
     }
@@ -34,8 +35,8 @@ const ViewUser = () => {
             setCustomer({customerId:parseInt(id),firstName: cust.firstName, lastName: cust.lastName, address: cust.address, emailId: cust.emailId, phoneNumber: cust.phoneNumber, dateOfbirth: cust.dateOfbirth})
             setEnabled(cust.credentials[0].isEnabled);
             const account = cust.accounts[0] ;
-            
-            setAccount(cust.accounts.length === 0 ? null:{accountId: account?.accountId, cardNo:account?.cardNo,accountType:account?.accountType,city:account?.city, pin:account?.pin, balance:account?.balance})
+            setAccountId(account?.accountId);
+            setAccount(cust.accounts.length === 0 ? null:{customerId: parseInt(id), cardNo:account?.cardNo,accountType:account?.accountType,city:account?.city, balance:account?.balance})
         })
         .then(()=>setLoading(false))
         .catch((error)=>{
@@ -48,7 +49,7 @@ const ViewUser = () => {
                 <span onClick={()=>setTab(0)} className={`tabs ${tab===0?"active":""}`}>User Details</span>
                 <span onClick={()=>setTab(1)} className={`tabs ${tab===1?"active":""}`}>Account Details</span>
             </div>
-            {tab == 0? (<EditCustomerPage cust={customer} enabled={enabled} id={id}/>):(<EditAccountPage acc={account} id={id}/>)}
+            {tab == 0? (<EditCustomerPage cust={customer} enabled={enabled} id={id}/>):(<EditAccountPage acc={account} id={accountId}/>)}
         </Card>
     )
 }

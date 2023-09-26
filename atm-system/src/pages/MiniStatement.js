@@ -84,7 +84,7 @@ useEffect(() => {
             <tbody>
               {statement.map((st, index) => (
                 <tr key={index}>
-                  <td>{st.debitorId ? st.creditorId ? "Transfer": "Withdrawl":"Deposit"}</td>
+                  <td>{st.debitorId ? st.creditorId ? "Transfer": "Withdrawal":"Deposit"}</td>
                   <td>{st.creditorId ??"-"}</td>
                   <td>{new Date(st.transactionDate).toDateString()}</td>
                   <td>{st.amount}</td>

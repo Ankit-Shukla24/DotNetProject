@@ -89,7 +89,12 @@ const handleSubmit = async (event) => {
         <div>
           Pin:
           <br />
-          <Input type="number" name="Pin" onChange={handleChangedeposit} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={deposit.Pin} 
+            onChange={(event)=>setdeposit({...deposit,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <Button type="submit">Submit</Button>

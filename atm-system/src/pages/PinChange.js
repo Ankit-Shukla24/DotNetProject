@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 const PinChange = () => {
   const [user, setUser] = useContext(AuthContext);
   const [pin, setpin] = useState({
-    OldPin: 0,
-    Pin: 0,
+    OldPin: "",
+    Pin: "",
   });
   const [errors,setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -77,13 +77,23 @@ const validate = (values) => {
         <div>
           Old Pin
           <br />
-          <Input type="number" name="OldPin" onChange={handleChangepin} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={pin.OldPin} 
+            onChange={(event)=>setpin({...pin,OldPin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.OldPin}</p>
         <div>
           New Pin
           <br />
-          <Input type="number" name="Pin" onChange={handleChangepin} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={pin.Pin} 
+            onChange={(event)=>setpin({...pin,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <Button type="submit">Submit</Button>
