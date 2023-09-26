@@ -70,10 +70,10 @@ const handleSubmit = async (event) => {
   },[errors]);
   return (
     <Card>
-      <h1 className="card-header">Enter Transfer Details</h1>
+      <h1 className="card-header">Fund Transfer</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          Recepient Account ID:
+          Recepient Account ID
           <br />
           <Input
             type="number"
@@ -83,7 +83,7 @@ const handleSubmit = async (event) => {
         </div>
         <p>{errors.ToAccountId}</p>
         <div>
-          Transfer Amount:
+          Transfer Amount
           <br />
           <Input
             type="number"
@@ -93,7 +93,7 @@ const handleSubmit = async (event) => {
         </div>
         <p>{errors.AmountTransfer }</p>
         <div>
-          Pin:
+          Pin
           <br />
           <Input type="number" name="Pin" onChange={handleChangeTransfer} />
         </div>

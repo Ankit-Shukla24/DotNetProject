@@ -27,14 +27,14 @@ const UserHomePage = () => {
 };
   return (
     <Card>
-      <h1 className="card-header">User Home Page</h1>
+      <h1 className="card-header">Welcome</h1>
       <div className="button-container">
         <Button onClick={() => navigate("/withdraw")}>Withdraw Money</Button>
         <Button onClick={() => navigate("/deposit")}>Deposit Cheque</Button>
         <Button onClick={() => navigate("/transfer")}>Fund Transfer</Button>
         <Button onClick={handleBalanceShow}>Balance</Button>
         <Button onClick={() => navigate("/statement")}>Mini Statement</Button>
-        <Button onClick={() => navigate("/pinchange")}>Pin Change</Button>
+        <Button onClick={() => navigate("/pinchange")}>Change Pin</Button>
         <Button onClick={() => navigate("/changepassword")}>
           Change Password
         </Button>
