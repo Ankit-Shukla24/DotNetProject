@@ -87,7 +87,7 @@ const UserDetails = () => {
 
   return (
     <Card>
-      <h1>Enter User Details</h1>
+      <h1 className="card-header">Enter User Details</h1>
       <form onSubmit={handleSubmit}>
         <div>
           First name:
