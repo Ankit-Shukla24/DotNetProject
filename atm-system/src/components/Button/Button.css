@@ -5,6 +5,7 @@
   background-color: #ff0000;
   color: white;
   cursor: pointer;
+  justify-content: center;
 }
 
 .primary-button:hover {
