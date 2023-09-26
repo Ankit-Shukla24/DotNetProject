@@ -62,11 +62,11 @@ const EditCustomerPage = ({cust,enabled,id}) => {
     if(!values.address){
       error.address = "Address is required!";
     }
-    if(!values.DateOfBirth){
-      error.DateOfBirth = "Date of Birth is required!";
+    if(!values.dateOfbirth){
+      error.dateOfbirth = "Date of Birth is required!";
     }
-    else if(calculate_age(values.DateOfBirth) < 18){
-      error.DateOfBirth = "Age of the User should be greater than 18";
+    else if(calculate_age(values.dateOfbirth) < 18){
+      error.dateOfbirth = "Age of the User should be greater than 18";
     }
     return error;
   }
@@ -115,7 +115,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
   };
 
   
-
+  console.log(customer)
   return (
     <Card>
       <h1 className="card-header">User Details</h1>
@@ -179,8 +179,8 @@ const EditCustomerPage = ({cust,enabled,id}) => {
           <label className="input-label">Date of Birth</label>
           <Input
             type="date"
-            name="DateOfBirth"
-            value={customer.DateOfBirth}
+            name="dateOfbirth"
+            value={customer.dateOfbirth?.split("T")[0]}
             onChange={handleChangeCustomer}
             disabled={!editMode}
           />
