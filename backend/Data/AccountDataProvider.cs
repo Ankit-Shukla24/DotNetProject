@@ -45,7 +45,7 @@ namespace backend.Data
                 _context.Transactionhistories.Add(new Transactionhistory(account.AccountId, null, amount, DateTime.Now));
                 _context.SaveChanges();
                 transaction.Commit();
-                return account.Balance.ToString();
+                return "Balance :"+account.Balance.ToString();
 
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace backend.Data
                 _context.Transactionhistories.Add(new Transactionhistory(null, account.AccountId, amount, DateTime.Now));
                 _context.SaveChanges();
                 transaction.Commit();
-                return account.Balance.ToString();
+                return "Balance :"+account.Balance.ToString();
             }
             catch (Exception ex)
             {
