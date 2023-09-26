@@ -25,7 +25,7 @@ const EditAccountPage = ({acc,id}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(account);
-    axios.put(`https://localhost:7182/api/Accounts`, {...account,customerId:id},{headers:headers})
+    axios.put(`https://localhost:7182/api/Accounts/${id}`, account,{headers:headers})
       .then((response) => {
         console.log(response);
         alert('Changes saved successfully');

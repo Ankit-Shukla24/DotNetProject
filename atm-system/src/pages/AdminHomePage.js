@@ -52,8 +52,8 @@ const AdminHomePage = () => {
           className="custom-input"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button onClick={() => navigate("/user")}>Add Customer</Button>
       </div>
+      <Button onClick={() => navigate("/user")}>Add Customer</Button>
       {filteredCustomers.length === 0 ? (
             <tr>
               <td colSpan="3">No customers available.</td>

@@ -74,7 +74,7 @@ const AccountDetails = () => {
 const handleSubmit = async (event) => {
   event.preventDefault();
   setErrors(validate(account));
-  setIsSubmit(true); 
+   setIsSubmit(true); 
 }
 useEffect(() => {
   console.log(errors);
@@ -114,7 +114,12 @@ useEffect(() => {
         <div>
           Pin:
           <br />
-          <Input type="text" name="Pin" onChange={handleChangeAccount} />
+          <Input 
+            type="password" 
+            name="Pin" 
+            value={account.Pin} 
+            onChange={(event)=>setAccount({...account,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
+          />
         </div>
         <p>{errors.Pin}</p>
         <div>
