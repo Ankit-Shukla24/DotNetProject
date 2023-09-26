@@ -67,21 +67,21 @@ const ChangePassword = () => {
 
   return (
     <Card>
-      <h1 className="card-header">Enter password Details</h1>
+      <h1>Change Password</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          Old Password :
+          Old Password
           <br />
           <Input type="password" name="Oldpassword" onChange={handleChangepassword} />
         </div>
         <p>{errors.Oldpassword}</p>
         <div>
-         New Password:
+         New Password
           <br />
           <Input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
         <p>{errors.Newpassword}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
       {/* <button onClick={logout}>LogOut</button> */}
     </Card>

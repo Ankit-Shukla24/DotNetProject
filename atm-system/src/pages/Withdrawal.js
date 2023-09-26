@@ -67,16 +67,16 @@ const handleSubmit = async (event) => {
 
   return (
     <Card>
-      <h1 className="card-header">Enter Withdrawal Details</h1>
+      <h1 className="card-header">Withdraw Money</h1>
       <form onSubmit={handleSubmit}>
       <div>
-          Pin :
+          Pin
           <br />
-          <input type="number" name="Pin" onChange={handleChangeWithdrawal} />
+          <Input type="number" name="Pin" onChange={handleChangeWithdrawal} />
         </div>
         <p>{errors.Pin}</p>
         <div>
-          Enter amount:
+          Enter Amount
           <br />
           <Input
             type="number"
@@ -95,7 +95,7 @@ const handleSubmit = async (event) => {
             </select>
             </div>
             <p>{errors.currency}</p>
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </Card>
   );
