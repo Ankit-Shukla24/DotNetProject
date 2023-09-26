@@ -9,7 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useParams,useNavigate } from "react-router-dom";
 import MiniStatement from "./MiniStatement";
 
-const EditAccountPage = ({acc,id}) => {
+const EditAccountPage = ({acc,id,customerId}) => {
   const [user,setUser] = useContext(AuthContext);
   const [editMode, setEditMode] = useState(false);
 
@@ -44,7 +44,7 @@ const EditAccountPage = ({acc,id}) => {
 
   const navigate = useNavigate()
   console.log(acc);
-  return !acc ? (<><h2 style={{textAlign:"center"}}>No account configured for the user!</h2><Button onClick={()=>navigate("/account")}>Add account</Button></>) : (
+  return !acc ? (<><h2 style={{textAlign:"center"}}>No account configured for the user!</h2><Button onClick={()=>navigate("/account",{state:{customerId:customerId}})}>Add account</Button></>) : (
     <>
     <Card>
       <h1 className="card-header">Account Details</h1>

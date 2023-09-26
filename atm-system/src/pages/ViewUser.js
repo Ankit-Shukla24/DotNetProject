@@ -49,7 +49,7 @@ const ViewUser = () => {
                 <span onClick={()=>setTab(0)} className={`tabs ${tab===0?"active":""}`}>User Details</span>
                 <span onClick={()=>setTab(1)} className={`tabs ${tab===1?"active":""}`}>Account Details</span>
             </div>
-            {tab == 0? (<EditCustomerPage cust={customer} enabled={enabled} id={id}/>):(<EditAccountPage acc={account} id={accountId}/>)}
+            {tab == 0? (<EditCustomerPage cust={customer} enabled={enabled} id={id}/>):(<EditAccountPage acc={account} id={accountId} customerId={id}/>)}
         </Card>
     )
 }
