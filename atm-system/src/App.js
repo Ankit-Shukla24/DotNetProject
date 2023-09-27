@@ -8,19 +8,14 @@ import AccountDetails from './pages/AccountDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import Withdrawal from './pages/Withdrawal';
-import FundTransfer from './pages/FundTransfer';
-import UserHomePage from './pages/UserHomePage';
-import MiniStatemtent from './pages/MiniStatement';
-import EditCustomerPage from "./pages/EditCustomerPage"
+import FundTransfer from './pages/FundTransfer'; import MiniStatemtent from './pages/MiniStatement';
 import ChequeDeposit from './pages/ChequeDeposit';
 import PinChange from './pages/PinChange';
 import ChangePassword from './pages/ChangePassword';
-import DisableUser from './pages/DisableUser';
-import EnableUser from './pages/EnableUser';
 import Navbar from './components/Navbar/Navbar';
-import EditAccountPage from './pages/EditAccountPage';
 import ViewUser from './pages/ViewUser';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
+import CustomerProtectedRoute from './components/CustomerProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -41,46 +36,39 @@ const router = createBrowserRouter([
   },
   {
     path: "/withdraw",
-    element: <ProtectedRoute><Withdrawal /></ProtectedRoute>
+    element: <CustomerProtectedRoute><Withdrawal /></CustomerProtectedRoute>
   },
   {
     path: "/deposit",
-    element: <ProtectedRoute><ChequeDeposit /></ProtectedRoute>
+    element: <CustomerProtectedRoute><ChequeDeposit /></CustomerProtectedRoute>
   },
   {
     path: "/transfer",
-    element: <ProtectedRoute><FundTransfer /></ProtectedRoute>
+    element: <CustomerProtectedRoute><FundTransfer /></CustomerProtectedRoute>
   },
   {
     path: "/pinchange",
-    element: <ProtectedRoute><PinChange /></ProtectedRoute>
-  }, 
+    element: <CustomerProtectedRoute><PinChange /></CustomerProtectedRoute>
+  },
   {
     path: "/statement",
-    element: <ProtectedRoute><MiniStatemtent /></ProtectedRoute>
+    element: <CustomerProtectedRoute><MiniStatemtent /></CustomerProtectedRoute>
   },
   {
     path: "/changepassword",
-    element: <ProtectedRoute><ChangePassword/></ProtectedRoute>
+    element: <CustomerProtectedRoute><ChangePassword /></CustomerProtectedRoute>
   },
-  {
-    path: "/disableuser",
-    element: <ProtectedRoute><DisableUser/></ProtectedRoute>
-  },
-  {
-    path: "/enableuser",
-    element: <EnableUser/>
-  },
+
   {
     path: "/customer/:id",
-    element: <ProtectedRoute><ViewUser/></ProtectedRoute>
+    element: <AdminProtectedRoute><ViewUser /></AdminProtectedRoute>
   },
 ])
 function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <Navbar/>
+        <Navbar />
         <RouterProvider router={router} />
       </AuthProvider>
     </div>
