@@ -20,6 +20,7 @@ import EnableUser from './pages/EnableUser';
 import Navbar from './components/Navbar/Navbar';
 import EditAccountPage from './pages/EditAccountPage';
 import ViewUser from './pages/ViewUser';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -32,11 +33,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/user",
-    element: <ProtectedRoute><UserDetails /></ProtectedRoute>
+    element: <AdminProtectedRoute><UserDetails /></AdminProtectedRoute>
   },
   {
     path: "/account",
-    element: <ProtectedRoute><AccountDetails /></ProtectedRoute>
+    element: <AdminProtectedRoute><AccountDetails /></AdminProtectedRoute>
   },
   {
     path: "/withdraw",
