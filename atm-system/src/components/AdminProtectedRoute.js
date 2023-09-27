@@ -7,7 +7,7 @@ const AdminProtectedRoute = (props) => {
     const [user,setUser]= useContext(AuthContext);
     if(user === null || user.userType != "Admin"){
         alert("Cannot access route as customer");
-        return <Navigate to="/login"></Navigate>
+        return <Navigate to="/"></Navigate>
     }
     else return(
         <>{props.children}</>
