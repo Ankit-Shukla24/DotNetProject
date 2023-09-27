@@ -87,7 +87,7 @@ useEffect(() => {
                   <td>{st.debitorId ? st.creditorId ? "Transfer": "Withdrawal":"Deposit"}</td>
                   <td>{st.creditorId ??"-"}</td>
                   <td>{new Date(st.transactionDate).toDateString()}</td>
-                  <td>{st.amount}</td>
+                  <td>{`${st.amount} INR`}</td>
                 </tr>
               ))}
             </tbody>
