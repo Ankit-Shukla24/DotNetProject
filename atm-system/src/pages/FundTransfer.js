@@ -91,7 +91,7 @@ const handleSubmit = async (event) => {
             onChange={handleChangeTransfer}
           />
         </div>
-        <p>{errors.AmountTransfer }</p>
+        <p className="error-message">{errors.AmountTransfer }</p>
         <div>
           Pin
           <br />
@@ -102,7 +102,7 @@ const handleSubmit = async (event) => {
             onChange={(event)=>setTransfer({...transfer,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
           />
         </div>
-        <p>{errors.Pin}</p>
+        <p className="error-message">{errors.Pin}</p>
         <div>
           <select type="text" name="currency" onChange={handleChangeTransfer}>
             <option>RUPEE</option>
@@ -112,7 +112,7 @@ const handleSubmit = async (event) => {
             <option>RUBLE</option>
             </select>
             </div>
-            <p>{errors.currency}</p>
+            <p className="error-message">{errors.currency}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>

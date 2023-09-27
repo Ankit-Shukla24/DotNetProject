@@ -5,3 +5,7 @@
 .button-container {
   text-align: center;
 }
+
+.error-message {
+  color: red;
+}

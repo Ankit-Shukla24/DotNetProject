@@ -35,20 +35,20 @@ const AccountDetails = () => {
     const regexCardNumber = /^\d{12}$/;
     const regexPin = /^\d{4}$/;
     if(!values.Customerid){
-        error.Customerid = "Customer Id is required!";
+        error.Customerid = "Customer Id is required";
     }
     if(!values.Pin){
-        error.Pin = "Pin is required!";
+        error.Pin = "Pin is required";
     }
     else if(values.Pin.length != 4 ){
-        error.Pin = "Pin must contain 4 digits!";
+        error.Pin = "Pin must contain 4 digits";
     }
     else if(!regexPin.test(values.Pin))
     {
       error.Pin = "Enter digits only";
     }
     if(!values.CardNo){
-      error.CardNo = "Card number is required!";
+      error.CardNo = "Card number is required";
     }
     else if(values.CardNo.length != 12 ){
 
@@ -61,7 +61,7 @@ const AccountDetails = () => {
       error.CardNo = "Enter digits only";
     }
     if(!values.City){
-      error.City = "City is required!";
+      error.City = "City is required";
     }
     if(!values.Balance)
     {
@@ -104,13 +104,13 @@ useEffect(() => {
           <br />
           <Input value={account.Customerid} type="text" name="Customerid" onChange={handleChangeAccount} />
         </div>
-        <p>{errors.Customerid}</p>
+        <p className='error-message'>{errors.Customerid}</p>
         <div>
           Card Number:
           <br />
           <Input type="text" name="CardNo" onChange={handleChangeAccount} />
         </div>
-        <p>{errors.CardNo}</p>
+        <p className='error-message'>{errors.CardNo}</p>
         <div>
           Pin:
           <br />
@@ -121,7 +121,7 @@ useEffect(() => {
             onChange={(event)=>setAccount({...account,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
           />
         </div>
-        <p>{errors.Pin}</p>
+        <p className='error-message'>{errors.Pin}</p>
         <div>
           Account type:
           <br />
@@ -131,19 +131,19 @@ useEffect(() => {
               <option>Salary</option>
             </select>
         </div>
-        <p>{errors.AccountType}</p>
+        <p className='error-message'>{errors.AccountType}</p>
         <div>
           City:
           <br />
           <Input type="text" name="City" onChange={handleChangeAccount} />
         </div>
-        <p>{errors.City}</p>
+        <p className="error-message">{errors.City}</p>
         <div>
           Balance:
           <br />
           <Input type="number" name="Balance" onChange={handleChangeAccount} />
         </div>
-        <p>{errors.Balance}</p>
+        <p className='error-message'>{errors.Balance}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
