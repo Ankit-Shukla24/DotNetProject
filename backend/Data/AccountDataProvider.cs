@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using backend.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data
@@ -94,6 +95,10 @@ namespace backend.Data
             var transaction = _context.Database.BeginTransaction();
             try
             { 
+                if(debitor.AccountId == creditor.AccountId)
+                {
+                    return "The debitor and creditor are same";
+                }
 
                 _context.Accounts.Update(creditor);
                 _context.Accounts.Update(debitor);
