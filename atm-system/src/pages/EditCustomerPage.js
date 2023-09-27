@@ -42,16 +42,16 @@ const EditCustomerPage = ({cust,enabled,id}) => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const regexPhoneNumber = /^\d{10}$/;
     if(!values.firstName){
-        error.firstName = "FirstName is required!";
+        error.firstName = "FirstName is required";
     }
     if(!values.emailId){
-        error.emailId = "Email Id is required!";
+        error.emailId = "Email Id is required";
     }
     else if(!regex.test(values.emailId)){
         error.emailId = "Enter a valid Email Id";
     }
     if(!values.phoneNumber){
-      error.phoneNumber = "Phone Number is required!";
+      error.phoneNumber = "Phone Number is required";
     } 
     else if(values.phoneNumber.length!=10){
       error.phoneNumber = "Phone Number must contain 10 numbers";
@@ -60,10 +60,10 @@ const EditCustomerPage = ({cust,enabled,id}) => {
       error.phoneNumber = "Phone Number must contain digits only";
     }
     if(!values.address){
-      error.address = "Address is required!";
+      error.address = "Address is required";
     }
     if(!values.dateOfbirth){
-      error.dateOfbirth = "Date of Birth is required!";
+      error.dateOfbirth = "Date of Birth is required";
     }
     else if(calculate_age(values.dateOfbirth) < 18){
       error.dateOfbirth = "Age of the User should be greater than 18";
@@ -130,7 +130,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.firstName}</p>
+        <p className="error-message">{errors.firstName}</p>
         <div className="input-group">
           <label className="input-label">Last name</label>
           <Input
@@ -141,7 +141,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.lastName}</p>
+        <p className="error-message">{errors.lastName}</p>
         <div className="input-group">
           <label className="input-label">Address</label>
           <Input
@@ -163,7 +163,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.emailId}</p>
+        <p className="error-message">{errors.emailId}</p>
         <div className="input-group">
           <label className="input-label">Contact</label>
           <Input
@@ -174,7 +174,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.phoneNumber}</p>
+        <p className="error-message">{errors.phoneNumber}</p>
         <div className="input-group">
           <label className="input-label">Date of Birth</label>
           <Input
@@ -185,7 +185,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.DateOfBirth}</p>
+        <p className="error-message">{errors.DateOfBirth}</p>
         <div className="input-group">
           <label className="input-label">User Enabled</label>
           <Input

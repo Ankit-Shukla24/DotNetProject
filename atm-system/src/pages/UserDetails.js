@@ -45,16 +45,16 @@ const UserDetails = () => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const regexPhoneNumber = /^\d{10}$/;
     if(!values.FirstName){
-        error.FirstName = "FirstName is required!";
+        error.FirstName = "FirstName is required";
     }
     if(!values.EmailId){
-        error.EmailId = "Email Id is required!";
+        error.EmailId = "Email Id is required";
     }
     else if(!regex.test(values.EmailId)){
         error.EmailId = "Enter a valid Email Id";
     }
     if(!values.PhoneNumber){
-      error.PhoneNumber = "Phone Number is required!";
+      error.PhoneNumber = "Phone Number is required";
     } 
     else if(values.PhoneNumber.length!=10){
       error.PhoneNumber = "Phone Number must contain 10 numbers";
@@ -63,10 +63,10 @@ const UserDetails = () => {
       error.PhoneNumber = "Phone Number must contain digits only";
     }
     if(!values.Address){
-      error.Address = "Address is required!";
+      error.Address = "Address is required";
     }
     if(!values.DateOfBirth){
-      error.DateOfBirth = "Date of Birth is required!";
+      error.DateOfBirth = "Date of Birth is required";
     }
     else if(calculate_age(values.DateOfBirth) < 18){
       error.DateOfBirth = "Age of the User should be greater than 18";
@@ -116,19 +116,19 @@ const UserDetails = () => {
           <br />
           <Input type="text" name="LastName" onChange={handleChangeCustomer} />
         </div>
-        <p>{errors.LastName}</p>
+        <p className="error-message">{errors.LastName}</p>
         <div>
           Address:
           <br />
           <Input type="text" name="Address" onChange={handleChangeCustomer} />
         </div>
-        <p>{errors.Address}</p>
+        <p className="error-message">{errors.Address}</p>
         <div>
           Email:
           <br />
           <Input type="email" name="EmailId" onChange={handleChangeCustomer} />
         </div>
-        <p>{errors.EmailId}</p>
+        <p className="error-message">{errors.EmailId}</p>
         <div>
           Contact:
           <br />
@@ -138,7 +138,7 @@ const UserDetails = () => {
             onChange={handleChangeCustomer}
           />
         </div>
-        <p>{errors.PhoneNumber}</p>
+        <p className="error-message">{errors.PhoneNumber}</p>
         <div>
           Date of Birth:
           <br />
@@ -148,7 +148,7 @@ const UserDetails = () => {
             onChange={handleChangeCustomer}
           />
         </div>
-        <p>{errors.DateOfBirth}</p>
+        <p className="error-message">{errors.DateOfBirth}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>

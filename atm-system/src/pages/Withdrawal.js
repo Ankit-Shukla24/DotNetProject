@@ -31,7 +31,7 @@ const Withdrawal = () => {
       error.amount = "Withdraw amount cannot be negative";
   }
     if(!values.Pin){
-      error.Pin = "Pin is required!";
+      error.Pin = "Pin is required";
   }
   else if(values.Pin.length != 4){
       error.Pin = "Pin must contain 4 numbers";
@@ -79,7 +79,7 @@ const handleSubmit = async (event) => {
             onChange={(event)=>setWithdrawal({...withdrawal,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
           />
         </div>
-        <p>{errors.Pin}</p>
+        <p className="error-message">{errors.Pin}</p>
         <div>
           Enter Amount
           <br />
@@ -89,7 +89,7 @@ const handleSubmit = async (event) => {
             onChange={handleChangeWithdrawal}
           />
         </div>
-        <p>{errors.amount}</p>
+        <p className="error-message">{errors.amount}</p>
         <div>
           <select type="text" name="currency" onChange={handleChangeWithdrawal}>
             <option>RUPEE</option>

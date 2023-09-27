@@ -42,6 +42,9 @@ const MiniStatement = ({id}) => {
   };
   const validate = (values) => {
     const error = {};
+    if(miniStatemtent.limit <= 0){
+      error.limit = "Enter a positive integer"
+    }
     return error;
   }
   const handleSubmit = async (event) => {
@@ -66,7 +69,7 @@ useEffect(() => {
           <br />
           <Input value={miniStatemtent.limit} type="number" name="limit" onChange={handleMiniStatement} />
         </div>
-        <p>{errors.limit}</p>
+        <p className="error-message">{errors.limit}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
 

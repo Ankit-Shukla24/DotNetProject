@@ -31,13 +31,13 @@ const PinChange = () => {
 const validate = (values) => {
   const error = {};
   if(!values.OldPin){
-      error.OldPin = "Old Pin is required!";
+      error.OldPin = "Old Pin is required";
   }
   else if(values.OldPin.length != 4 ){
       error.OldPin = "Pin must contain 4 digits";
   }
   if(!values.Pin){
-    error.Pin = " New Pin is required!";
+    error.Pin = " New Pin is required";
   }
   else if(values.Pin.length != 4 ){
       error.Pin = "New Pin must contain 4 digits";
@@ -84,7 +84,7 @@ const validate = (values) => {
             onChange={(event)=>setpin({...pin,OldPin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
           />
         </div>
-        <p>{errors.OldPin}</p>
+        <p className="error-message">{errors.OldPin}</p>
         <div>
           New Pin
           <br />
@@ -95,7 +95,7 @@ const validate = (values) => {
             onChange={(event)=>setpin({...pin,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
           />
         </div>
-        <p>{errors.Pin}</p>
+        <p className="error-message">{errors.Pin}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>

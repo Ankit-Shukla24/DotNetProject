@@ -25,7 +25,7 @@ const ChequeDeposit = () => {
   const validate = (values) => {
     const error = {};
     if(!values.Pin){
-        error.Pin = "Pin is required!";
+        error.Pin = "Pin is required";
     }
     else if(values.Pin.length != 4){
         error.Pin = "Pin must contain 4 digits";
@@ -75,7 +75,7 @@ const handleSubmit = async (event) => {
           <br />
           <Input type="number" name="amount" onChange={handleChangedeposit} />
         </div>
-        <p>{errors.amount}</p>
+        <p className="error-message">{errors.amount}</p>
         <div>
           <select type="text" name="currency" onChange={handleChangedeposit}>
             <option>RUPEE</option>
@@ -85,7 +85,7 @@ const handleSubmit = async (event) => {
             <option>RUBLE</option>
             </select>
             </div>
-            <p>{errors.currency}</p>
+            <p className="error-message">{errors.currency}</p>
         <div>
           Pin:
           <br />
@@ -96,7 +96,7 @@ const handleSubmit = async (event) => {
             onChange={(event)=>setdeposit({...deposit,Pin:event.target?.value?.match(/\d+/g)?.[0] ?? ""})} 
           />
         </div>
-        <p>{errors.Pin}</p>
+        <p className="error-message">{errors.Pin}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>

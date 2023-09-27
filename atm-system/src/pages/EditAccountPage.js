@@ -29,7 +29,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
     const error = {};
     const regexCardNumber = /^\d{12}$/;
     if(!values.cardNo){
-      error.cardNo = "Card number is required!";
+      error.cardNo = "Card number is required";
     }
     else if(values.cardNo.length != 12 ){
 
@@ -42,7 +42,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
       error.cardNo = "Enter digits only";
     }
     if(!values.city){
-      error.city = "City is required!";
+      error.city = "City is required";
     }
     return error;
 }
@@ -90,7 +90,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.cardNo}</p>
+        <p className="error-message">{errors.cardNo}</p>
         <div className="input-group">
           <label className="input-label">Account Type</label>
           <select type="text" disabled={!editMode} name="accountType" value={account.accountType} onChange={handleChangeAccount} >
@@ -110,7 +110,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
             disabled={!editMode}
           />
         </div>
-        <p>{errors.city}</p>
+        <p className="error-message">{errors.city}</p>
         <div className="input-group">
           <label className="input-label">Balance</label>
           <Input
@@ -121,7 +121,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
             disabled
           />
         </div>
-      
+       
         <div className="button-container">
           {editMode ? (
             <>

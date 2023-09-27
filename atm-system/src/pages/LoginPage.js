@@ -27,10 +27,10 @@ const LoginPage = () => {
         const error = {};
         console.log(values);
         if(!values.username){
-            error.username = "UserName is required!";
+            error.username = "UserName is required";
         }
         if(!values.password){
-            error.password = "Password is required!";
+            error.password = "Password is required";
         }
         else if(values.password.length <4 ){
             error.password = "Password must be more than 3 characters";
@@ -94,12 +94,12 @@ const LoginPage = () => {
               <label htmlFor="username">Username:</label>
               <Input type="text" name="username" onChange={handleChange} />
             </div>
-            <p>{errors.username}</p>
+            <p className="error-message">{errors.username}</p>
             <div className="form-group">
               <label htmlFor="password">Password:</label>
               <Input type="password" name="password" onChange={handleChange} />
             </div>
-            <p>{errors.password}</p>
+            <p className="error-message">{errors.password}</p>
             <div className="button-container">
               <Button type="submit">Login</Button>
             </div>

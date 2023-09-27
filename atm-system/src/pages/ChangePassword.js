@@ -28,10 +28,10 @@ const ChangePassword = () => {
   const validate = (values) => {
     const error = {};
     if(!values.Oldpassword){
-        error.Oldpassword = "Old  Password is required!";
+        error.Oldpassword = "Old  Password is required";
     }
     if(!values.Newpassword){
-        error.Newpassword = "New Password is required!";
+        error.Newpassword = "New Password is required";
     }
     else if(values.Newpassword.length <4 ){
         error.Newpassword = "Password must be more than 3 characters";
@@ -77,13 +77,13 @@ const ChangePassword = () => {
           <br />
           <Input type="password" name="Oldpassword" onChange={handleChangepassword} />
         </div>
-        <p>{errors.Oldpassword}</p>
+        <p className="error-message">{errors.Oldpassword}</p>
         <div>
          New Password
           <br />
           <Input type="password" name="Newpassword" onChange={handleChangepassword} />
         </div>
-        <p>{errors.Newpassword}</p>
+        <p className="error-message">{errors.Newpassword}</p>
         <div className="button-container"><Button type="submit">Submit</Button></div>
       </form>
     </Card>
