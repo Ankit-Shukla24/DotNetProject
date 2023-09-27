@@ -6,6 +6,7 @@ import Card from "../components/Card/Card";
 import Input from "../components/Input/Input";
 import Button from "../components/Button/Button";
 import "../styles/Withdrawal.css";
+import { useNavigate } from "react-router-dom";
 const Withdrawal = () => {
   const [user, setUser] = useContext(AuthContext);
   const [withdrawal, setWithdrawal] = useState({
@@ -13,6 +14,7 @@ const Withdrawal = () => {
     amount: 0,
     currency: "RUPEE",
   });
+  const navigator = useNavigate();
   const [errors,setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   let token = eval(user);
@@ -56,6 +58,7 @@ const handleSubmit = async (event) => {
       console.log(response);
       if (response.status == 200) {
         alert(response.data);
+        navigator('/');
       }
 
     }).catch((err) => {

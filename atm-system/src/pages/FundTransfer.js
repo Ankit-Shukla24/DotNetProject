@@ -5,6 +5,7 @@ import logout from "../components/LogOut";
 import Input from "../components/Input/Input";
 import Button from "../components/Button/Button";
 import Card from "../components/Card/Card";
+import { useNavigate } from "react-router-dom";
 
 const Transfer = () => {
   const [transfer, setTransfer] = useState({
@@ -13,6 +14,9 @@ const Transfer = () => {
     AmountTransfer: 0,
     currency: "RUPEE",
   });
+
+  const navigator = useNavigate();
+
   const [errors,setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUser] = useContext(AuthContext);
@@ -60,6 +64,7 @@ const handleSubmit = async (event) => {
         console.log(response);
         if (response.status == 200) {
           alert(response.data);
+          navigator('/');
         }
 
       }).catch((err) => {
