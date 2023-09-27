@@ -141,7 +141,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
       </form>
     </Card>
     <div style={{marginTop:"50px"}}> 
-        <MiniStatement id={id}/> 
+        <MiniStatement id={customerId}/> 
     </div>
      </>
   )
