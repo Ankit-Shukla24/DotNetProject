@@ -66,6 +66,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
         alert('Error saving changes');
       });
     }
+    setIsSubmit(false)
   })
 
   const handleCancelEdit = () => {
