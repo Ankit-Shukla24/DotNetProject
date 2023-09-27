@@ -10,7 +10,7 @@ const AdminHomePage = () => {
   const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [user,setUser] = useContext(AuthContext);
+  const [user, setUser] = useContext(AuthContext);
   const token = user.token;
   const headers = {
     "Authorization": `Bearer ${token}`
@@ -18,12 +18,12 @@ const AdminHomePage = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        await axios.get("https://localhost:7182/api/Customers",{headers:headers})
-        .then((response)=>{
+        await axios.get("https://localhost:7182/api/Customers", { headers: headers })
+          .then((response) => {
             setCustomers(response.data);
-        })
-        .catch((err)=>console.log(err));
-        
+          })
+          .catch((err) => console.log(err));
+
       } catch (error) {
         console.error("Error fetching customer data:", error);
       }
@@ -44,7 +44,7 @@ const AdminHomePage = () => {
   return (
     <div className="admin-page">
       <h1>Customer List</h1>
-      <div className="input-container">
+      <div className="input-container" style={{ marginBottom: "20px" }}>
         <Input
           type="text"
           placeholder="Search by ID or Name"
@@ -55,34 +55,34 @@ const AdminHomePage = () => {
       </div>
       <Button onClick={() => navigate("/user")}>Add Customer</Button>
       {filteredCustomers.length === 0 ? (
+        <tr>
+          <td colSpan="3">No customers available.</td>
+        </tr>
+      ) :
+        (<table>
+          <thead>
             <tr>
-              <td colSpan="3">No customers available.</td>
+              <th>Customer ID</th>
+              <th>Full Name</th>
+              <th>Contact Number</th>
             </tr>
-          ) : 
-      (<table>
-        <thead>
-          <tr>
-            <th>Customer ID</th>
-            <th>Full Name</th>
-            <th>Contact Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(
-            filteredCustomers.map((customer) => (
-              <tr
-                key={customer.customerId}
-                onClick={() => navigate(`/customer/${customer.customerId}`)}
-                className="hover-row"
-              >
-                <td>{customer.customerId}</td>
-                <td>{`${customer.firstName} ${customer.lastName}`}</td>
-                <td>{customer.phoneNumber}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>)}
+          </thead>
+          <tbody>
+            {(
+              filteredCustomers.map((customer) => (
+                <tr
+                  key={customer.customerId}
+                  onClick={() => navigate(`/customer/${customer.customerId}`)}
+                  className="hover-row"
+                >
+                  <td>{customer.customerId}</td>
+                  <td>{`${customer.firstName} ${customer.lastName}`}</td>
+                  <td>{customer.phoneNumber}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>)}
     </div>
   );
 };
