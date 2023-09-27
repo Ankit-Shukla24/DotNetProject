@@ -6,6 +6,21 @@ namespace backend.Models
 {
     public partial class Customer
     {
+        public Customer()
+        {
+        }
+
+        public Customer(int customerId, string? firstName, string? lastName, string? address, string? emailId, string? phoneNumber, DateTime? dateOfbirth)
+        {
+            CustomerId = customerId;
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            EmailId = emailId;
+            PhoneNumber = phoneNumber;
+            DateOfbirth = dateOfbirth;
+        }
+
         public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "First Name is required.")]

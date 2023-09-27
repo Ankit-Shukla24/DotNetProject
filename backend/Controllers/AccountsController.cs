@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using backend.Service;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Identity.Client;
 
 namespace backend.Controllers
 {
@@ -101,8 +102,10 @@ namespace backend.Controllers
         //Remove if not required 
         [HttpPut("{id}")]
        
-        public async Task<ActionResult<Account>> PutAccount(Account account)
+        public async Task<ActionResult<Account>> PutAccount(int id,AccountViewModel account)
+
         {
+            account.AccountId = id;
             return Ok(_accountService.ChangeAccountDetails(account));
         }
 

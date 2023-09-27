@@ -58,7 +58,8 @@ namespace backend.Controllers
 
             private string GenerateJSONWebToken(Credential adminInfo)
             {
-
+            try
+            {
                 if (adminInfo is null)
                 {
                     throw new ArgumentNullException(nameof(adminInfo));
@@ -67,24 +68,30 @@ namespace backend.Controllers
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                 claims.Add(new Claim("Username", adminInfo.UserId));
-            if (adminInfo.CustomerId==null)
-            {
-                claims.Add(new Claim("UserType", "Admin"));
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-            }
-            else
-            {
-                claims.Add(new Claim("UserType", "Customer"));
-                claims.Add(new Claim("CustomerId", adminInfo.CustomerId.ToString()));
-                claims.Add(new Claim(ClaimTypes.Role, "Customer"));
-            }
+                if (adminInfo.CustomerId == null)
+                {
+                    claims.Add(new Claim("UserType", "Admin"));
+                    claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                }
+                else
+                {
+                    claims.Add(new Claim("UserType", "Customer"));
+                    claims.Add(new Claim("CustomerId", adminInfo.CustomerId.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Role, "Customer"));
+                }
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                   _config["Jwt:Issuer"],
                   claims,
                   expires: DateTime.Now.AddMinutes(20000),
                   signingCredentials: credentials);
-
                 return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+              
             }
 
             private Credential Authenticateadmin(CredentialViewModel login)

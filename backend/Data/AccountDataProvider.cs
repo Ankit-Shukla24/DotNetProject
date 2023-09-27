@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using backend.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data
@@ -45,7 +46,7 @@ namespace backend.Data
                 _context.Transactionhistories.Add(new Transactionhistory(account.AccountId, null, amount, DateTime.Now));
                 _context.SaveChanges();
                 transaction.Commit();
-                return "Balance :"+account.Balance.ToString();
+                return "Balance :"+account.Balance.ToString()+" RUPEE";
 
             }
             catch (Exception ex)
@@ -78,7 +79,7 @@ namespace backend.Data
                 _context.Transactionhistories.Add(new Transactionhistory(null, account.AccountId, amount, DateTime.Now));
                 _context.SaveChanges();
                 transaction.Commit();
-                return "Balance :"+account.Balance.ToString();
+                return "Balance :"+account.Balance.ToString()+" RUPEE";
             }
             catch (Exception ex)
             {
@@ -94,6 +95,10 @@ namespace backend.Data
             var transaction = _context.Database.BeginTransaction();
             try
             { 
+                if(debitor.AccountId == creditor.AccountId)
+                {
+                    return "The debitor and creditor are same";
+                }
 
                 _context.Accounts.Update(creditor);
                 _context.Accounts.Update(debitor);
@@ -130,9 +135,15 @@ namespace backend.Data
             }
         }
 
-        public Account ChangeAccountDetails(Account account)
+        public Account ChangeAccountDetails(AccountViewModel account)
         {
-            _context.Entry(account).State = EntityState.Modified;
+            var acc = _context.Accounts.Find(account.AccountId);
+
+            acc.City = acc.City==account.City?acc.City:account.City;
+            acc.AccountType = acc.AccountType==account.AccountType?acc.AccountType:account.AccountType;
+            acc.CardNo = acc.CardNo==account.CardNo?acc.CardNo:account.CardNo;
+
+            _context.Entry(acc).State = EntityState.Modified;
 
             try
             {
@@ -144,7 +155,7 @@ namespace backend.Data
                 return null;
             }
 
-            return account;
+            return acc;
         }
     }
 }

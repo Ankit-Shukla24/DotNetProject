@@ -34,9 +34,10 @@ const EditCustomerPage = ({cust,enabled,id}) => {
     {
         age_now--;
     }
-    console.log(age_now);
+
     return age_now;
   }
+
   const validate = (values) => {
     const error = {};
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -79,8 +80,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
   useEffect(() => {
       
     if (Object.keys(errors).length === 0 && isSubmit) {
-    console.log(customer);
-    if(originalCustomer != customer){
+
     axios.put(`https://localhost:7182/api/Customers/${id}`, customer,{headers:headers})
       .then((response) => {
         console.log(response);
@@ -91,12 +91,11 @@ const EditCustomerPage = ({cust,enabled,id}) => {
         console.log(err);
         alert('Error saving changes');
       });
-    }
+
 
       if(isEnabled != oldIsEnabled) {
         axios.post(`https://localhost:7182/api/Credentials/activity?customerId=${id}&status=${isEnabled}`, {},{headers:headers})
       .then((response) => {
-        console.log(response);
         alert('User status changed successfully');
         setEditMode(false);
       })
@@ -107,6 +106,7 @@ const EditCustomerPage = ({cust,enabled,id}) => {
       }
 
     }
+    setIsSubmit(false)
   },[errors]);
 
   const handleCancelEdit = () => {

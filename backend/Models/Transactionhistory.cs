@@ -5,6 +5,10 @@ namespace backend.Models;
 
 public partial class Transactionhistory
 {
+    public Transactionhistory()
+    {
+    }
+
     public Transactionhistory(int? debitorId, int? creditorId, decimal? amount, DateTime? transactionDate)
     {
         DebitorId=debitorId;
