@@ -27,7 +27,7 @@ const LoginPage = () => {
         const error = {};
         console.log(values);
         if(!values.username){
-            error.username = "UserName is required";
+            error.username = "Username is required";
         }
         if(!values.password){
             error.password = "Password is required";

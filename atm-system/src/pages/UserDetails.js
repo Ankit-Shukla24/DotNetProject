@@ -45,31 +45,31 @@ const UserDetails = () => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const regexPhoneNumber = /^\d{10}$/;
     if(!values.FirstName){
-        error.FirstName = "FirstName is required";
+        error.FirstName = "First name is required";
     }
     if(!values.EmailId){
-        error.EmailId = "Email Id is required";
+        error.EmailId = "Email id is required";
     }
     else if(!regex.test(values.EmailId)){
-        error.EmailId = "Enter a valid Email Id";
+        error.EmailId = "Enter a valid email id";
     }
     if(!values.PhoneNumber){
-      error.PhoneNumber = "Phone Number is required";
+      error.PhoneNumber = "Phone number is required";
     } 
     else if(values.PhoneNumber.length!=10){
-      error.PhoneNumber = "Phone Number must contain 10 numbers";
+      error.PhoneNumber = "Phone number must contain 10 numbers";
     }
     else if(!regexPhoneNumber.test(values.PhoneNumber)){
-      error.PhoneNumber = "Phone Number must contain digits only";
+      error.PhoneNumber = "Phone number must contain digits only";
     }
     if(!values.Address){
       error.Address = "Address is required";
     }
     if(!values.DateOfBirth){
-      error.DateOfBirth = "Date of Birth is required";
+      error.DateOfBirth = "Date of birth is required";
     }
     else if(calculate_age(values.DateOfBirth) < 18){
-      error.DateOfBirth = "Age of the User should be greater than 18";
+      error.DateOfBirth = "Age of the user should be greater than 18";
     }
     return error;
 }

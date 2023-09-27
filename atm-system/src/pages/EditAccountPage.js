@@ -76,7 +76,7 @@ const EditAccountPage = ({acc,id,customerId}) => {
 
   const navigate = useNavigate()
   console.log(acc);
-  return !acc ? (<><h2 style={{textAlign:"center"}}>No account configured for the user!</h2><Button onClick={()=>navigate("/account",{state:{customerId:customerId}})}>Add account</Button></>) : (
+  return !acc ? (<><h2 style={{textAlign:"center"}}>No account configured for the user</h2><Button onClick={()=>navigate("/account",{state:{customerId:customerId}})}>Add account</Button></>) : (
     <>
     <Card>
       <h1 className="card-header">Account Details</h1>

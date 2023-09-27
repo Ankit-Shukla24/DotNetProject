@@ -28,16 +28,16 @@ const Transfer = () => {
   const validate = (values) => {
     const error = {};
     if(!values.Pin){
-        error.Pin = "Pin is required!";
+        error.Pin = "Pin is required";
     }
     else if(values.Pin.length != 4){
         error.Pin = "Pin must contain 4 numbers";
     }
     if(!values.ToAccountId){
-      error.ToAccountId = "AccountId is required!";
+      error.ToAccountId = "Account id is required";
     }
     else if(values.ToAccountId.length != 4){
-      error.ToAccountId = "AccountId must contain 4 digits";
+      error.ToAccountId = "Account id must contain 4 digits";
     }
     if(values.AmountTransfer == 0 ){
         error.AmountTransfer = "Transfer amount cannot be 0";
